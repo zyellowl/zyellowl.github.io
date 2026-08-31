@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">Codex 一次回合中的能力快照与工具提交</title>
+  <desc id="desc">Submission 进入会话后生成 StepContext，模型调用经过 ToolRouter 与运行时，最后按语义顺序发布 typed events。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#667085"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#101828" flood-opacity=".08"/></filter>
+  </defs>
+  <rect width="1200" height="640" rx="36" fill="#f7f8fb"/>
+  <text x="72" y="78" fill="#101828" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" font-weight="650">One turn, one capability snapshot</text>
+  <text x="72" y="112" fill="#667085" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="17">配置可以在回合之间变化，但一次模型响应中的能力与政策不能中途漂移。</text>
+  <g filter="url(#shadow)" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <rect x="72" y="196" width="196" height="124" rx="22" fill="#fff" stroke="#d0d5dd"/>
+    <text x="98" y="238" fill="#344054" font-size="15">INPUT</text><text x="98" y="277" fill="#101828" font-size="23" font-weight="650">Submission</text>
+    <rect x="336" y="168" width="248" height="180" rx="24" fill="#eef1ff" stroke="#9aa4ff"/>
+    <text x="365" y="210" fill="#4f5bd5" font-size="15">REQUEST SNAPSHOT</text><text x="365" y="250" fill="#101828" font-size="23" font-weight="650">StepContext</text>
+    <text x="365" y="286" fill="#475467" font-size="16">model · capabilities · router</text><text x="365" y="314" fill="#475467" font-size="16">policy refs · MCP bindings</text>
+    <rect x="652" y="196" width="196" height="124" rx="22" fill="#fff" stroke="#d0d5dd"/>
+    <text x="678" y="238" fill="#344054" font-size="15">DISPATCH</text><text x="678" y="277" fill="#101828" font-size="23" font-weight="650">ToolRouter</text>
+    <rect x="916" y="196" width="212" height="124" rx="22" fill="#fff" stroke="#d0d5dd"/>
+    <text x="942" y="238" fill="#344054" font-size="15">OBSERVATION</text><text x="942" y="277" fill="#101828" font-size="23" font-weight="650">Typed Event</text>
+  </g>
+  <g stroke="#667085" stroke-width="2.5" fill="none" marker-end="url(#arrow)"><path d="M268 258h58"/><path d="M584 258h58"/><path d="M848 258h58"/></g>
+  <rect x="336" y="424" width="512" height="110" rx="20" fill="#fff" stroke="#d0d5dd"/>
+  <text x="365" y="463" fill="#344054" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="15">ORDERING INVARIANT</text>
+  <text x="365" y="500" fill="#101828" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="600">工具可以并发完成，结果仍按模型调用顺序提交</text>
+  <path d="M750 320v68c0 20-16 36-36 36" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+</svg>

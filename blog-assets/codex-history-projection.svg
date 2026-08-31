@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Codex 的历史记录、规范化与模型投影</title>
+  <desc id="desc">Rollout 保存事件证据，ContextManager 管理会话历史，规范化为下一次模型请求修复协议形状；规范化不等于压缩，压缩会用摘要替换模型可见的旧上下文。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#667085"/></marker>
+    <marker id="blue-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#5670c9"/></marker>
+  </defs>
+  <rect width="1200" height="680" rx="36" fill="#f7f8fb"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <text x="66" y="72" fill="#101828" font-size="28" font-weight="650">Stored evidence is not the same thing as model context</text>
+    <text x="66" y="106" fill="#667085" font-size="17">同一段执行在日志、内存历史与下一次请求里有三种职责不同的表示。</text>
+
+    <rect x="66" y="158" width="286" height="220" rx="24" fill="#fff" stroke="#d0d5dd" stroke-width="2"/>
+    <text x="96" y="202" fill="#667085" font-size="14">EVIDENCE LAYER</text>
+    <text x="96" y="242" fill="#101828" font-size="23" font-weight="650">Rollout / events</text>
+    <text x="96" y="283" fill="#475467" font-size="16">按发生顺序记录输入与输出</text>
+    <text x="96" y="315" fill="#475467" font-size="16">用于恢复、审计与问题定位</text>
+    <rect x="96" y="337" width="190" height="28" rx="9" fill="#f2f4f7"/>
+    <text x="112" y="357" fill="#344054" font-size="13">append-only evidence</text>
+
+    <rect x="456" y="158" width="286" height="220" rx="24" fill="#eef1ff" stroke="#9aa4ff" stroke-width="2"/>
+    <text x="486" y="202" fill="#4f5bd5" font-size="14">SESSION HISTORY</text>
+    <text x="486" y="242" fill="#101828" font-size="23" font-weight="650">ContextManager</text>
+    <text x="486" y="283" fill="#475467" font-size="16">持有下一步可投影的历史项</text>
+    <text x="486" y="315" fill="#475467" font-size="16">区分真实事件与合成修复项</text>
+    <rect x="486" y="337" width="220" height="28" rx="9" fill="#fff" fill-opacity=".78"/>
+    <text x="502" y="357" fill="#344054" font-size="13">conversation working set</text>
+
+    <rect x="846" y="158" width="286" height="220" rx="24" fill="#edf8f3" stroke="#84c9aa" stroke-width="2"/>
+    <text x="876" y="202" fill="#287a5e" font-size="14">REQUEST PROJECTION</text>
+    <text x="876" y="242" fill="#101828" font-size="23" font-weight="650">Model input</text>
+    <text x="876" y="283" fill="#475467" font-size="16">符合供应商协议的消息序列</text>
+    <text x="876" y="315" fill="#475467" font-size="16">仅包含本次采样可见的上下文</text>
+    <rect x="876" y="337" width="196" height="28" rx="9" fill="#fff" fill-opacity=".78"/>
+    <text x="892" y="357" fill="#344054" font-size="13">request-scoped view</text>
+
+    <path d="M352 268h94" stroke="#667085" stroke-width="2.4" fill="none" marker-end="url(#arrow)"/>
+    <path d="M742 268h94" stroke="#5670c9" stroke-width="2.4" fill="none" marker-end="url(#blue-arrow)"/>
+    <text x="374" y="250" fill="#667085" font-size="13">replay / load</text>
+    <text x="761" y="250" fill="#4f5bd5" font-size="13">normalize</text>
+
+    <rect x="66" y="446" width="506" height="164" rx="24" fill="#fff" stroke="#9aa4ff" stroke-width="2"/>
+    <text x="96" y="486" fill="#4f5bd5" font-size="14">NORMALIZATION · PROTOCOL VALIDITY</text>
+    <text x="96" y="524" fill="#101828" font-size="20" font-weight="650">修复投影形状，不重写历史目标</text>
+    <text x="96" y="558" fill="#475467" font-size="15">例：悬空工具调用补入 synthetic aborted result</text>
+    <text x="96" y="586" fill="#475467" font-size="15">解决“这次请求是否合法”的问题</text>
+
+    <rect x="628" y="446" width="504" height="164" rx="24" fill="#fff7ed" stroke="#e1a568" stroke-width="2"/>
+    <text x="658" y="486" fill="#a55415" font-size="14">COMPACTION · TOKEN BUDGET</text>
+    <text x="658" y="524" fill="#101828" font-size="20" font-weight="650">摘要替换旧的模型可见上下文</text>
+    <text x="658" y="558" fill="#475467" font-size="15">原始 rollout 证据仍可独立保留</text>
+    <text x="658" y="586" fill="#475467" font-size="15">解决“还要给模型看多少”的问题</text>
+
+    <rect x="454" y="628" width="292" height="34" rx="11" fill="#101828"/>
+    <text x="600" y="651" fill="#fff" font-size="14" font-weight="650" text-anchor="middle">normalization ≠ compaction</text>
+  </g>
+</svg>

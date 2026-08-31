@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Pi 的工具完成顺序、ToolResult 顺序与会话树分支</title>
+  <desc id="desc">三个工具可以按 B、C、A 的实际顺序完成，但 ToolResult 按模型调用的 A、B、C 原序提交；会话分支追加新节点并移动活动 leaf，旧祖先与旧分支仍保留。</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#667085"/></marker></defs>
+  <rect width="1200" height="680" rx="36" fill="#f7faf9"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <text x="66" y="72" fill="#101828" font-size="28" font-weight="650">Completion order is not conversation order</text>
+    <text x="66" y="106" fill="#667085" font-size="17">并发执行追求延迟，ToolResult 提交维护模型可解释的因果顺序。</text>
+
+    <text x="66" y="158" fill="#667085" font-size="14">MODEL CALL ORDER</text>
+    <g font-size="17" font-weight="650" text-anchor="middle">
+      <rect x="66" y="178" width="154" height="58" rx="16" fill="#fff" stroke="#cbd5d1"/><text x="143" y="214" fill="#101828">A · search</text>
+      <rect x="244" y="178" width="154" height="58" rx="16" fill="#fff" stroke="#cbd5d1"/><text x="321" y="214" fill="#101828">B · read</text>
+      <rect x="422" y="178" width="154" height="58" rx="16" fill="#fff" stroke="#cbd5d1"/><text x="499" y="214" fill="#101828">C · test</text>
+    </g>
+    <text x="66" y="286" fill="#667085" font-size="14">ACTUAL COMPLETION</text>
+    <g font-size="17" font-weight="650" text-anchor="middle">
+      <rect x="66" y="306" width="154" height="58" rx="16" fill="#ecf8f3" stroke="#7ac6a5"/><text x="143" y="342" fill="#287a5e">1 · B done</text>
+      <rect x="244" y="306" width="154" height="58" rx="16" fill="#ecf8f3" stroke="#7ac6a5"/><text x="321" y="342" fill="#287a5e">2 · C done</text>
+      <rect x="422" y="306" width="154" height="58" rx="16" fill="#ecf8f3" stroke="#7ac6a5"/><text x="499" y="342" fill="#287a5e">3 · A done</text>
+    </g>
+    <path d="M604 218v122" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="590" y="282" fill="#667085" font-size="13" text-anchor="end">parallel</text>
+
+    <rect x="66" y="414" width="510" height="116" rx="22" fill="#fff" stroke="#84c9aa" stroke-width="2"/>
+    <text x="96" y="452" fill="#287a5e" font-size="14">TOOLRESULT COMMIT</text>
+    <text x="96" y="490" fill="#101828" font-size="21" font-weight="650">A result → B result → C result</text>
+    <text x="96" y="516" fill="#475467" font-size="14">source index wins over wall-clock completion</text>
+
+    <rect x="650" y="158" width="484" height="372" rx="28" fill="#fff" stroke="#cbd5d1" stroke-width="2"/>
+    <text x="682" y="200" fill="#287a5e" font-size="14">APPEND-ONLY SESSION TREE</text>
+    <g stroke="#7d8a85" stroke-width="3" fill="none">
+      <path d="M720 260h84l74 68 82 66"/>
+      <path d="M804 260l62 136 96 64" stroke-dasharray="7 6"/>
+    </g>
+    <g font-size="13" text-anchor="middle">
+      <circle cx="720" cy="260" r="14" fill="#287a5e"/><text x="720" y="265" fill="#fff">1</text>
+      <circle cx="804" cy="260" r="14" fill="#287a5e"/><text x="804" y="265" fill="#fff">3</text>
+      <circle cx="878" cy="328" r="14" fill="#8d96a0"/><text x="878" y="333" fill="#fff">5</text>
+      <circle cx="960" cy="394" r="14" fill="#8d96a0"/><text x="960" y="399" fill="#fff">7</text>
+      <circle cx="866" cy="396" r="14" fill="#287a5e"/><text x="866" y="401" fill="#fff">8</text>
+      <circle cx="962" cy="460" r="14" fill="#287a5e"/><text x="962" y="465" fill="#fff">9</text>
+    </g>
+    <text x="986" y="399" fill="#667085" font-size="14">old leaf</text>
+    <text x="986" y="465" fill="#287a5e" font-size="14" font-weight="650">active leaf</text>
+    <path d="M1046 394v58" stroke="#667085" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="682" y="502" fill="#475467" font-size="15">从 node 3 分支：追加 8、9；只移动 active leaf</text>
+
+    <rect x="260" y="588" width="680" height="54" rx="16" fill="#101828"/>
+    <text x="600" y="622" fill="#fff" font-size="16" font-weight="650" text-anchor="middle">并发改变完成时间；不会重排 ToolResult，也不会改写祖先节点</text>
+  </g>
+</svg>

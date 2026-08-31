@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Coding Agent Harness 的同任务故障注入矩阵</title>
+  <desc id="desc">在固定模型、任务、工具权限、环境与预算的条件下，分别注入工具逆序完成、磁盘写满、副作用后崩溃与压缩竞态；比较提交顺序、耐久证据、幂等恢复和压缩代际隔离。</desc>
+  <rect width="1200" height="680" rx="36" fill="#f8f8f6"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <text x="66" y="72" fill="#101828" font-size="28" font-weight="650">Failure injection turns architecture claims into evidence</text>
+    <text x="66" y="106" fill="#667085" font-size="17">固定模型与任务，只改变故障点；每次 trial 保存配置、事件、副作用与恢复结果。</text>
+
+    <rect x="66" y="150" width="252" height="408" rx="24" fill="#fff" stroke="#9aa4ff" stroke-width="2"/>
+    <rect x="342" y="150" width="252" height="408" rx="24" fill="#fff" stroke="#dda16c" stroke-width="2"/>
+    <rect x="618" y="150" width="252" height="408" rx="24" fill="#fff" stroke="#dd8b72" stroke-width="2"/>
+    <rect x="894" y="150" width="252" height="408" rx="24" fill="#fff" stroke="#84c9aa" stroke-width="2"/>
+
+    <text x="94" y="190" fill="#4f5bd5" font-size="14">01 · ORDERING</text>
+    <text x="94" y="228" fill="#101828" font-size="21" font-weight="650">Reverse completion</text>
+    <text x="94" y="274" fill="#667085" font-size="13">INJECT</text>
+    <text x="94" y="302" fill="#475467" font-size="15">A 慢、B 中、C 快</text>
+    <text x="94" y="348" fill="#667085" font-size="13">OBSERVE</text>
+    <text x="94" y="376" fill="#475467" font-size="15">完成序与提交序</text>
+    <text x="94" y="422" fill="#667085" font-size="13">PASS</text>
+    <text x="94" y="450" fill="#101828" font-size="15" font-weight="600">并发完成 C→B→A</text>
+    <text x="94" y="478" fill="#101828" font-size="15" font-weight="600">模型看到 A→B→C</text>
+    <rect x="94" y="510" width="164" height="28" rx="9" fill="#eef1ff"/><text x="176" y="530" fill="#4f5bd5" font-size="13" text-anchor="middle">semantic order</text>
+
+    <text x="370" y="190" fill="#a55415" font-size="14">02 · DURABILITY</text>
+    <text x="370" y="228" fill="#101828" font-size="21" font-weight="650">Disk full</text>
+    <text x="370" y="274" fill="#667085" font-size="13">INJECT</text>
+    <text x="370" y="302" fill="#475467" font-size="15">append / flush 时 ENOSPC</text>
+    <text x="370" y="348" fill="#667085" font-size="13">OBSERVE</text>
+    <text x="370" y="376" fill="#475467" font-size="15">内存 ack 与 durable ack</text>
+    <text x="370" y="422" fill="#667085" font-size="13">PASS</text>
+    <text x="370" y="450" fill="#101828" font-size="15" font-weight="600">失败显式暴露</text>
+    <text x="370" y="478" fill="#101828" font-size="15" font-weight="600">不宣称已持久化</text>
+    <rect x="370" y="510" width="164" height="28" rx="9" fill="#fff4eb"/><text x="452" y="530" fill="#a55415" font-size="13" text-anchor="middle">durable boundary</text>
+
+    <text x="646" y="190" fill="#b5472b" font-size="14">03 · RECOVERY</text>
+    <text x="646" y="228" fill="#101828" font-size="21" font-weight="650">Crash after effect</text>
+    <text x="646" y="274" fill="#667085" font-size="13">INJECT</text>
+    <text x="646" y="302" fill="#475467" font-size="15">外部写成功，result 前崩溃</text>
+    <text x="646" y="348" fill="#667085" font-size="13">OBSERVE</text>
+    <text x="646" y="376" fill="#475467" font-size="15">重启后是否重复副作用</text>
+    <text x="646" y="422" fill="#667085" font-size="13">PASS</text>
+    <text x="646" y="450" fill="#101828" font-size="15" font-weight="600">检测不确定状态</text>
+    <text x="646" y="478" fill="#101828" font-size="15" font-weight="600">幂等或要求人工确认</text>
+    <rect x="646" y="510" width="164" height="28" rx="9" fill="#fff1ed"/><text x="728" y="530" fill="#b5472b" font-size="13" text-anchor="middle">side-effect proof</text>
+
+    <text x="922" y="190" fill="#287a5e" font-size="14">04 · CONCURRENCY</text>
+    <text x="922" y="228" fill="#101828" font-size="21" font-weight="650">Compaction race</text>
+    <text x="922" y="274" fill="#667085" font-size="13">INJECT</text>
+    <text x="922" y="302" fill="#475467" font-size="15">摘要期间继续追加事件</text>
+    <text x="922" y="348" fill="#667085" font-size="13">OBSERVE</text>
+    <text x="922" y="376" fill="#475467" font-size="15">摘要代际与替换范围</text>
+    <text x="922" y="422" fill="#667085" font-size="13">PASS</text>
+    <text x="922" y="450" fill="#101828" font-size="15" font-weight="600">新事件不被旧摘要吞掉</text>
+    <text x="922" y="478" fill="#101828" font-size="15" font-weight="600">结果可重放</text>
+    <rect x="922" y="510" width="164" height="28" rx="9" fill="#edf8f3"/><text x="1004" y="530" fill="#287a5e" font-size="13" text-anchor="middle">generation fence</text>
+
+    <rect x="66" y="598" width="1068" height="48" rx="15" fill="#101828"/>
+    <text x="600" y="628" fill="#fff" font-size="15" font-weight="650" text-anchor="middle">same model × same task × same tools/policy × same environment × same budget</text>
+  </g>
+</svg>

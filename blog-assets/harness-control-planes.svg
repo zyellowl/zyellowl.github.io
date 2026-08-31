@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">四种 Coding Agent Harness 的控制面比较</title>
+  <desc id="desc">比较协议、进程、循环和事件组合四种控制面，并将状态、政策与副作用证据作为共同评价轴。</desc>
+  <rect width="1200" height="680" rx="36" fill="#f8f8f6"/>
+  <text x="66" y="74" fill="#101828" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" font-weight="650">Same task, different control planes</text>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <g><rect x="66" y="130" width="252" height="210" rx="24" fill="#eef1ff" stroke="#9aa4ff"/><text x="94" y="174" fill="#4f5bd5" font-size="14">CODEX</text><text x="94" y="213" fill="#101828" font-size="23" font-weight="650">Typed protocol</text><text x="94" y="252" fill="#475467" font-size="15">request snapshot</text><text x="94" y="284" fill="#475467" font-size="15">tool runtime gates</text></g>
+    <g><rect x="342" y="130" width="252" height="210" rx="24" fill="#f4efff" stroke="#a795df"/><text x="370" y="174" fill="#6554c0" font-size="14">CLAUDE SDK</text><text x="370" y="213" fill="#101828" font-size="23" font-weight="650">Process boundary</text><text x="370" y="252" fill="#475467" font-size="15">reverse control RPC</text><text x="370" y="284" fill="#475467" font-size="15">private core opaque</text></g>
+    <g><rect x="618" y="130" width="252" height="210" rx="24" fill="#edf8f3" stroke="#84c9aa"/><text x="646" y="174" fill="#287a5e" font-size="14">PI</text><text x="646" y="213" fill="#101828" font-size="23" font-weight="650">Small loop</text><text x="646" y="252" fill="#475467" font-size="15">steer / follow-up</text><text x="646" y="284" fill="#475467" font-size="15">extension trust</text></g>
+    <g><rect x="894" y="130" width="252" height="210" rx="24" fill="#fff4eb" stroke="#dda16c"/><text x="922" y="174" fill="#a55415" font-size="14">DEEPSEEK HARNESS</text><text x="922" y="213" fill="#101828" font-size="23" font-weight="650">Event composition</text><text x="922" y="252" fill="#475467" font-size="15">log / Surface</text><text x="922" y="284" fill="#475467" font-size="15">checkpoint + flush</text></g>
+    <rect x="66" y="414" width="1080" height="176" rx="26" fill="#fff" stroke="#d0d5dd"/>
+    <text x="96" y="458" fill="#667085" font-size="14">ONE EVALUATION RECORD</text>
+    <text x="96" y="500" fill="#101828" font-size="21" font-weight="650">模型 × Harness × 工具/权限配置 × 任务 × 环境 × 预算</text>
+    <text x="96" y="546" fill="#475467" font-size="16">记录：配置快照 · 每次 trial · 审批决策 · 副作用证据 · 失败后的恢复结果</text>
+  </g>
+</svg>

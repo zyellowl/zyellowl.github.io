@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">Pi 的双层循环与会话树</title>
+  <desc id="desc">内层循环消费工具结果和 steering，外层循环在 agent 暂停后消费 follow-up；每条消息写入 append-only session tree。</desc>
+  <defs><marker id="p" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#667085"/></marker></defs>
+  <rect width="1200" height="640" rx="36" fill="#f7faf9"/>
+  <text x="70" y="76" fill="#101828" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" font-weight="650">Two queues, two interruption moments</text>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <rect x="70" y="150" width="680" height="350" rx="30" fill="#fff" stroke="#cbd5d1" stroke-width="2"/>
+    <text x="104" y="194" fill="#287a5e" font-size="14">PRODUCTION AGENT LOOP</text>
+    <rect x="126" y="238" width="250" height="174" rx="24" fill="#ecf8f3" stroke="#7ac6a5"/>
+    <text x="155" y="279" fill="#101828" font-size="22" font-weight="650">Inner loop</text><text x="155" y="316" fill="#475467" font-size="16">model → tools → results</text><text x="155" y="347" fill="#475467" font-size="16">steering before next sample</text>
+    <rect x="444" y="238" width="250" height="174" rx="24" fill="#f5f5f5" stroke="#b8bfc7"/>
+    <text x="473" y="279" fill="#101828" font-size="22" font-weight="650">Outer loop</text><text x="473" y="316" fill="#475467" font-size="16">agent pauses</text><text x="473" y="347" fill="#475467" font-size="16">follow-up resumes work</text>
+    <path d="M376 325h58" stroke="#667085" stroke-width="2.2" marker-end="url(#p)"/>
+    <path d="M252 412v42h318v-32" stroke="#667085" stroke-width="2" fill="none" marker-end="url(#p)"/>
+    <rect x="830" y="150" width="300" height="350" rx="30" fill="#fff" stroke="#cbd5d1" stroke-width="2"/>
+    <text x="864" y="194" fill="#287a5e" font-size="14">SESSION TREE</text>
+    <circle cx="896" cy="254" r="9" fill="#287a5e"/><circle cx="954" cy="312" r="9" fill="#287a5e"/><circle cx="1012" cy="370" r="9" fill="#287a5e"/><circle cx="1070" cy="428" r="9" fill="#287a5e"/>
+    <path d="M904 262l42 42m16 16 42 42m16 16 42 42" stroke="#7d8a85" stroke-width="3"/>
+    <path d="M954 321l-38 76" stroke="#7d8a85" stroke-width="2" stroke-dasharray="5 5"/>
+    <circle cx="908" cy="414" r="9" fill="#8d96a0"/><text x="864" y="474" fill="#475467" font-size="15">append · branch · resume</text>
+  </g>
+  <path d="M750 325h70" stroke="#667085" stroke-width="2.2" marker-end="url(#p)"/>
+  <text x="70" y="560" fill="#475467" font-family="sans-serif" font-size="17">Steering 改变正在运行的下一次采样；follow-up 等当前 agent 停下后再开一段。</text>
+</svg>

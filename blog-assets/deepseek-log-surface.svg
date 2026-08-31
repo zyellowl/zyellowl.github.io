@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek Harness 的事件日志、Surface 与持久化边界</title>
+  <desc id="desc">append-only 事件先同步进入内存日志，Surface 投影供模型使用；write-behind 不是 fsync，checkpoint flush 才建立耐久边界。</desc>
+  <defs><marker id="d" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#667085"/></marker></defs>
+  <rect width="1200" height="680" rx="36" fill="#faf9f7"/>
+  <text x="66" y="72" fill="#101828" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" font-weight="650">Log truth, Surface view, explicit durability</text>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <text x="66" y="142" fill="#667085" font-size="14">APPEND-ONLY EVENT LOG</text>
+    <rect x="66" y="164" width="1068" height="112" rx="22" fill="#fff" stroke="#d0d5dd"/>
+    <g fill="#eef1f5" stroke="#c8ced7"><rect x="94" y="194" width="142" height="52" rx="13"/><rect x="256" y="194" width="142" height="52" rx="13"/><rect x="418" y="194" width="142" height="52" rx="13"/><rect x="580" y="194" width="142" height="52" rx="13"/><rect x="742" y="194" width="142" height="52" rx="13"/><rect x="904" y="194" width="198" height="52" rx="13"/></g>
+    <g fill="#344054" font-size="14" text-anchor="middle"><text x="165" y="226">turn/start</text><text x="327" y="226">request/header</text><text x="489" y="226">assistant</text><text x="651" y="226">tool/call</text><text x="813" y="226">tool/result</text><text x="1003" y="226">compaction/*</text></g>
+    <rect x="66" y="354" width="470" height="190" rx="24" fill="#eef4ff" stroke="#8fa6d9"/>
+    <text x="96" y="398" fill="#3c5f9d" font-size="14">MODEL SURFACE</text><text x="96" y="438" fill="#101828" font-size="22" font-weight="650">append / replace projection</text><text x="96" y="477" fill="#475467" font-size="16">原事件保留，摘要替换可见节点</text><text x="96" y="510" fill="#475467" font-size="16">sourceEventSeqs 保留来源关系</text>
+    <rect x="664" y="354" width="470" height="190" rx="24" fill="#fff5ed" stroke="#d99a62"/>
+    <text x="694" y="398" fill="#a55415" font-size="14">PERSISTENCE</text><text x="694" y="438" fill="#101828" font-size="22" font-weight="650">write-behind → flush → fsync</text><text x="694" y="477" fill="#475467" font-size="16">append ≠ durable</text><text x="694" y="510" fill="#475467" font-size="16">checkpoint 标记副作用前的恢复边界</text>
+  </g>
+  <path d="M300 276v68" stroke="#667085" stroke-width="2.2" marker-end="url(#d)"/><path d="M900 276v68" stroke="#667085" stroke-width="2.2" marker-end="url(#d)"/>
+  <rect x="338" y="588" width="524" height="54" rx="16" fill="#fff" stroke="#d0d5dd"/>
+  <text x="600" y="622" fill="#101828" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">工具可反向完成，但 result 按模型顺序进入 Surface</text>
+</svg>

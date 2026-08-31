@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek Harness 的工具有序提交与压缩事件括号</title>
+  <desc id="desc">滚动并发池允许工具逆序完成，但按模型调用顺序提交结果；压缩用 start、summary、replacement、end 四类事件形成括号，partial tool snapshot 只描述准备模型调用时已经可见的工具前缀。</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#667085"/></marker></defs>
+  <rect width="1200" height="680" rx="36" fill="#faf9f7"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <text x="66" y="72" fill="#101828" font-size="28" font-weight="650">Two ordering contracts: tools and compaction</text>
+    <text x="66" y="106" fill="#667085" font-size="17">执行可以乱序完成；进入模型 Surface 与压缩日志的语义顺序必须可重放。</text>
+
+    <rect x="66" y="154" width="1068" height="210" rx="26" fill="#fff" stroke="#d0d5dd" stroke-width="2"/>
+    <text x="96" y="194" fill="#667085" font-size="14">ROLLING POOL</text>
+    <g font-size="15" font-weight="650" text-anchor="middle">
+      <rect x="96" y="218" width="126" height="52" rx="14" fill="#f2f4f7"/><text x="159" y="250" fill="#344054">call A</text>
+      <rect x="238" y="218" width="126" height="52" rx="14" fill="#f2f4f7"/><text x="301" y="250" fill="#344054">call B</text>
+      <rect x="380" y="218" width="126" height="52" rx="14" fill="#f2f4f7"/><text x="443" y="250" fill="#344054">call C</text>
+      <rect x="596" y="218" width="126" height="52" rx="14" fill="#fff4eb"/><text x="659" y="250" fill="#a55415">C done</text>
+      <rect x="738" y="218" width="126" height="52" rx="14" fill="#fff4eb"/><text x="801" y="250" fill="#a55415">A done</text>
+      <rect x="880" y="218" width="126" height="52" rx="14" fill="#fff4eb"/><text x="943" y="250" fill="#a55415">B done</text>
+    </g>
+    <path d="M506 244h80" stroke="#667085" stroke-width="2.2" marker-end="url(#arrow)"/>
+    <text x="522" y="226" fill="#667085" font-size="13">execute</text>
+    <rect x="596" y="296" width="410" height="44" rx="13" fill="#eef4ff" stroke="#8fa6d9"/>
+    <text x="801" y="324" fill="#3c5f9d" font-size="15" font-weight="650" text-anchor="middle">commit to Surface: A → B → C</text>
+
+    <text x="66" y="422" fill="#667085" font-size="14">COMPACTION EVENT BRACKET</text>
+    <path d="M116 494h968" stroke="#b8bfc7" stroke-width="3"/>
+    <g text-anchor="middle">
+      <circle cx="154" cy="494" r="13" fill="#a55415"/><text x="154" y="540" fill="#101828" font-size="16" font-weight="650">start</text>
+      <circle cx="434" cy="494" r="13" fill="#3c5f9d"/><text x="434" y="540" fill="#101828" font-size="16" font-weight="650">summary</text>
+      <circle cx="716" cy="494" r="13" fill="#3c5f9d"/><text x="716" y="540" fill="#101828" font-size="16" font-weight="650">replacement</text>
+      <circle cx="1046" cy="494" r="13" fill="#287a5e"/><text x="1046" y="540" fill="#101828" font-size="16" font-weight="650">end</text>
+    </g>
+    <path d="M154 468v-32h892v32" stroke="#a55415" stroke-width="2.2" fill="none"/>
+    <text x="600" y="426" fill="#a55415" font-size="14" text-anchor="middle">one replayable transaction bracket</text>
+
+    <rect x="284" y="574" width="632" height="70" rx="18" fill="#fff4eb" stroke="#dda16c" stroke-width="2"/>
+    <text x="314" y="603" fill="#a55415" font-size="13">PARTIAL TOOL SNAPSHOT</text>
+    <text x="314" y="628" fill="#101828" font-size="16" font-weight="600">只冻结 prepared model call 已可见的前缀，不偷看仍在运行的完成结果</text>
+    <path d="M600 364v52" stroke="#667085" stroke-width="2.2" marker-end="url(#arrow)"/>
+  </g>
+</svg>
