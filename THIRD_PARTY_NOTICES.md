@@ -156,6 +156,8 @@ Mike Barton's original assets and scene remain attributable to their author;
 no open-source license is asserted for those assets. The cloud helper is derived
 from pmndrs/drei (MIT). Three.js and React Three Fiber are MIT-licensed.
 
-Company identity images are locally hosted copies from antgroup.com, jd.com,
-gaosiedu.com and baidu.com, used to identify the employers named in the public
-career history. Marks remain the property of their respective owners.
+Company identity images identify employers named in the public career history.
+Ant Group, JD and Baidu use original SVG artwork from LogoDad, CompaniesLogo
+and Wikimedia; Gaosi uses its official high-resolution PNG. Exact source URLs
+and the icon viewBox adaptations are documented in company-logos/SOURCES.txt.
+Marks remain the property of their respective owners.
