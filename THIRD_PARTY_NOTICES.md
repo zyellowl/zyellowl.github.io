@@ -144,3 +144,18 @@ Apache License 2.0. Copyright belongs to the sharp contributors. The complete li
 the project-level [Apache License](LICENSE), also available from the upstream source.
 
 Source: <https://github.com/lovell/sharp/tree/v0.35.4>
+
+## Reference flight window (2026-09-07)
+
+At the site owner's request, the flight window uses the visual layers and cloud
+scene from Mike Barton's https://www.mikes.cv/ (PlaneWindowScene-B90jRui2.js).
+The local adaptation keeps its cameras, cloud seeds, speeds, lighting and ocean
+shader; React and Three.js integrations use this project's dependencies. The
+reference site application, analytics and access-pass code are not included.
+Mike Barton's original assets and scene remain attributable to their author;
+no open-source license is asserted for those assets. The cloud helper is derived
+from pmndrs/drei (MIT). Three.js and React Three Fiber are MIT-licensed.
+
+Company identity images are locally hosted copies from antgroup.com, jd.com,
+gaosiedu.com and baidu.com, used to identify the employers named in the public
+career history. Marks remain the property of their respective owners.

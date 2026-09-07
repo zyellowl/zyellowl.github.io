@@ -1,0 +1,6 @@
+Reference: https://www.mikes.cv/ (retrieved 2026-09-07)
+Layers: /window-front.webp, /window-back.webp, /window-shutter.webp
+Textures: /cloud.png, /CirrusCloud.png, /waternormals.jpg
+Scene: /assets/PlaneWindowScene-B90jRui2.js
+Author: Mike Barton. Included at the site owner's explicit request.
+See THIRD_PARTY_NOTICES.md for attribution.
