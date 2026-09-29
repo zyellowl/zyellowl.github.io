@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#183153" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23255ed6'/%3E%3Cpath d='M18 40c8-1 14-7 14-18 8 7 11 17 6 25-4 6-15 8-20-1' fill='%23fff'/%3E%3Ccircle cx='42' cy='17' r='6' fill='%2388e0bd'/%3E%3C/svg%3E" />
+  <title>欢芽成长岛 · 运营后台二期原型</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark"><span></span></div>
+        <div><strong>欢芽成长岛</strong><small>内容运营中心</small></div>
+      </div>
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">⌂</span><span>运营概览</span></button>
+        <div class="nav-label">内容运营</div>
+        <button class="nav-item" data-page="modules"><span class="nav-icon">▦</span><span>模块管理</span><em>9</em></button>
+        <button class="nav-item" data-page="pages"><span class="nav-icon">▤</span><span>二级页面管理</span><em>36</em></button>
+        <button class="nav-item" data-page="composer"><span class="nav-icon">⌘</span><span>内容编排</span></button>
+        <button class="nav-item" data-page="library"><span class="nav-icon">◫</span><span>内容资源库</span></button>
+        <button class="nav-item" data-page="voices"><span class="nav-icon">♬</span><span>旁白与音频库</span><em>48</em></button>
+        <div class="nav-label">游戏运营</div>
+        <button class="nav-item" data-page="games"><span class="nav-icon">◇</span><span>游戏管理</span></button>
+        <button class="nav-item" data-page="questions"><span class="nav-icon">?</span><span>题库管理</span><i class="dot"></i></button>
+        <button class="nav-item" data-page="packs"><span class="nav-icon">▣</span><span>关卡包</span></button>
+        <div class="nav-label">上线与分析</div>
+        <button class="nav-item" data-page="releases"><span class="nav-icon">⇧</span><span>发布管理</span><em class="warning-count">2</em></button>
+        <button class="nav-item" data-page="analytics"><span class="nav-icon">↗</span><span>运营数据</span></button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="quota-row"><span>资源存储</span><strong>68%</strong></div>
+        <div class="quota"><span></span></div>
+        <small>34.2 GB / 50 GB</small>
+      </div>
+    </aside>
+
+    <main class="main-shell">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="展开菜单">☰</button>
+        <div class="breadcrumb" id="breadcrumb"><span>欢芽成长岛</span><b>/</b><strong>运营概览</strong></div>
+        <div class="top-actions">
+          <button class="icon-btn has-dot" title="消息">♧</button>
+          <button class="help-btn">?</button>
+          <div class="tenant"><span class="tenant-logo">欢</span><div><strong>欢芽成长岛</strong><small>主站点</small></div><b>⌄</b></div>
+          <div class="avatar">LS</div>
+        </div>
+      </header>
+      <div class="workspace" id="workspace"></div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <section class="modal" id="modal" role="dialog" aria-modal="true"></section>
+  </div>
+  <div class="toast-stack" id="toastStack"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
