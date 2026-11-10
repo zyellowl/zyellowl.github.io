@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>做了十年音频，看 Whisper 的第一反应 — 张磊</title>
+  <meta name="description" content="识别词错了可以改。它把两个人说成一个人、把沉默识别成语气词，就和后面对不齐。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2023-09-05">2023 年 9 月 5 日</time></p>
+<h1>做了十年音频，看 Whisper 的第一反应</h1>
+<p>九月我用 Whisper 转了几段自己的录音。不是为了做一个语音产品，是想知道：如果有一天对话从语音进来，我手里的文本还是不是原来那句话。</p>
+<p>安静环境下的短句，词的水平比我预期好。我真正不放心的是结构。两个人交替说话时，转写常常合成一段，谁说的分不开。沉默有时变成“嗯”。这些在纯文本阅读里像小瑕疵，在实时对话里是轮次错了。轮次错了，后面的模型和检索都会答非所问。</p>
+<p>做音频的人会先看时间戳。词和时间戳对不上，我宁可用时间戳去切轮次，也不相信标点切出来的句子。Whisper 能给时间，但说话人不是它的输出。说话人要另做。我这个月没有接说话人分离，所以我没有把转写直接送进检索。</p>
+<p>噪声是第二个反应。房间里的键盘声被写成字。字一旦写下，模型会把它当成内容。音频链路里，噪声应该在进识别之前就有机会被丢掉，至少被标成非语音。我过去的系统有这个阶段。把文件直接丢给转写，等于拆掉这个阶段。</p>
+<p>所以我的用法很窄：单人、安静、我能听原音复查的草稿。超出这个范围，转写只是线索，不是记录。线索要和原音留在一起，方便我听到底说了什么。</p>
+<p>九月的笔记不想变成对一个模型的评价。它是提醒：语音变成文本的那一步会丢掉轮次、说话人和噪声判断。这些丢掉的东西，提示词补不回来。</p>
+<p>我听原音复查时用了一条规矩：转写和原音不一致，以原音为准，并把转写标成草稿。草稿不能进检索。这条让识别结果的身份下降，心情上不太痛快，却避免了错误文本变成后续所有步骤的事实。</p>
+<p>两个人的录音我暂时整段放弃自动使用。不是模型完全没用，是我还没有说话人。没有说话人的文本，问“他刚才说什么”本身就是歧义。歧义要在进模型之前去掉。</p>
+<p>放弃自动使用的录音仍然保留转写，但文件名带草稿。草稿目录不在检索路径上。路径分开，比在提示里写“这只是草稿”可靠。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

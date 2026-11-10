@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>长任务中断以后，恢复的是状态，不是聊天记录 — 张磊</title>
+  <meta name="description" content="把对话再贴一遍，不等于知道工具做到哪一步、哪些副作用已经发生。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-04-09">2025 年 4 月 9 日</time></p>
+<h1>长任务中断以后，恢复的是状态，不是聊天记录</h1>
+<p>四月我把一个要分好几步的小任务故意中断：改文件、跑测试、再改。进程杀掉以后，如果只把聊天记录贴回新会话，它会从自我介绍开始，或重复已经做过的修改。</p>
+<p>聊天记录里有它说过的“我已经改了”。这句话不是文件系统的状态。文件可能改了一半，测试可能没跑。恢复时应该读取文件和测试结果，而不是相信上一句自述。</p>
+<p>我开始在任务旁边写一个很短的状态：目标、已完成的检查、尚未做的检查、不允许重复的动作。状态由我或脚本更新，不由模型总结。模型总结会把未完成说成完成。</p>
+<p>这个状态不是产品框架。它是一个文本文件，放在仓库里，任务结束就删。文件的好处是中断之后还在。对话窗口的好处是好看，中断之后往往只剩滚动条。</p>
+<p>长程这个词今年很常见。长的不是token，是步骤之间可能被杀掉。杀不死的是已经写进外部世界的动作。那些动作必须出现在状态里，标成未知或已做，不能靠记忆。</p>
+<p>四月的试验仍在个人仓库。结论不依赖某一个编码产品。谁声称能接着干，我就问它读的是对话还是状态。</p>
+<p>只读对话的恢复，我会当成新任务，并先让它解释当前文件，而不是继续改。解释错了，就还不能改。</p>
+<p>这比从头重做慢。慢在核对。核对是恢复的本体。</p>
+<p>状态文件的每一行都有命令退出码或一个明确的未做标记。没有退出码的行，恢复脚本当作不存在。不存在就停。这样模型写进状态文件的散文不会被当成进度。</p>
+<p>我试过让它自己更新状态。它把未跑的测试写成已跑。那一行没有退出码，被脚本忽略。忽略是对的。从此状态文件只由脚本追加。</p>
+<p>恢复演练我做了两次。第一次只贴对话，它重复修改。第二次只给状态文件，它先解释当前行。第二次才是我想要的恢复。演练结果写在状态文件末尾，不写在聊天里。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

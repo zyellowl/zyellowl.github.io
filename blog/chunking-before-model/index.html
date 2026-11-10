@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>切块策略比换模型更先决定检索质量 — 张磊</title>
+  <meta name="description" content="我连续换了两次模型，召回还是那几条半句。改的是切法，结果才动。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2023-08-17">2023 年 8 月 17 日</time></p>
+<h1>切块策略比换模型更先决定检索质量</h1>
+<p>八月初我又换了一次用来做向量的模型，期待近邻更聪明。跑下来，反方向的动作仍然挨在一起，问句仍然召回问句。我停下来看数据，而不是看公告。</p>
+<p>问题在切块。一条完整的观察被我切成三小句以后，每一小句单独看都像另一条记录。查询打中其中一句，另外两句的主语和时间都丢了。模型再强，也只能在残句上发挥。我把切块改回“一个动作一条”，并且每条都带上时间范围。近邻立刻不一样，模型却还是原来的那个。</p>
+<p>重叠也试过。相邻块重叠半句，召回变多，重复也变多。回答时同一件事说两遍，像记录有两个版本。我取消重叠，宁可漏掉边界上的半句，也不要两份看起来都对的原文。漏了可以再查，两份会让人引用错版本。</p>
+<p>这次经验把我从“换一个更懂语义的向量”拉回来。语义当然有差别，但在我的这份小数据上，切法的差别更大，而且我能解释。能解释的改动我才留。</p>
+<p>我把切分规则写成几行注释，放在入库脚本旁边：按动作，带时间，不重叠，查询先改写成陈述。规则少，是为了自己下个月还读得懂。</p>
+<p>八月没有新的产品结论。只有这条顺序：先把候选切对，再谈模型是不是更强。顺序反了，加强模型只是把残句写得更流畅。</p>
+<p>改切块的前后我留了同一组查询。查询不变，只变入库。这样我才敢说变化来自切法。以前我常常同时改模型和切法，然后不知道该感谢谁。</p>
+<p>一组查询不多，故意少。少到我能把每条近邻的原文读完。读不完的评测我不再做。读完以后仍会有漏，漏就再加一条查询，而不是把块重新切碎碰运气。</p>
+<p>同一组查询固定之后，我把每次入库的规则版本写进目录名。版本不同的近邻不能放在一起比较。混比是我以前得出错误感谢的原因。</p>
+<p>规则版本写进目录名之后，我又把查询列表冻结成只读文件。谁改查询谁就得新建列表，不能覆盖。覆盖会让前后对比失去意义。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

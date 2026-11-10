@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>协议插件接进不同入口时，别把会话状态复制三份 — 张磊</title>
+  <meta name="description" content="IM、语音和标准接口可以是三种适配。进行中的任务只能有一个主人。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2026-03-24">2026 年 3 月 24 日</time></p>
+<h1>协议插件接进不同入口时，别把会话状态复制三份</h1>
+<p>三月后半我看不同入口如何接到同一个运行时。入口会变：文字、语音、某种工具协议。危险的是每个入口都保存一份“当前任务”。</p>
+<p>两份当前任务就会出现两个真相。用户在语音里打断了，文字那份还认为上一句没说完。模型可能把两边都当成新的开始。开始一次就够了。</p>
+<p>所以适配层可以多种，任务所有权只能一处。一处负责接受新输入、拒绝或并入、取消。入口只提交意图，不决定是否另起炉灶。</p>
+<p>这和我后来读到的一些公开实现很像，但三月我还没写那几篇源码笔记。当时的理由来自通话：抢话不能在两个状态机里各处理一遍。</p>
+<p>插件如果带自己的重试，也会复制副作用。重试预算放在宿主，插件只报告失败种类。种类表还是去年那四行，不因为插件增加而增加。</p>
+<p>会话标识由宿主生成。插件不发明第二个用户可见的标识。两个标识会让日志对不上，对不上就无法回放。</p>
+<p>三月的限制很具体：新入口先实现提交和取消，再谈丰富的交互。没有取消的入口，不配叫接通。</p>
+<p>接通不是能把字送到模型。接通是能让进行中的事停下来。</p>
+<p>两个入口同时提交时，我让第二个收到正在进行的标识，而不是新开一号。新开一号在日志里看起来像两次独立成功。用户体验却是抢话失败。</p>
+<p>取消必须到达宿主的那一处所有权，而不是只在插件里把本地标志清掉。本地标志清了，另一边还会继续播放或继续写。</p>
+<p>第二个入口收到正在进行的标识时，必须记录自己没有新开任务。没有这条记录，我无法证明所有权只有一处。证明不了，就还是两套状态。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

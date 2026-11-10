@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>刚看到函数调用，先别把它当成协议 — 张磊</title>
+  <meta name="description" content="模型开始可以提出调用。调用会不会发生、参数像不像样，仍然要我来核。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2023-06-16">2023 年 6 月 16 日</time></p>
+<h1>刚看到函数调用，先别把它当成协议</h1>
+<p>六月中，接口开始允许模型按我给的函数说明去提出调用。我第一反应是：这像远程过程调用，提示词的时代结束了。这个反应过头了。</p>
+<p>我定义了一个很窄的函数，只接收我已经写在记录里的动作词。模型有时给出合法的参数，有时给出说明里没有的词，有时什么也不调用、直接写一段散文。三种结果都要处理。只处理成功的那一种，演示会好看，系统会在另外两种上沉默。</p>
+<p>函数说明本身还是一段会漂移的文本。我把参数描述写得长，它更常调用；写得短，它更常直接回答。我没有找到一个一旦写对就稳定的版本。所以它还不是我在服务端习惯的那种协议：协议的非法输入会被拒绝，这里的非法输入常常被模型自己绕开。</p>
+<p>尽管如此，这件事比纯文本回答更接近我要的结构。调用至少把“它想做什么”和“它想说什么”分开了。分开以后我可以记录、可以拒绝、可以要求重来。拒绝的路径得我自己写，接口不会替我写成产品。</p>
+<p>我把六月的试验限制在离线脚本里。没有让它碰到真实的设备或业务写入。能提出调用，不等于我允许它执行。这个区别我写在脚本开头的注释里，怕自己下周手滑。</p>
+<p>年底之前我大概还会回到这件事。现在只记住：函数调用是一种输出形状，不是一套已经谈妥的契约。契约包括失败、重试和谁有权执行。这三样，公告里不会替我做完。</p>
+<p>脚本里我加了三行彼此独立的日志：提出了什么，我拒绝了没有，有没有真的执行。三行缺一行，这次运行就当没发生。这样我不会在周报里把“它想调用”说成“系统做了”。</p>
+<p>也试过让它在拒绝后换一个参数再提议。第二次提议仍然常常越界。所以拒绝是终态，不是协商的开场。协商可以以后设计，但必须是我发起的新一轮，不是模型自己的循环。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

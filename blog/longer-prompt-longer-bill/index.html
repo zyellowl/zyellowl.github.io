@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>上下文变长以后，账单先变长 — 张磊</title>
+  <meta name="description" content="我把旧记录整段塞进提示，答案没有更准，等待和费用先上来了。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2023-10-19">2023 年 10 月 19 日</time></p>
+<h1>上下文变长以后，账单先变长</h1>
+<p>十月我试着少做检索，把最近的观察整段放进提示。想法是：与其召回错，不如让模型自己在长文里找。短材料上好像行。材料一长，它就抓最前面或最后面的句子，中间的动作被忽略。我没有得到更完整的理解，只得到更长的等待。</p>
+<p>费用是同时来的。同样一个问题，塞进整段记录以后，一次调用的开销肉眼可见地变高。我没有做精细的单价表，只是同一天下午连着试，账单的斜率变了。对还在草稿阶段的工具，这不划算。</p>
+<p>长上下文还改变了复查。短提示我能把送给模型的材料读完。长提示我开始跳读，于是它编造时我更晚发现。这和三月换 GPT-4 时的感觉一样：输出越像样，我越松。</p>
+<p>我回到短上下文加检索。检索错了至少错在几条可见的原文上，我能删。整段塞进去以后，错混在一大片我没读完的文字里。可见的失败比隐藏的失败好处理。</p>
+<p>这个月我给自己定了一条粗糙的上限：送给模型的材料，必须是我愿意逐句看完的长度。超过就先检索，不要靠窗口硬扛。上限会随接口变化，原则先留下。</p>
+<p>十月的结论容易被下一个更长的窗口推翻。我仍然写下来。窗口变长是容量，不是判断力。容量先作用于账单和注意力，然后才可能作用于答案。</p>
+<p>那个下午我把同一次提问的两种材料都留下：检索出的短材料和整段历史。输出并排。并排看得很清楚，长材料多出来的句子大多是重复和发挥，不是被短材料漏掉的关键动作。</p>
+<p>因此“多给上下文更安全”在我的数据上不成立。更安全的是范围更小、我能读完。读不完的安全是想象。想象不能拿去给别人解释系统为什么答错。</p>
+<p>并排的两份输出我打印出来用笔划。笔划过的句子如果不能在短材料里找到，就标成多余。多余的比例是我用眼睛看的，不写成统计。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

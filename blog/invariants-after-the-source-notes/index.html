@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>写完几篇公开源码笔记之后，我留下的是不变量 — 张磊</title>
+  <meta name="description" content="八月那些笔记比框架对照长。能带走的不是结构图，是几条仍能复述的约束。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2026-09-09">2026 年 9 月 9 日</time></p>
+<h1>写完几篇公开源码笔记之后，我留下的是不变量</h1>
+<p>八月我写了几篇按公开提交阅读 Codex、Claude Code 的 SDK 边界、Pi 和 DeepSeek Harness 的笔记，并放在一起比较。九月回头，我不复述那些结构。复述会过时。过时的是类名和文件路径。</p>
+<p>能留下的是不变量：任务要有单一主人，工具结果的顺序不能靠完成的早晚，失败要能说未知，日志和模型看见的历史不是同一份，扩展或子过程不能偷偷放大权限。</p>
+<p>这些句子在笔记里都有更细的源码条件。离开那些条件，句子会变成口号。所以九月我要求自己引用时带上笔记，不把句子单独贴进方案当公理。</p>
+<p>比较也提醒我，缺证据就写不知道。不知道比补全一张整齐的表更难，但整齐的表会在下一版源码里丢脸。丢脸还是小事，按假表做决定才是大事。</p>
+<p>我没有因此改自己的运行时去模仿其中任何一家。模仿类名是最便宜的收获，也是最没用的。有用的是拿不变量去看自己的事件：对得上就留，对不上就改事件，而不是改名词。</p>
+<p>九月的阅读结束在一份很短的清单。清单指向那几篇笔记。笔记负责细节。清单负责防止我只记得一个赢家。</p>
+<p>没有赢家。只有在某一类故障下谁把未知留了下来。</p>
+<p>留不下未知的系统，会用重试把未知变成第二次事故。</p>
+<p>清单的每一条后面只有笔记链接，没有新的图。图会让我以为自己已经把四套实现统一理解了。我没有。统一理解是以后反复对事件才能说的话。</p>
+<p>引用笔记时我带上日期。日期提醒这些不变量来自某一版公开源码，不是永恒定律。源码变了，就新写一篇，不改旧的。</p>
+<p>旧笔记不改。我如果发现某条不变量说重了，就在新篇里写适用条件，并链接旧篇。链接是改正的方式。覆盖会让八月的阅读轨迹消失。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

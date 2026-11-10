@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepSeek R1 之后，推理模型和工程边界要分开写 — 张磊</title>
+  <meta name="description" content="它更愿意把步骤摊开。步骤摊开不等于工具已经按顺序提交，也不等于失败被承认。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-01-23">2025 年 1 月 23 日</time></p>
+<h1>DeepSeek R1 之后，推理模型和工程边界要分开写</h1>
+<p>一月下旬 DeepSeek R1 公开。我用七月留下来的短题集看了看，没有加新题。想看的是：更长的推理会不会让我放宽验收。</p>
+<p>步骤确实更多，有的题它会先写自己怎么想。我想的过程不能代替引用是否存在、空结果是否停住。判定我没改。通过与否仍按旧验收。</p>
+<p>有人把这种模型叫推理模型。名字可以，工程上我把它记成“更慢、更爱写过程的一类”。慢的归属去年十一月写过。过程文本是材料，不是证据。证据仍是工具结果和原文。</p>
+<p>工具顺序问题它没有消失。模型可以在推理里说先查再改，真正发出的调用仍可能并行或颠倒。我说了什么和系统做了什么，要两条日志。只留推理文本，会把打算当成事实。</p>
+<p>价格和速度我同样不报数字。只记下：它不适合塞进已经开口、需要可预期回应的回合。适合离线对照。这个分工和去年对慢模型的态度一致。</p>
+<p>开源权重让本地试验更容易。本地仍不自动变成关键路径。关键路径看的是失败可不可读，去年四月写过，这里不重复选型站队。</p>
+<p>一月的动作是把“推理”两个字从验收里拿掉。验收不奖励步骤数量。步骤再多，空结果时发挥了，仍是失败。</p>
+<p>发布热度过去之后，题集还在。这是我希望留下的东西。</p>
+<p>题集跑完我把推理文本折起来再看判定。折起来仍能判定的题，说明验收不依赖过程。折起来就不能判定的题，说明我写成了看感觉。这样的题移出阻塞集合。</p>
+<p>本地权重我只在断网的机器上打开。打开也只喂已经能出门的短材料。这个麻烦让“开源就可以随便试生产数据”变得很难发生。很难是故意的。</p>
+<p>推理文本折起来之后，我仍要求自己能在三十秒内指出失败点。指不出，就不是验收失败，是题写糊了。糊题移走。留下的题，过程再长也不加分。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

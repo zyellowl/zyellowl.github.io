@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LangChain 把演示跑起来了，也把边界藏起来了 — 张磊</title>
+  <meta name="description" content="链一接上，我就不清楚是检索在说话，还是模型在说话。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2023-05-11">2023 年 5 月 11 日</time></p>
+<h1>LangChain 把演示跑起来了，也把边界藏起来了</h1>
+<p>五月我用 LangChain 把“改写查询、检索、再回答”串成一条链。演示比四月快很多。输入一句问话，输出一段像那么回事的答案，中间的步骤在日志里也能看到。我几乎要把它当成可以继续加功能的骨架。</p>
+<p>问题是我很快讲不清边界。答案里的某一句，是检索回来的原文，还是模型顺着原文补的？链把两者接在同一个输出里。默认的提示又鼓励它“根据上下文回答”，上下文不够时它仍然回答。我为了演示关掉过严格模式，后来忘了打开。</p>
+<p>调试也不像我熟悉的管道。实时链路里，每一跳有输入输出和时间。这里的一跳有时是一次模型调用，有时是一次字符串拼接，有时是框架替我重试。重试成功以后，日志像没失败过。我花了一个晚上才发现有一次检索是空的，答案完全来自模型。</p>
+<p>我不是要否定这个库。它让我在一个星期里看到整条演示。我否定的是自己的用法：把框架的默认提示当成我的产品决定。默认值适合教程，不适合和画面或业务事实对齐的系统。</p>
+<p>五月中旬我把链拆开。检索结果先单独打印，我看过原文，再决定要不要送给模型。步骤变多，心里有数。演示不再是一键出答案，我反而敢给别人看。</p>
+<p>这个月的句子是：能跑起来的链，先画出哪一段允许生成，哪一段只许引用。画不出来，就先不要加下一个工具。</p>
+<p>拆开链的那一周，我把每一步的输入输出写成独立文件，文件名带步骤序号。序号不是给用户看的，是给我自己防止框架重排以后对不上。重跑时如果某一步文件为空，后面的文件即使有内容也不许当结果。</p>
+<p>空文件曾经被我用默认提示填上过。填上的那段写得完整，像检索成功。独立文件让这种完整无处躲。框架可以继续用，但默认的“总是给个答案”我不再接受。</p>
+<p>独立文件的规矩又加了一条：后一步的文件时间必须晚于前一步。框架如果并行或重试，时间乱了就整次作废。作废比挽救更接近我要的边界。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

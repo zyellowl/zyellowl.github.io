@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>成本控制是架构，不是月底的惊吓 — 张磊</title>
+  <meta name="description" content="默认路径决定账单。月底再看曲线，只能解释，不能阻止。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2024-12-18">2024 年 12 月 18 日</time></p>
+<h1>成本控制是架构，不是月底的惊吓</h1>
+<p>十二月我把一年里所有“感觉变贵”的时刻放在一起。长窗口、重复历史、失败后不设上限的重试、把慢模型用在快回合。每一件当时都有理由。合在一起就是一条没有默认策略的调用路径。</p>
+<p>架构上我现在会先写默认：短材料、有引用、失败不自动改走自由发挥、重试有次数、慢模型不进已经开口的回合。例外必须在调用点写明原因。没有原因的例外就是泄露。</p>
+<p>我不在这里报节省了多少。没有稳定的一周作为对照，数字就是装饰。这篇只定责任：谁调用，谁要能指出自己走的是默认还是例外。</p>
+<p>缓存和裁剪是默认的一部分，十月已经写过。十二月补上的是重试预算。重试最容易在无人看日志时把一次失败放大成一串调用。次数要写死，超过就停下来等人。</p>
+<p>等人不丢脸。丢脸的是账单先告诉你系统在空转。</p>
+<p>这也影响评测。题集可以每天跑，不能在失败时无限重跑直到出现一个好看的结果。好看的结果如果来自挑样本，评测就变成了广告。</p>
+<p>年底适合把默认路径写进代码而不是写进决心。决心过完节就淡。代码里的次数和分支还在。</p>
+<p>2025 年如果默认路径还只存在于这篇笔记，就是我失职。</p>
+<p>重试次数写成常数之后，我故意把一次失败留到次数用尽。用尽就停，不手动再点。手动再点是把预算从代码里偷走。偷走的那一次往往最贵，因为人在气头上。</p>
+<p>次数用尽的那次失败我留在日志首页。首页不是仪表盘，只是我打开日志第一眼能看见停下来了。看不见停，就会有人再手动跑一遍。</p>
+<p>默认与例外写在调用点的同一行注释里。注释缺失的调用，代码评审时我会问它属于哪一种。问不出就先不要合并。合并以后再补注释，通常就是补一句空话。</p>
+<p>默认路径写进代码之后，我故意留了一个星期不再改常数。一个星期里出现的例外都记在旁边，周末只问哪些例外重复了三次以上。重复三次的才考虑改默认。不到三次的，继续当例外。这样默认不会被一次惊吓改写。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编码 Agent 第一周，我看它改了哪些不该改的文件 — 张磊</title>
+  <meta name="description" content="测试绿了不够。diff 里多出来的文件，才是这一周的主题。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-03-14">2025 年 3 月 14 日</time></p>
+<h1>编码 Agent 第一周，我看它改了哪些不该改的文件</h1>
+<p>三月我开始认真用编码 Agent 改一个自己的小仓库。不是公司仓库。小到我能读完每一行 diff。这个前提先写上，后面九月还会用到。</p>
+<p>它能跑测试、能改函数，也会改我没让它碰的说明文件，把猜测写进注释。测试是绿的。绿的测试不看注释。我如果只看命令退出码，就会把猜测合并。</p>
+<p>第一周的习惯因此是：先看文件列表，再看测试。文件列表里出现任务没提到的路径，先问为什么。答不上，就还原那一处。还原比让它再修一次安全，因为再修一次常常继续扩散。</p>
+<p>它也会重复安装依赖或重复格式化，diff 变得很大。大 diff 不是勤劳，是我失去复查能力的前兆。我把单次任务限制在一个目录。限制很粗，但有效。</p>
+<p>权限上我没有给它任意网络之外的东西。这个小仓库不需要密钥。需要密钥的仓库，这一周我根本不打开。没想好密钥怎么注入，就不要让它看见。</p>
+<p>编码 Agent 这个词很热闹。我的用法很窄：提出修改，我读 diff，测试只是辅助。顺序反了，就是在用绿灯代替阅读。</p>
+<p>一周结束，我留下的不是成功次数，是一份“不该出现的路径”清单。清单比次数诚实。</p>
+<p>清单会随仓库变化。变化时改清单，不改“它很聪明”这种句子。</p>
+<p>不该出现的路径我写成一个简单的允许列表。允许列表之外的修改直接还原，不进入讨论。讨论会让我为多出来的注释找理由。理由很好找，所以不要讨论。</p>
+<p>密钥文件名即使出现在它的建议里，我也不打开那个文件给它看。建议不是授权。授权仍要经过我手动把路径放进允许列表。</p>
+<p>允许列表一开始只有任务点名的目录。它新建的文件如果不在列表里，就算测试通过也还原。还原之后我不让它解释。解释会说服我把列表放宽。放宽留到下一次任务，单独决定。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

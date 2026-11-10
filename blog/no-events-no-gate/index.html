@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>观测没有事件，评测门就只是一道心情 — 张磊</title>
+  <meta name="description" content="门要挡的是某条已经发生的事实。没有事件，就没有可挡的对象。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-06-06">2025 年 6 月 6 日</time></p>
+<h1>观测没有事件，评测门就只是一道心情</h1>
+<p>六月我试图给个人仓库加一道发布前的检查：题集不过就不让自己合并。执行了两次就发现，检查看的是最终输出，中间工具做了什么没有留下。输出对了，过程可以是歪的。歪的过程下次会输出错。</p>
+<p>事件至少要有：调用了哪个工具、参数是否被拒绝、结果是空还是有、这一步是重试还是第一次。没有这些，门只能看模型最后一段话。最后一段话是最不可靠的传感器。</p>
+<p>我没有上复杂的追踪系统。一个追加写的日志文件就够试验。每一行一个事件，失败也写。不写失败的日志，会让门永远看见成功。</p>
+<p>评测题和事件要对得上。某一题失败，我要能找到那一次调用，而不是找到一段相似的聊天。对不上，题集就只是心情的记录。</p>
+<p>门本身要能被人绕过，但绕过要留事件。没有事件的绕过，就是偷偷合并。偷偷合并是我在十二月的检查单里反对过的。</p>
+<p>六月不把这道门叫平台。它是一个脚本加一个日志。脚本挂了，我知道自己没有门。不知道自己没有门，比没有门更糟。</p>
+<p>事件也不收集无关内容。旁白草稿、密钥、完整环境变量都不进日志。观测变宽很容易变成泄漏。宽窄我宁可先窄。</p>
+<p>窄日志如果不够排查，再加字段。先有窄的，再谈完整。</p>
+<p>日志文件的权限设成只有任务用户可写。别的输出不能追加。追加一混，门就分不清哪些行是真的事件。混入的行我见过，来自一句打印得很好看的总结。</p>
+<p>窄字段清单贴在脚本顶部。新增字段要说明它帮助判定哪一题。说明不了，字段不加。不加字段是这个月最有用的克制。</p>
+<p>没有事件的成功输出，我在脚本里直接丢弃，不进入门的输入。丢弃很激进。不激进的话，最后一段话仍会混进来。混进来，门就又变成看感觉。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>编码 Agent 读到的日志，必须是它有权看到的那一截 — 张磊</title>
+  <meta name="description" content="把整个追踪丢给它，既过分，也常常帮倒忙。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2026-06-11">2026 年 6 月 11 日</time></p>
+<h1>编码 Agent 读到的日志，必须是它有权看到的那一截</h1>
+<p>六月编码助手越来越容易被接上日志。默认想法是给得越多，它越能查。我试过把一大段无关追踪一起给。它抓住醒目的异常，忽略真正相关的空结果。醒目不是相关。</p>
+<p>给多了还有权限问题。日志里会有不该进入这个任务的标识、路径和别人的数据。助手读到了，就会写进它的总结。总结再被贴出去，泄漏就完成了。</p>
+<p>所以读取日志本身是一次工具调用，要有范围：哪一段时间、哪一个调用编号、哪一类事件。范围由人指定，不由模型先扫完全部再决定。先扫全部，范围就已经破了。</p>
+<p>空范围就返回空，并停。不要返回“附近也许相关”的片段。附近是泄漏和误导的共同来源。</p>
+<p>这和团队助手取说明是同一条原则。取什么、属于谁、取不到怎么办。日志只是另一种说明，而且更敏感。</p>
+<p>六月我不描述内部日志系统长什么样。原则不依赖那个系统。任何把追踪当成可以整包下载的材料，都会同时造成噪声和越权。</p>
+<p>噪声让修复变慢。越权让修复不能被分享。两件一起发生时，人们会先抱怨模型笨。笨之前先看给了它什么。</p>
+<p>给得窄，它可能说不够。不够就再授权一截。再授权要新的一次调用，留下新的事件。</p>
+<p>再授权的一截要写明新增了哪一段时间或哪一个编号。不写明的授权当无效。无效请求返回空。空然后停。这样扩大范围会在事件里留下边界。</p>
+<p>总结里如果出现未被授权的标识，这次输出作废。作废比事后编辑总结可靠。事后编辑赶不上已经贴出去的那一版。</p>
+<p>作废的总结不提供编辑后再发。再发必须重新走一次有范围的读取。重新走会留下新事件。没有新事件的第二次总结，和第一次一样作废。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

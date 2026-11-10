@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>多 Agent 的成本，经常花在互相等待 — 张磊</title>
+  <meta name="description" content="分工看起来并行。日志里它们在等对方的一句总结。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-10-23">2025 年 10 月 23 日</time></p>
+<h1>多 Agent 的成本，经常花在互相等待</h1>
+<p>十月我把两个角色分成两个过程跑同一个小任务：一个只读，一个在只读结果之后才允许写。写的过程大部分时间在等。等的不是计算，是另一段生成结束。</p>
+<p>等待如果换来权限隔离，我觉得值。等待如果只是为了让两个提示轮流说话，就不值。值不值看日志里的重叠，不看架构图上的箭头。图上总是并行，日志里常常串行。</p>
+<p>我把等待写成事件：谁在等谁、等到的是工具结果还是一段总结。等到总结，通常可以把总结删掉，改成等工具结果。总结是等待的奢侈品。</p>
+<p>费用因此不只是 token 单价。互相等的时间里，人已经离开。人离开以后的失败更难被看见。所以能单过程做完的，我不拆。拆要有材料或权限的理由。</p>
+<p>这条和一月的准入合在一起：没有独立材料和独立失败点，就不要拆。拆了又在等总结，等于把一个提示词的延迟乘上人数。</p>
+<p>十月没有否定分工。查找和修改的权限不同，就该分。分了就要接受等待，并把等待放在工具结果上，不放在客气话上。</p>
+<p>客气话是演示里的协作感。协作感不产生状态。</p>
+<p>状态仍由检查点写。检查点不记录谁说了请。</p>
+<p>等待事件里我拒绝记录礼貌用语。记录了，优化就会去缩短客套。客套不是瓶颈。瓶颈是等一个还没返回的工具。工具编号才配出现在事件里。</p>
+<p>能不拆的任务我强制单过程跑一遍当对照。对照如果一样完成，拆分就没有材料或权限理由。没有理由的拆分，下周删掉。</p>
+<p>单过程对照如果同样完成，拆分的代码就删。删的时候把等待事件留在日志里当样本。样本说明这次拆分没有买到权限隔离，只买到了等待。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harness 不是又一个 Agent 框架的名字 — 张磊</title>
+  <meta name="description" content="我用这个词指约束运行的那一层：谁能调用、失败停在哪、结果能不能回放。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2026-01-08">2026 年 1 月 8 日</time></p>
+<h1>Harness 不是又一个 Agent 框架的名字</h1>
+<p>一月我开始用 Harness 这个词，先限制它不要膨胀。它不是又一个带循环的库名。库可以换。我指的是运行时那些不随库一起丢掉的约束。</p>
+<p>约束包括：工具调用有宿主、失败有种类、空结果不发挥、检查点由命令结果写入、权限在委派时缩小、开口回合不走慢路径。这些是去年一年写下的退路。</p>
+<p>如果一个新框架宣传自己包含以上全部，我会先看事件文件，不看介绍。介绍里的全部，常常是类名齐全。类名不是行为。</p>
+<p>个人试验仍保持很小。小不是拒绝工程，是我还没资格把这些约束说成平台。平台要有别人真的在上面失败过。失败样本不够时，就还是笔记。</p>
+<p>蚂蚁这边的工作让这些约束变得具体：对话会进语音和画面，工具会碰到业务事实。具体归具体，这篇仍不写内部设计。公开能说的，简历里已经有。这里只定词的用法。</p>
+<p>词一旦定成框架名，就会开始比功能表。功能表是我去年底明确不信任的东西。</p>
+<p>所以一月的句子是：Harness 是约束的集合，先问少了哪条约束，再问多了哪个组件。</p>
+<p>组件可以以后加。少掉的约束会在第一次事故里被想起来，那时候通常已经晚了。</p>
+<p>约束清单我按能观察与否分成两列。能在事件里看见的留在左边，只能在介绍里看见的放右边。右边的不叫 Harness。右边只是愿望。愿望不参加评审。</p>
+<p>评审时谁拿出新组件，就要指出它落实了左边哪一条。指不出，组件就先不要进仓库。仓库里的组件应当减少说不清的行为，而不是增加名词。</p>
+<p>右边那一列愿望我允许存在，但文件名带愿望。带这个词的文件不能被运行脚本读取。读取了，愿望就会混进约束。混进之后就再也分不开。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

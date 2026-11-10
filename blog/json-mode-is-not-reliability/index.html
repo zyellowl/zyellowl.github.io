@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>我不再把 JSON 模式当成可靠 — 张磊</title>
+  <meta name="description" content="它减少了语法错误。语义错误穿着合法的括号回来。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2024-08-27">2024 年 8 月 27 日</time></p>
+<h1>我不再把 JSON 模式当成可靠</h1>
+<p>八月后半我专门回头看 JSON 模式。早些时候我把它当成可靠性功能。用了几周，语法错误确实少了，我几乎不再写解析器的例外分支。</p>
+<p>语义错误还在，而且更难警觉。字段齐全、类型正确、内容是它补的。因为括号完整，我的第一反应是下游逻辑有问题，而不是模型在编。排查方向被格式骗了。</p>
+<p>可靠如果指“程序不会因为解析崩溃”，JSON 模式有帮助。可靠如果指“内容可以被当成记录”，它几乎不涉及。我以前在笔记里把这两个可靠写成一个词。八月拆开。</p>
+<p>拆开以后，检查清单变了。解析只留一条：不合法就丢。其余全是语义：引用是否存在，空结果是否闭嘴，时间是否在我给的范围内。这些检查不靠模式名字。</p>
+<p>我也看到一个实际好处：失败可以自动重试一次，因为输入输出的形状清楚。重试必须换不了已经发生的副作用。我的调用还没有副作用，所以重试是安全的。一旦有写入，重试要另说。这条先写上，防止以后照抄。</p>
+<p>八月的两篇其实是一件事的两面。结构化输出把崩溃搬走了，JSON 模式是其中最容易被夸大的一种。夸大来自我们太久被解析折磨，折磨减轻时会感谢错对象。</p>
+<p>我在代码注释里改了一句：这里保证能读，不保证能信。</p>
+<p>能信仍然只有逐项核对过的那一部分。</p>
+<p>注释那句“能读不能信”我贴在解析函数的返回值旁边，而不是贴在文档里。读代码的人会看见，读文档的人常常跳过警告。警告要放在手必须经过的地方。</p>
+<p>解析函数的调用方必须处理作废，不能只处理成功。我把成功类型和作废类型分成两个返回，逼调用方写分支。不写分支就编译不过的那种痛，这里用测试代替。</p>
+<p>测试覆盖作废分支，不断言生成文本的措辞。措辞断言会在模型换版本时碎掉，还会鼓励我去迎合措辞而不是迎合事实。事实断言只查编号、空结果和有没有猜测字段。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

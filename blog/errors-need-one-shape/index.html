@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>协议想标准化，先统一失败时的错误形状 — 张磊</title>
+  <meta name="description" content="发现工具、调用工具、工具返回空，这三件事不能共用一句出错了。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-05-16">2025 年 5 月 16 日</time></p>
+<h1>协议想标准化，先统一失败时的错误形状</h1>
+<p>五月我同时碰着自己的函数调用、MCP 的只读工具，和编码 Agent 的命令失败。三处失败的文本各写各的。排查时我先花时间翻译，然后才看见问题。</p>
+<p>我想要的形状很朴素：失败种类、是否可重试、有没有副作用、原始信息。种类至少分开没发现、调用失败、结果为空、被策略拒绝。可重试必须由种类决定，不由模型心情决定。</p>
+<p>副作用未知是单独一种。命令可能已经执行，响应丢了。这时重试是危险的。把未知折叠进失败，再自动重试，是我在笔记里反复警告自己的事。</p>
+<p>标准化如果只统一成功时的字段，失败仍会各自发挥。发挥的失败文本一长，模型就接过话头继续聊。我要的失败文本短，并且到此为止。</p>
+<p>我没有起草一个对外协议。我只在自己的三个试验里用同一组种类词。词相同，日志才能放在一起看。放在一起看，重复的坑才会显形。</p>
+<p>MCP 仍是草案。草案期间就坚持同一种失败词，以后替换传输时，校验不用重写。重写校验的成本比换一次库大。</p>
+<p>五月的产出是一张种类表，四行。四行写不满就不要加第五行。加行很容易，守行很难。</p>
+<p>编码 Agent 的命令输出我只取退出码和最后几行，不把整段终端当成功故事。故事不是形状。</p>
+<p>四行种类我打印在三个试验的日志头上。头上没有这四行，脚本报警。报警防止新试验发明第五种说法。第五种说法通常是一段自然语言。</p>
+<p>副作用未知的种类没有自动重试分支。代码里甚至不提供那个函数。不提供，比注释里写请勿重试更有效。人会跳过注释。</p>
+<p>三个试验的日志我试着按种类合并查看。合并得看，是因为词相同。词不同时，合并视图是空的。空视图提醒我还有试验在说自己的方言。方言要改成四行里的一行。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

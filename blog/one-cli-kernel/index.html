@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>一个 CLI 内核，比多套入口各自长出循环更清楚 — 张磊</title>
+  <meta name="description" content="定时任务和人在群里的请求，可以走同一套调用、失败和回放。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2026-06-30">2026 年 6 月 30 日</time></p>
+<h1>一个 CLI 内核，比多套入口各自长出循环更清楚</h1>
+<p>六月底我把入口收拢来看。定时去扫轨迹，和人在群里问一句，看起来像两个产品。若各自长出一个循环，失败种类和回放会分叉。分叉之后就无法把群里的问题和定时发现的问题放在一起看。</p>
+<p>公开简历里我写过大保 CLI 作为统一内核：定时任务通过它驱动自迭代，钉钉 Bot 也复用它。这篇只重复这个结构选择，不添加内部实现。选择的理由是：循环只维护一份。</p>
+<p>一份循环意味着同一种调用编号、同一种空结果、同一种权限缩小。入口只负责把人的话或定时触发变成一次提交。提交之后的规则不因入口可爱或自动化而改变。</p>
+<p>定时任务更容易被写成“没人看着所以可以多试几次”。多试几次就是把重试预算按入口放开。预算一放开，内核就不再统一。</p>
+<p>群入口更容易被写成“要礼貌所以空结果也要多说一点”。多说一点就是把停住按入口放开。同样会拆掉内核。</p>
+<p>所以统一不是把代码放进同一个二进制这么简单。是两种入口都不许私自放宽失败规则。放宽必须改内核，并且被两种入口同时继承。</p>
+<p>六月的检查很具体：找一处只存在于某个入口的重试或发挥。找到了就视为分叉，不管那个入口多好用。</p>
+<p>好用是局部的。分叉的成本在下一次你要对齐两种问题来源的时候才出现。</p>
+<p>我用同一条失败用例从定时入口和群入口各走一次。两边的拒绝文本和是否重试必须一致。不一致就记录成分叉，哪怕其中一边更讨人喜欢。</p>
+<p>讨人喜欢通常是多说了一句。多说的那句如果在空结果之后，就是内核被入口改写了。改写点要删，而不是把另一边也改得同样多话。</p>
+<p>两边不一致时，我先改更讨喜的那一边，让它变回短拒绝。不把短的那边加长。加长会让分叉看起来被解决，其实是两边一起放宽。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

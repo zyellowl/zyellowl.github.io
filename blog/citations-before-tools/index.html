@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>工具还没接上，我先把检索的引用做实 — 张磊</title>
+  <meta name="description" content="答案里的每一句，如果来自旧记录，就该能指回那一条。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2024-01-08">2024 年 1 月 8 日</time></p>
+<h1>工具还没接上，我先把检索的引用做实</h1>
+<p>开年我没有先接新工具。去年底自己写过：还不会做 Agent。正月里我只做一件小的：检索回来的句子，必须能在答案里被指认。</p>
+<p>做法很土。每条入库记录有一个短编号，送给模型时编号跟着原文。我要求它如果使用某条，就把编号写在句后。不许它编一个看起来像的编号。对不上的编号，整段答案作废，只把原文列表留给自己看。</p>
+<p>第一次跑，它很爱用编号，而且用错。近邻里有三条，它把最顺的那条编号安在自己补的句子上。编号变成了装饰。我改成更严的规则：只能整句引用，不能半句拼接。答案立刻变短，变难看，假编号少了。</p>
+<p>短答案让业务演示不好看。我接受难看。营销侧的数据问答如果引用错表、错字段，顺的句子比丑的句子更危险。我还在用离线问题试，没有把它说成线上系统。</p>
+<p>这个习惯后来会变成工具结果的核对，但一月我还没有稳定的函数调用链路。先把“引用必须能指回”做成肌肉记忆。工具接上以后，如果结果不能指回那一次调用，同样不能写进回答。</p>
+<p>我把失败的答案连同原文存在一个目录里。不存分数。分数去年已经骗过我。目录里只有问题、候选原文、模型输出、我删掉的句子。</p>
+<p>一月的进度就是这个目录开始变厚。变厚说明我在看，不是说明系统变好了。</p>
+<p>明年如果有人问我知识库怎么做，我希望自己先翻这个目录，而不是先报一个检索框架的名字。</p>
+<p>编号目录后来又加了人工删除线。我划掉的句子保留在文件里，不物理删除。删除线表示“模型写过，但没有原文”。这些被划的句子是以后写验收题的原料。没有原料，验收就会写成空话。原料越具体，题就越难作弊。</p>
+<p>删除线文件每周我只复习其中五条，不贪多。五条能记住假引用长什么样。贪多就会又变成感觉。感觉处理不了编号。编号只接受存在或者不存在。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

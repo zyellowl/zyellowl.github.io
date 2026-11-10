@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>用相似度检索踩过的三个坑 — 张磊</title>
+  <meta name="description" content="切得太碎、查询和文档不是同一种话、以及把分数当成置信度。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2023-04-23">2023 年 4 月 23 日</time></p>
+<h1>用相似度检索踩过的三个坑</h1>
+<p>向量试验继续了两周，坑比成果清楚。我把它们记成三条，免得下个月换一个库以后又踩一遍。</p>
+<p>第一条是切得太碎。我按句号切开旁白，一句一个向量。查询若是一个完整动作，常常只撞上半句。半句里没有主语，模型就会自己补主语。我后来改成按一个动作切，动作没写完不入库。条目变少，对得上的变多。</p>
+<p>第二条是查询和文档不是同一种话。文档是我写的观察，查询有时是口语问题：“他刚才把什么放下了？”问句和陈述句的向量邻居很怪，经常召回另一个问句，而不是那条观察。我开始把查询先改写成和文档一样的陈述，再去检索。改写本身又会引入编造，所以改写只许重组我已经说出的词。</p>
+<p>第三条是把分数当成置信度。不同批次做出来的向量，分数的高低不能直接比。我有一次把 0.8 当成“很有把握”，换了一次接口以后 0.8 的邻居明显不相关。分数没有单位。我改成只看排序，并且只取回固定的几条，由原文决定留不留。</p>
+<p>这三个坑都不是库的新闻。换工具不会自动消失。我在笔记封面上写了一句给自己的话：检索负责找候选，不负责下结论。</p>
+<p>四月结束时，这套小索引仍然只服务我自己的旁白草稿。它让我少翻几次旧记录，也让我更不敢把它说成知识库。知识库这个词，我决定先不用。</p>
+<p>三条坑写成注释以后，我又故意制造了一次坏切块，用来检查自己还会不会被近邻说服。坏切块的近邻看起来仍然相关。我差点点头。回到原文才看见主语丢了。这次自我测试比再读一篇教程有用。</p>
+<p>我把这次失败截了日志，不截界面。界面会把相关高亮得很美。日志里只有被切碎的句子。以后向别人解释检索，我先打开这份日志。</p>
+<p>坏切块的日志我后来又拿给自己看了一次，故意隔周。隔周仍然觉得近邻“也有点道理”。这个感觉就是坑。道理要回到被切掉的主语上才算。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

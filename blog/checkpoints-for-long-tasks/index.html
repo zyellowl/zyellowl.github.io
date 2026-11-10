@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>我把一次长任务拆成可恢复的检查点 — 张磊</title>
+  <meta name="description" content="每一步结束时留下可核对的状态。下一步从状态读，不从自述读。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-08-08">2025 年 8 月 8 日</time></p>
+<h1>我把一次长任务拆成可恢复的检查点</h1>
+<p>八月初我把四月的状态文件做成明确的检查点。每通过一个检查，就写一行：检查名、结果、是否允许进入下一步。行由脚本写，在测试或命令结束之后，不在模型声称结束之后。</p>
+<p>中断再恢复时，脚本先读最后一行。最后一行不允许下一步，就停。模型被叫来只解释当前行，不直接往下做。解释和执行分开，避免它用一段话跳过检查。</p>
+<p>检查点不保存完整对话。对话太容易把打算写成完成。保存的是外部能复核的东西：文件是否存在、测试是否跑过、退出码是什么。</p>
+<p>这仍然很简陋。简陋够用在个人仓库。够用的标准是我能在杀掉进程后接着做，且不会重复已经成功的写入。重复写入的试验我做过一次，检查点没写上，它又改了一遍。那次之后我把写入和检查点放在同一个成功分支里。</p>
+<p>长程任务的宣传常强调模型能记住。我更在意系统能忘记对话、仍能接着做。能忘记，说明状态不靠聊天。</p>
+<p>八月这个试验和推理模型无关。慢模型快模型都可以用同一份检查点。检查点不奖励长思考。</p>
+<p>我没有把检查点做成库。一个文件、几行文本、一个读取的脚本。库可以以后有，现在会掩盖谁在写那一行。</p>
+<p>谁在写很重要。是命令的结果在写，不是模型在写。</p>
+<p>成功分支里先写检查点再返回给模型。顺序反了，模型可能在检查点落地前就看到成功并开始下一步。下一步在崩溃后会重做。重做是我要避免的。</p>
+<p>检查点文件不进模型可写目录。它若能改检查点，恢复就失去意义。意义是外部世界的记录不被生成文本覆盖。</p>
+<p>检查点不在模型可写目录这件事，我用一次故意的写尝试验证。写失败，试验才算数。写成功，说明隔离是假的。假的隔离比没有检查点更误导。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

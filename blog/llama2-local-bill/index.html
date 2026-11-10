@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Llama 2 让我重新算了一遍本地推理的账 — 张磊</title>
+  <meta name="description" content="权重在自己机器上，不代表延迟和运维就变得简单。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2023-07-22">2023 年 7 月 22 日</time></p>
+<h1>Llama 2 让我重新算了一遍本地推理的账</h1>
+<p>Llama 2 公开之后，我把一个较小的版本放到自己的机器上跑。动机很直接：调用外部接口又慢又要按次付钱，本地像是把主动权拿回来。跑起来的第一个晚上，主动权的感觉就少了一半。</p>
+<p>小模型改写短句尚可，一碰到要严格留空的旁白就爱补词。这和四月以前的体验类似，只是错得更频繁。我不能因为它跑在本地，就降低对事实的要求。本地只改变账单和数据离开不离开这台机器，不改变生成会编造。</p>
+<p>速度也不像宣传句那么单一。短提示的首字尚可，提示变长以后明显拖。我没有做完整的压测，只是同一段旁白重复几次，风扇先响了。若要同时服务多路对话，这一台机器不够，而多机又把我拉回部署、队列和失败处理。这些事外部接口也有，只是别人承担。</p>
+<p>隐私是本地真正吸引我的地方。旁白草稿不用离开机器。对还在试验的记录，这比多两个分数重要。我决定把草稿索引留在本地，把需要更稳格式的少量调用继续放在外部接口。两边不合并成一个“统一大脑”。</p>
+<p>七月的笔记因此分成两列：一列是数据能不能出门，一列是错了能不能被我看出来。本地改善第一列，第二列仍靠原文对照。混在一起讲，会让选型讨论变成站队。</p>
+<p>我没有替换掉上个月的流式试验。本地推理的流式同样要面对消费点和打断。换模型不换播放器的问题。</p>
+<p>本地试验我限制成单线程、我坐在旁边。一旦想开第二个并发，就先停。不是机器一定跑不动，是我还没写失败时谁重启、队列满了丢哪一条。没写这些就并发，只会得到一堆对不上的输出。</p>
+<p>数据不出门这条我执行得比速度严格。旁白草稿不贴进外部对话。需要外部接口时，只送我已经决定可以出门的短材料。两边的目录分开，避免复制文件时把草稿带出去。</p>
+<p>两个目录的拷贝我用手动命令，不用同步工具。同步工具会在我没注意时把草稿送去另一边。手动很慢，慢是提醒。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

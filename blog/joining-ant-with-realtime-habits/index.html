@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>到蚂蚁之后，我先用实时系统的习惯看对话 — 张磊</title>
+  <meta name="description" content="新环境里的保险对话会碰到语音和画面。我先问时钟和打断，不先问提示词库。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2024-09-13">2024 年 9 月 13 日</time></p>
+<h1>到蚂蚁之后，我先用实时系统的习惯看对话</h1>
+<p>九月我到蚂蚁集团财保事业群，做和 Agent 相关的工程。公开履历里写了相机和实时音视频，那确实是我要面对的方向。这篇不写内部方案，只写我进门时故意带着的习惯。</p>
+<p>习惯一是先画时钟。用户说话、画面变化、模型开口、播放结束，都要有时刻。没有时刻的多模态讨论，我会听，但不会当成设计。</p>
+<p>习惯二是先写打断。保险对话如果走到语音，用户一定会抢话。抢话时已经听到的和还没播出的必须分开。文本聊天可以整段覆盖，语音不行。</p>
+<p>习惯三是先规定不知道怎么办。材料里没有的保单状态、没有看见的单据，不能靠通顺补上。这是去年旁白试验里同一条教训，只是现在对象换成业务对话。</p>
+<p>我没有在进门的第一周评价现有系统好不好。我还没资格。资格来自读过失败日志，不是来自过去做过音视频。过去的经验只够用来提出问题。</p>
+<p>问题先这些：端点谁判定，帧和这句话是否同一时刻，工具失败时说什么，空结果是否允许发挥。能回答的人在，我就跟着做。不能回答，我就先把问题留在明处。</p>
+<p>九月的笔记因此很短，也故意没有架构图。图容易在还不懂约束时画得太完整。</p>
+<p>完整是以后的事。这个月只把实时系统里我不肯放弃的三件事带进新工作。</p>
+<p>进门第一周我只问日志里有没有时间字段，不提改造。没有字段，我就帮着把字段加进讨论，而不是画新架构。新架构在没有失败样本时画出来，几乎一定会过度。</p>
+<p>第一周的问题我写在自己的笔记里，不写成对现有系统的结论。笔记的主语是“我要问”，不是“系统缺少”。主语用错，会把不了解说成判断。</p>
+<p>三件事写成问题而不是要求。要求像空降的方案。问题可以被现有日志回答。能回答的问题，才配变成下个月的工作。答不上的问题继续留在笔记里，不升级成设计。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

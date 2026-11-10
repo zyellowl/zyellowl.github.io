@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP 刚发布，我把它当成接口草案 — 张磊</title>
+  <meta name="description" content="工具如何被发现和调用，值得有一个公开形状。形状不等于我已经拥有平台。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2024-12-03">2024 年 12 月 3 日</time></p>
+<h1>MCP 刚发布，我把它当成接口草案</h1>
+<p>十一月底 MCP 公开。十二月初我读了说明，在本地看了一个最小的工具如何被列出和调用。我没有把它宣布成公司的标准。它太新，我也还没在失败场景里待够。</p>
+<p>吸引我的是发现和调用分开。工具有一份自己的描述，宿主按描述去要结果。这比把所有函数说明手写进同一个提示里清楚。清楚是工程上的好事。</p>
+<p>草案阶段我最在意的仍是旧问题：调用失败时长什么样，超时谁负责，结果空了能不能被模型当成发挥的许可。协议如果把这些留成各自实现，那它就是接口草案，不是行为契约。草案可以试，契约还要自己补。</p>
+<p>我也警惕过早的统一。语音、文本、内部工具的时钟和权限不一样。用一个发现机制把它们登记在一起是可以的，用一套超时和一套权限硬套会把实时链路拖坏。登记不等于同一套运行策略。</p>
+<p>十二月的行动很小：本地挂一个只读工具，看日志里能不能区分“没发现”和“发现了但调用失败”。能区分，就值得继续跟。不能区分，就先当文档看。</p>
+<p>我不同时改生产路径。生产路径上的函数调用刚把失败形状写清楚，不因为新名字出现就推倒。</p>
+<p>新协议的正确欢迎方式是写测试，不是写宣言。测试只覆盖我真正调用的那一个只读工具。</p>
+<p>等它过了几次超时和空结果，我再决定要不要在笔记里把“草案”两个字拿掉。</p>
+<p>只读工具的日志里我区分了发现失败和调用失败两种行。两种行的文字不同，避免以后用同一个“出错了”概括。概括是草案阶段最容易欠下的债。</p>
+<p>只读工具失败时，用户可见的句子只有一句：这次没取到。不解释成长篇原因。长篇原因常常是模型在失败之后开始发挥。发挥要从失败路径里删掉。</p>
+<p>一句“没取到”我反复读，确认它没有暗示用户再问就会有。暗示会把失败重新变成闲聊。闲聊不是这条路径的目的。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

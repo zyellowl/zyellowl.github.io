@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>生产反馈要能回到下一次运行，循环才算接上 — 张磊</title>
+  <meta name="description" content="线上看到的问题如果只停在聊天里，下一版不会因此不同。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2026-01-26">2026 年 1 月 26 日</time></p>
+<h1>生产反馈要能回到下一次运行，循环才算接上</h1>
+<p>一月后半我把“从生产里学习”拆成一条必须接上的路：问题从真实运行来，修复要经过验证，验证之后的版本要再被观测。任何一步断了，就只是讨论。</p>
+<p>真实运行不是我回忆的一次演示。它至少是一次留下事件的调用。没有事件，问题的复现就靠转述。转述会改写条件。</p>
+<p>修复之后不能只看模型说改好了。要在与当时相近的条件下再跑。相近包括工具、权限和输入材料。差得太远的通过，不能关闭问题。</p>
+<p>再观测是最容易被省略的。发布完把工单划掉，新的失败要等下一轮有人想起。我想要的是新的运行自己还能产生可对照的事件。对照不了，循环是断的。</p>
+<p>这条路我在公开简历里用大保的自迭代描述过：回流、发现、修复、沙箱、评测、发布后再看。这里不补充内部数字，也不把那条描述展开成未公开的流程。</p>
+<p>个人笔记能做的是把断点写清楚。断在没有事件、断在无法再跑、断在发布后不再看。三种断法，明年排障时对得上号。</p>
+<p>一月不宣布循环已经转起来。转起来要看见同一类问题在后一轮里的命运。看不见，就还在搭路。</p>
+<p>搭路的时候最忌用一张闭环图代替日志。图是愿望。日志是路。</p>
+<p>三处断点我做成三个空问题，写在每次试验的开头：事件在哪，再跑的限制是什么，发布后看哪一种事件。三个问题有一个空着，试验就还不能称为循环。</p>
+<p>空着允许继续探索，但笔记标题不能用闭环、自动化、自迭代完成这种词。词要和空问题一致。不一致就是海报。</p>
+<p>三个空问题写在试验模板的最上面，不能折叠。折叠会让我先写结论。结论写在空问题之前，循环就已经被讲完了。讲完不是接上。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

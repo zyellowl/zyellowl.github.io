@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>多 Agent 不是把一个提示词拆成三个名字 — 张磊</title>
+  <meta name="description" content="名字拆开以后，失败停在哪里、结果指回谁，仍然要单独写。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-01-07">2025 年 1 月 7 日</time></p>
+<h1>多 Agent 不是把一个提示词拆成三个名字</h1>
+<p>新年第一篇不想追新模型。我想把“多 Agent”这个说法从嘴里拿下来检查。最常见的做法是把一个长提示拆成规划、执行、检查三个角色，让它们轮流说话。演示像讨论，系统仍是一条链。</p>
+<p>角色如果不能拒绝、不能只返回自己的工具结果、不能在空结果时停住，那就还是提示词的分段。分段有阅读价值，没有运行价值。运行价值是某一段失败时，整个任务停在可指出的位置。</p>
+<p>我给自己定了一条准入：每个角色至少有一个只属于它的工具或材料，并且输出必须能指回那一次调用。指不回，就不要叫 Agent，叫段落。</p>
+<p>互相说话也会产生新的等待。规划等执行，执行等检查，检查又让规划重来。重来如果没有次数，费用和延迟都没有上限。次数要写在循环外面，由宿主掌握，不由模型自己觉得还没好。</p>
+<p>保险对话里，协调者和领域专家这种分法我能理解，因为材料本来就不同。材料相同、只是语气不同的分法，我不再花时间。</p>
+<p>一月先把准入写进笔记，不宣布架构。架构图在准入满足之前都太完整。</p>
+<p>也避免相反的口号：多 Agent 一定浪费。浪费的是没有边界的轮流说话。有边界的分工，我还要在具体任务上再看。</p>
+<p>这篇的结论很窄。名字不是结构。结构是失败停点和可指回的结果。两条没有，就还是一个提示词。</p>
+<p>我用一个假工具做了准入试验。规划角色没有自己的材料，只能看到执行角色的原文。它仍写出一份更长的计划。计划没有新事实。这种输出在演示里像协作，在日志里只是重复。重复不配占用下一轮调用。</p>
+<p>次数写在宿主里，角色说还要再来一次时，宿主直接停。停的事件单独成行。没有这一行，我后来会以为是模型自己决定收束。收束权不在模型。</p>
+<p>准入不满足时，我把三个角色合并回一个提示，只保留材料分段。合并之后行为没有变差。变差的是演示的戏剧性。戏剧性可以不要。这让我确认拆名本身没有带来结构。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

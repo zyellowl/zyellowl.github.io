@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>沙箱先限制它能碰到什么，再谈让它做事 — 张磊</title>
+  <meta name="description" content="能改到哪、能连到哪，不写清楚，后面的聪明都是在扩大事故。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2025-04-28">2025 年 4 月 28 日</time></p>
+<h1>沙箱先限制它能碰到什么，再谈让它做事</h1>
+<p>四月后半我给编码试验加了一层很朴素的限制：工作目录之外不可写，网络默认关掉。不是完整的安全方案，是一道我能解释的墙。</p>
+<p>墙加上之后，它的失败变具体了。想读目录外的配置，会失败。失败比它悄悄读到更有用。悄悄读到的那次，我可能根本不知道。</p>
+<p>我没有因此认为沙箱等于安全。沙箱外面还有我已经挂上的密钥、还有人肉复制进去的文件。那些不是沙箱的漏洞陈述，是我自己的洞。洞要单独记。</p>
+<p>限制也会让任务做不成。做不成时我倾向于改任务范围，而不是先把墙拆了。拆墙很痛快，事故的形状和没加墙时一样。</p>
+<p>语音或别的实时链路如果也要工具，墙还要加上时间。不能因为沙箱允许写，就允许它在用户已经打断之后继续写。权限和时间是两道，缺一不可。</p>
+<p>四月不写隔离技术的比较。比较需要我没做的测量。我只确定顺序：先有墙，再扩大任务。顺序反了，扩大的是不确定它碰到了什么。</p>
+<p>日志里要能看出拒绝来自墙，而不是来自模型不想做。两种拒绝的下一步完全不同。</p>
+<p>分不清的日志，我会当成没有沙箱。</p>
+<p>墙的拒绝我要求带路径。没有路径的拒绝无法判断它想碰哪里。想碰哪里比失败本身更有信息。信息没有被记下来，墙就只是一个红字。</p>
+<p>拆墙的请求我记在单独的列表里。列表变长，说明任务范围错了，不是墙错了。范围错了就改任务描述。改墙是最后一步，而且这篇还没到那一步。</p>
+<p>墙的日志我每周看一次路径分布。路径如果开始集中在某一个目录外的位置，我就把那个位置写进任务说明，而不是默许。默许一次，墙的边界就会在笔记里消失。</p>
+<p>我又把当天的输入和输出各存了一份，不把结论写进文件名。文件名只写日期。结论写在正文里。正文可以错，文件还在，就能对照。对照时先看自己有没有把未知说成完成。说成完成的那一句划掉，但不删文件。划掉是为了以后看见自己当时多想结束这件事。输入输出都保留，避免只留下好看的那一稿。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>
