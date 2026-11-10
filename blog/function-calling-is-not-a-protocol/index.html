@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>试了一下 GPT-4 的 function calling — 张磊</title>
+  <title>GPT-4 function calling 会给出说明里没有的参数，也会绕开调用直接写散文 — 张磊</title>
   <meta name="description" content="六月中接口能让模型提出调用。我定义了一个很窄的函数，它有时给说明里没有的词，有时直接写散文。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2023-06-16">2023 年 6 月 16 日</time></p>
-<h1>试了一下 GPT-4 的 function calling</h1>
+<h1>GPT-4 function calling 会给出说明里没有的参数，也会绕开调用直接写散文</h1>
 <p>函数我写得很窄，只收我记录里有过的动作词。跑下来三种结果都有：参数合法，参数越界，或者它根本不调用、自己写一段。只处理第一种的话，演示好看，另外两种会沉默。</p>
 <p>说明写长，它更爱调用；写短，它更爱直接回答。我没找到一个写完就稳定的版本。这跟服务端那种非法输入会被拒绝的协议还不一样，它经常自己绕开。</p>
 <p>脚本里我记三行：它提出了什么，我拒了没有，有没有真的执行。缺一行就当这次没发生。拒绝之后不许再写散文把动作做完，那等于把函数调用绕过去。</p>

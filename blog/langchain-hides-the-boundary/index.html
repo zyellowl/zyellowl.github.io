@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LangChain 那条链我拆开了 — 张磊</title>
+  <title>LangChain 把检索和回答串起来之后，空结果在日志里像一次成功 — 张磊</title>
   <meta name="description" content="有一次检索是空的，答案照样写了一大段。日志看起来像没失败过。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2023-05-11">2023 年 5 月 11 日</time></p>
-<h1>LangChain 那条链我拆开了</h1>
+<h1>LangChain 把检索和回答串起来之后，空结果在日志里像一次成功</h1>
 <p>五月用 LangChain 把改写查询、检索、再回答串起来。演示是快的，输入一句，出来一段像那么回事的话。</p>
 <p>我讲不清某一句是检索回来的，还是它补的。默认提示又让它根据上下文回答，上下文空的时候它也回答。我为了给别人看，把严格一点的开关关过，后来忘了开。</p>
 <p>有一晚才发现，某次检索结果是空的，答案全是生成的。框架把重试吞了，日志像一次成功。实时链路里我会先看每一跳的输入输出。这里得自己把每一步落成文件。</p>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>结构化输出之后，解析崩溃少了 — 张磊</title>
+  <title>结构化输出减少了解析崩溃，编号仍可能指向这次没有的记录 — 张磊</title>
   <meta name="description" content="八月初接口能按给定结构返回。不合形状的我可以在进下一步之前丢掉。形状对了，编号仍可能是编的。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2024-08-09">2024 年 8 月 9 日</time></p>
-<h1>结构化输出之后，解析崩溃少了</h1>
+<h1>结构化输出减少了解析崩溃，编号仍可能指向这次没有的记录</h1>
 <p>以前用正则把半截 JSON 凑成能读的。那种凑是事故。结构返回之后，不合形状就整份丢，正则补全删了。</p>
 <p>形状对不等于内容对。编号可以是合法字符串，却指向这次结果里没有的记录。空列表合法，另一个字段里仍可能写着猜测。</p>
 <p>我现在查三件事：编号在不在这次检索结果里，拒绝的时候有没有又填猜测，空结果时文本是不是只说做不了。失败就整份作废，连同原因留下。原因我只分这三种，再多就不想看了。</p>

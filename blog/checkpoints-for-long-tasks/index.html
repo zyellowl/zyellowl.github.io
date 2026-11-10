@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>长任务每步结束写一行状态 — 张磊</title>
+  <title>长任务的状态行由命令退出码写入，模型宣布完成不算这一行 — 张磊</title>
   <meta name="description" content="行是脚本在命令结束之后写的，带检查名和结果。模型说做完了，不算这行。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2025-08-08">2025 年 8 月 8 日</time></p>
-<h1>长任务每步结束写一行状态</h1>
+<h1>长任务的状态行由命令退出码写入，模型宣布完成不算这一行</h1>
 <p>中断再恢复，脚本先读最后一行。最后一行不允许下一步，就停。叫模型来只解释当前行，不直接往下做。</p>
 <p>不存整段对话。存文件在不在、测试跑过没有、退出码是什么。</p>
 <p>有一次写入成功了，检查点还没写上，恢复后又改了一遍。后来把写入和写检查点放在同一个成功分支里，先写检查点再把结果交给模型。</p>

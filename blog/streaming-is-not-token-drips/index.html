@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>把流式输出当成播放器看 — 张磊</title>
+  <title>流式输出要是接到播放，已经打出的那一行不能被后面的 token 改掉 — 张磊</title>
   <meta name="description" content="字在跳只是屏幕上的事。真要出声，得知道哪一段已经播出去了。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2023-07-08">2023 年 7 月 8 日</time></p>
-<h1>把流式输出当成播放器看</h1>
+<h1>流式输出要是接到播放，已经打出的那一行不能被后面的 token 改掉</h1>
 <p>七月把流式接口接了一遍。教程里的效果是字一个个出来。我关心的是第一个字到达以后，时钟就算开始了。</p>
 <p>如果后面接 TTS，按标点切段再合成，切早了前后句接不上，切晚了又变回整段等待。我来回试了几次，没有一个切法两边都舒服。</p>
 <p>用户半句时开口，已经合成并播放的算听到了，缓冲里的不算。文本接口不会告诉我哪个字被消费了，那是播放器的状态。我用打印假装喇叭，打印过的行不许被后面的 token 改掉，要改就另起一行，标成更正。</p>

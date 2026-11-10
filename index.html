@@ -8,60 +8,70 @@
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
+  <script>
+    try {
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("will-play");
+      }
+    } catch (err) {}
+  </script>
 </head>
-<body>
+<body class="home">
 <a class="skip" href="#content">跳到正文</a>
-<div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
 <main id="content">
-<p class="role">AI Agent 开发工程师</p>
-<figure class="loop">
-  <svg viewBox="0 0 640 250" role="img" aria-labelledby="loop-title">
-    <title id="loop-title">大保的循环：生产回流，问题发现，分级修复，沙箱验证，评测门禁，发布回流，再回到生产回流</title>
-    <defs>
-      <path id="loop-route" d="M 111 52 H 529 V 188 H 111 Z"/>
-    </defs>
-    <path d="M 111 52 H 529 V 188 H 111 Z" fill="none" stroke="#c5ccc6" stroke-width="1.5"/>
-    <polygon points="226,46 238,52 226,58" fill="#1b2421"/>
-    <polygon points="414,46 426,52 414,58" fill="#1b2421"/>
-    <polygon points="523,144 529,156 535,144" fill="#1b2421"/>
-    <polygon points="414,194 402,188 414,182" fill="#1b2421"/>
-    <polygon points="204,194 192,188 204,182" fill="#1b2421"/>
-    <polygon points="105,96 111,84 117,96" fill="#1b2421"/>
-    <g fill="#f4f5f2" stroke="#1b2421" stroke-width="1.25">
-      <rect x="36" y="28" width="150" height="48"/>
-      <rect x="245" y="28" width="150" height="48"/>
-      <rect x="454" y="28" width="150" height="48"/>
-      <rect x="454" y="164" width="150" height="48"/>
-      <rect x="245" y="164" width="150" height="48"/>
-      <rect x="36" y="164" width="150" height="48"/>
-    </g>
-    <text x="111" y="58" text-anchor="middle">生产回流</text>
-    <text x="320" y="58" text-anchor="middle">问题发现</text>
-    <text x="529" y="58" text-anchor="middle">分级修复</text>
-    <text x="529" y="194" text-anchor="middle">沙箱验证</text>
-    <text x="320" y="194" text-anchor="middle">评测门禁</text>
-    <text x="111" y="194" text-anchor="middle">发布回流</text>
-    <circle class="loop-dot" r="5">
-      <animateMotion dur="3.2s" repeatCount="1" fill="freeze">
-        <mpath href="#loop-route"/>
-      </animateMotion>
-    </circle>
-  </svg>
-  <figcaption class="say">我在蚂蚁做保险场景的 Agent，做相机和实时语音，也做大保这条循环：线上的问题回来，修完，在沙箱里验过，评测过了再发出去。</figcaption>
-</figure>
-<p class="intro">10 年研发经验，2023 年起从事大模型应用研发，逐步深入多智能体、实时多模态与 Agent Harness。主导蚁小保相机与实时音视频，深度参与 IM 多智能体及大保自迭代 Loop，构建基于大保 CLI 的团队协作 Bot。自研对话式用户分析洞察工具，负责后训练评测挖掘平台。具备金融业务后端与性能优化基础，工程实践覆盖数据生产、Agent 交互，以及线上问题发现、修复与验证。</p>
+<div class="band">
+  <div class="band-in">
+    <header class="top">
+      <div class="who">
+        <a class="name" href="/">张磊</a>
+        <p class="role">AI Agent 开发工程师</p>
+      </div>
+      <nav aria-label="站点">
+        <a href="/#work">工作</a>
+        <a href="/blog">文章</a>
+        <a href="/thoughts">想法</a>
+        <a href="/products">作品</a>
+        <a href="/#contact">联系</a>
+      </nav>
+    </header>
+    <section class="console" aria-label="事先写好的回放">
+      <p class="sr" id="live" aria-live="polite"></p>
+      <p class="replay"><span class="mark">回放</span>事先写好，没有调用模型。</p>
+      <p class="k">问</p>
+      <p class="prompt" id="prompt">张磊是做什么的？</p>
+      <p class="k">轨迹</p>
+      <div class="trace" id="trace">
+        <details class="step">
+          <summary><span class="tool">read_resume</span><span class="arg">简介</span><span class="ms">0.8s</span></summary>
+          <div class="result"><p>10 年研发。2023 年起做大模型应用，后来做到多智能体、实时多模态和 Agent Harness。现在在蚂蚁集团财保事业群。</p><p class="result-links"><a href="/#work">工作</a></p></div>
+        </details>
+        <details class="step">
+          <summary><span class="tool">open_case</span><span class="arg">大保</span><span class="ms">1.1s</span></summary>
+          <div class="result"><p>面向蚁小保持续迭代。大保 CLI 是统一内核，定时任务沿生产回流、问题发现、分级修复、沙箱验证、评测门禁，再发布回流。同一套 CLI 也接到钉钉。</p><p class="result-links"><a href="/work/case-02">大保 Harness</a></p></div>
+        </details>
+        <details class="step">
+          <summary><span class="tool">open_case</span><span class="arg">相机</span><span class="ms">0.9s</span></summary>
+          <div class="result"><p>蚁小保里的实时音视频把媒体和业务推理分开。链路是 VAD / ASR，然后模型推理，再 TTS。人可以插话。这一轮的画面在话说完时和识别文本一起交出去。</p><p class="result-links"><a href="/work/case-01">蚁小保</a></p></div>
+        </details>
+        <details class="step">
+          <summary><span class="tool">run_eval</span><span class="arg">路由</span><span class="ms">1.0s</span></summary>
+          <div class="result"><p>案例页上写的是：路由结合粗分流、槽位校验和澄清补齐，项目评测里路由准确率达到 90%。</p><p class="result-links"><a href="/work/case-01">写在蚁小保</a></p></div>
+        </details>
+      </div>
+      <p class="k">答</p>
+      <h1 class="answer" id="answer">我在蚂蚁做保险场景的 Agent。相机和实时语音在<a href="/work/case-01">蚁小保</a>。线上的问题回来，修完，在沙箱里验过，评测过了再发出去，是<a href="/work/case-02">大保</a>这条循环。</h1>
+      <div class="prompts" role="toolbar" aria-label="换一个问题">
+        <button type="button" data-run="work" aria-pressed="false">他做过什么？</button>
+        <button type="button" data-run="dabao" aria-pressed="false">大保是什么？</button>
+        <button type="button" data-run="camera" aria-pressed="false">相机和实时语音？</button>
+        <button type="button" data-run="blog" aria-pressed="false">最近在写什么？</button>
+      </div>
+    </section>
+  </div>
+</div>
+<div class="wrap">
 <h2 id="work">工作</h2>
 <p class="piece"><a href="/work/case-01">蚁小保</a><br><span class="quiet">蚂蚁集团。面向选品、投保、退保等保险服务的多 Agent 应用。协调者和领域专家一起处理跨业务任务，IM 对话延伸到图片问答、实时语音，以及边看边聊。</span></p><p class="piece"><a href="/work/case-02">大保 Harness</a><br><span class="quiet">蚂蚁集团。面向蚁小保持续迭代的 Agent Harness，以大保 CLI 为统一内核。定时任务通过 CLI 驱动一条由生产反馈触发的自迭代：生产回流，问题发现，分级修复，沙箱验证，评测门禁，再发布回流。同一套 CLI 再以钉钉 Bot 为入口开放给团队。</span></p><p class="piece"><a href="/work/case-03">数据工厂</a><br><span class="quiet">蚂蚁集团。面向大模型后训练的数据质量迭代，把生产数据回流、样本加工、质量校验和评测挖掘接在一起。同时自研一套对话式的用户分析工具，用自然语言看用户行为。</span></p><p class="piece"><a href="/work/case-04">京东领航者</a><br><span class="quiet">京东集团。用对话串起营销费用、活动、人群和数据分析，并独立做了统一 RAG 平台。2023 年京东云峰会宣讲过初版。</span></p><p class="piece"><a href="/work/case-05">京东金融首页 Feed</a><br><span class="quiet">京东集团。内容规模扩大到原来的 20 倍，服务要同时守住内存、吞吐和尾延时。</span></p><p class="piece"><a href="/work/case-06">京东金融智能问答</a><br><span class="quiet">京东集团。让金融问答的流程可以配置、可以迭代，同时线上正在进行的会话不要断。</span></p><p class="piece"><a href="/work/case-07">在线商城与异常检测</a><br><span class="quiet">高思教育。参与 ToB 和 ToC 商城，并独立做了一套业务数据异常检测。</span></p><p class="piece"><a href="/work/case-08">信贷基础服务平台</a><br><span class="quiet">百度金融。2017 年 6 月到 2020 年 5 月，参与信贷基础服务平台从零搭建，为风控、交易、分发和核心系统提供统一助贷能力。</span></p>
 <h2>经历</h2>
@@ -84,8 +94,9 @@
 <p><a href="mailto:wsejoy@gmail.com">wsejoy@gmail.com</a></p>
 <p><a href="tel:+8613121000112">13121000112</a></p>
 <p>微信 wsejoy</p>
-</main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+</main>
+<script src="/console.js"></script>
 </body>
 </html>

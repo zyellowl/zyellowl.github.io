@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>语音回合的时间我从采集算起 — 张磊</title>
+  <title>语音这一跳从采集和端点算起，模型首字只是中间的一段时间 — 张磊</title>
   <meta name="description" content="模型首字只是中间。前面有端点判定，后面有合成和播放缓冲。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2024-05-30">2024 年 5 月 30 日</time></p>
-<h1>语音回合的时间我从采集算起</h1>
+<h1>语音这一跳从采集和端点算起，模型首字只是中间的一段时间</h1>
 <p>五月底画了一条不绑厂商的语音回合，给以后接接口用。数字先空着，格子先有名字。</p>
 <p>用户说完到系统认定说完，中间有一段静音判定。这段发生在调用模型之前，却经常被算进模型慢。判定短了会切断，长了用户觉得没反应。</p>
 <p>如果先转写再调文本模型，就是两段等待。语音进语音出的接口中间也可能排队，演示里看不见。</p>

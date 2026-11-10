@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Claude 的 SDK 和 DeepSeek Harness — 张磊</title>
+  <title>Claude SDK 里的 result 不等于结束，DeepSeek 的 append 先停在内存 — 张磊</title>
   <meta name="description" content="Claude 这边我只看了公开的 Python SDK。DeepSeek Harness 看的是公开仓库里日志和压缩怎么写。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2026-08-22">2026 年 8 月 22 日</time></p>
-<h1>Claude 的 SDK 和 DeepSeek Harness</h1>
+<h1>Claude SDK 里的 result 不等于结束，DeepSeek 的 append 先停在内存</h1>
 <p>Claude Code 本体不是公开源码。我打开的是 claude-agent-sdk-python，看它怎么拉起 CLI、stdout 上除了文本还有没有控制消息。有。权限一类的请求会从子进程绕回来。我没据此去猜 CLI 里面怎么规划。</p>
 <p>有一段注释让我停下来：拿到 result 也不等于事情结束，因为还可能有没完成的任务。我把这句抄在旁边。抄注释比自己总结安全。</p>
 <p>DeepSeek Harness 的公开仓库里，session.append 看下来是先进入内存里的序列。写盘是后面的事。我以前会把 append 说成已经落盘，这次不敢这么说了。</p>

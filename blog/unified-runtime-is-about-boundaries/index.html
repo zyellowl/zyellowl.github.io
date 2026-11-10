@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>语音和文本不该共用一个超时 — 张磊</title>
+  <title>开口语音、离线复查和编码命令不能共用同一个超时 — 张磊</title>
   <meta name="description" content="我想统一的是拒绝、编号、空了就停、能重看。不想统一的是时钟。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 </header>
 <main id="content">
 <p class="quiet"><time datetime="2026-03-05">2026 年 3 月 5 日</time></p>
-<h1>语音和文本不该共用一个超时</h1>
+<h1>开口语音、离线复查和编码命令不能共用同一个超时</h1>
 <p>写一个大对象，里面有会话、模型、工具、语音、日志，演示起来像平台。排查的时候没人知道状态在哪。</p>
 <p>开口的语音、离线复查、编码时跑的命令，超时和打断都不一样。一个默认值会牺牲其中一条。</p>
 <p>文字进来和语音端点进来可以是两边的适配。适配把外面的事件变成一次提交或一次停止，不各自发明一套成功。</p>
