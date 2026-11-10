@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>看了 Codex 和 Pi 的公开仓库 — 张磊</title>
+  <meta name="description" content="两个仓库都克隆了。我先找谁真正把任务跑起来。名字最像入口的类，我看错过一次。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet"><time datetime="2026-08-11">2026 年 8 月 11 日</time></p>
+<h1>看了 Codex 和 Pi 的公开仓库</h1>
+<p>八月上旬把 openai/codex 和 badlogic/pi-mono 克隆到本地，只看公开代码。没有跟任何内部仓库对。</p>
+<p>Codex 里我先搜 submit。外部丢进来的东西要进到一个会话循环里，忙的时候新输入更像是插话，不是再开一个循环。我把这个理解写在笔记本上，旁边标了问号，因为我只跟了几条函数，没有把测试跑全。</p>
+<p>Pi 更小。agent 循环本身不长，真正组装会话的在更外层。我一开始从 AgentHarness 看，后来发现生产路径不是从那儿进来的。看错入口这事我记一笔。</p>
+<p>两边都有工具做完的时间和结果交给模型的时间。我用自己的话写：谁先做完可以不一样，交给模型的次序别跟着谁先返回。这句话我还没在两个仓库里都写成能复现的测试，先当阅读笔记。</p>
+<p>克隆下来的目录我没删，方便下周接着翻。</p>
+<p>笔记本上那句关于工具次序，旁边的问号还在。问号表示我还没把两边的测试跑完，先别写进别的文档。</p>
+<p>问号还在笔记本上。没有跑完测试之前，这句不抄进别的文档。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
+</html>

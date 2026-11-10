@@ -26,15 +26,40 @@
 </header>
 <main id="content">
 <p class="role">AI Agent 开发工程师</p>
-<figure class="turn">
-  <div class="finder" aria-hidden="true">
-    <svg viewBox="0 0 800 450" fill="none">
-      <path d="M28 232 C70 232 78 168 118 160 C158 152 168 300 214 292 C252 286 270 210 312 198 C354 186 372 128 418 146 C464 164 478 312 528 286 C578 260 612 232 772 232" stroke="#1b2421" stroke-width="1.6"/>
-      <path d="M250 108 H292 M250 108 V150 M550 108 H508 M550 108 V150 M250 342 H292 M250 342 V300 M550 342 H508 M550 342 V300" stroke="#1b2421" stroke-width="1.35"/>
-    </svg>
-    <span class="slit"></span>
-  </div>
-  <figcaption class="say">一轮话里，系统听完这一轮，收下同一轮的画面，再从执行记录里决定下一版要不要改。</figcaption>
+<figure class="loop">
+  <svg viewBox="0 0 640 250" role="img" aria-labelledby="loop-title">
+    <title id="loop-title">大保的循环：生产回流，问题发现，分级修复，沙箱验证，评测门禁，发布回流，再回到生产回流</title>
+    <defs>
+      <path id="loop-route" d="M 111 52 H 529 V 188 H 111 Z"/>
+    </defs>
+    <path d="M 111 52 H 529 V 188 H 111 Z" fill="none" stroke="#c5ccc6" stroke-width="1.5"/>
+    <polygon points="226,46 238,52 226,58" fill="#1b2421"/>
+    <polygon points="414,46 426,52 414,58" fill="#1b2421"/>
+    <polygon points="523,144 529,156 535,144" fill="#1b2421"/>
+    <polygon points="414,194 402,188 414,182" fill="#1b2421"/>
+    <polygon points="204,194 192,188 204,182" fill="#1b2421"/>
+    <polygon points="105,96 111,84 117,96" fill="#1b2421"/>
+    <g fill="#f4f5f2" stroke="#1b2421" stroke-width="1.25">
+      <rect x="36" y="28" width="150" height="48"/>
+      <rect x="245" y="28" width="150" height="48"/>
+      <rect x="454" y="28" width="150" height="48"/>
+      <rect x="454" y="164" width="150" height="48"/>
+      <rect x="245" y="164" width="150" height="48"/>
+      <rect x="36" y="164" width="150" height="48"/>
+    </g>
+    <text x="111" y="58" text-anchor="middle">生产回流</text>
+    <text x="320" y="58" text-anchor="middle">问题发现</text>
+    <text x="529" y="58" text-anchor="middle">分级修复</text>
+    <text x="529" y="194" text-anchor="middle">沙箱验证</text>
+    <text x="320" y="194" text-anchor="middle">评测门禁</text>
+    <text x="111" y="194" text-anchor="middle">发布回流</text>
+    <circle class="loop-dot" r="5">
+      <animateMotion dur="3.2s" repeatCount="1" fill="freeze">
+        <mpath href="#loop-route"/>
+      </animateMotion>
+    </circle>
+  </svg>
+  <figcaption class="say">我在蚂蚁做保险场景的 Agent，做相机和实时语音，也做大保这条循环：线上的问题回来，修完，在沙箱里验过，评测过了再发出去。</figcaption>
 </figure>
 <p class="intro">10 年研发经验，2023 年起从事大模型应用研发，逐步深入多智能体、实时多模态与 Agent Harness。主导蚁小保相机与实时音视频，深度参与 IM 多智能体及大保自迭代 Loop，构建基于大保 CLI 的团队协作 Bot。自研对话式用户分析洞察工具，负责后训练评测挖掘平台。具备金融业务后端与性能优化基础，工程实践覆盖数据生产、Agent 交互，以及线上问题发现、修复与验证。</p>
 <h2 id="work">工作</h2>
