@@ -1,21 +1,14 @@
-# Jojoo Portfolio
+# 张磊
 
-[Jojoo](https://jojoo.cc/) is a public personal portfolio and AI engineering blog. It presents verified experience and project evidence first, with AI chat as a secondary way to explore the same public material.
+[jojoo.cc](https://jojoo.cc/) 是张磊的个人站点。
 
-## Public sections
+- 首页是介绍和项目
+- [文章](blog/) 是 coding agent 运行时笔记
+- [想法](thoughts/) 是三则短记
+- [作品](products/) 是工作之外做的东西
 
-- **Home** — profile, representative work, skills, experience and education
-- **Blog** — source-backed articles about coding agents, harnesses and AI engineering
-- **Chat** — a public entry for asking about approved portfolio facts
-- **Thoughts** — shorter technical notes and observations
+站点是静态页面，由 `main` 部署到 GitHub Pages。`CNAME` 指向 jojoo.cc。
 
-## Deployment
+Chat 暂不开放。访问 `/chat` 会回到首页。
 
-This repository contains the static GitHub Pages output served from the `main` branch:
-
-- `CNAME` maps the Pages site to `jojoo.cc`.
-- `.nojekyll` keeps the generated output unchanged.
-- `index.html` and `404.html` bootstrap the site.
-- `blog/`, `chat/`, `thoughts/` and their assets contain the public routes.
-
-Only explicitly approved public content belongs in this repository. Third-party attributions are recorded in [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
+改版前的整站在 tag `pre-redesign-20261110`。

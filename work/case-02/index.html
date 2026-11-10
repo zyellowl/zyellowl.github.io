@@ -1,20 +1,32 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f2f7f8" />
-    <link rel="icon" type="image/png" href="/assets/favicon-transparent-6LjMKZ8U.png" />
-    <link rel="apple-touch-icon" href="/assets/chatone-logo-BF7EnIk7.png" />
-    <meta
-      name="description"
-      content="一份可以追问、只引用本人确认公开资料的个人职业档案"
-    />
-    <title>Personal Career Agent</title>
-    <script type="module" crossorigin src="/assets/index-CuxiPvSn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DTQFF_jO.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大保 Harness — 张磊</title>
+  <meta name="description" content="面向蚁小保持续迭代的 Agent Harness，以大保 CLI 为统一内核。定时任务通过 CLI 驱动一条由生产反馈触发的自迭代：生产回流，问题发现，分级修复，沙箱验证，评测门禁，再发布回流。同一套 CLI 再以钉钉 Bot 为入口开放给团队。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="where">蚂蚁集团</p><h1>大保 Harness</h1><p class="lede">面向蚁小保持续迭代的 Agent Harness，以大保 CLI 为统一内核。定时任务通过 CLI 驱动一条由生产反馈触发的自迭代：生产回流，问题发现，分级修复，沙箱验证，评测门禁，再发布回流。同一套 CLI 再以钉钉 Bot 为入口开放给团队。</p><p>深度参与大保 Hub、CLI 及配套 Skill，参与自迭代里的问题发现、治理修复和实验验证。负责大保 Bot 的构建，基于本机运行时调度 Codex，并把结果发到钉钉。</p><figure><img src="/assets/harness-CU0TIulB.svg" alt="从生产执行记录发现问题，分级修复、沙箱验证、评测发布后继续观察。"><figcaption>从生产执行记录发现问题，分级修复、沙箱验证、评测发布后继续观察。</figcaption></figure><h2>Trace 驱动的问题发现</h2><p>线上对话和执行 Trace 回到治理链路，覆盖工具调用、上下文组装，以及 Agent 与子 Agent 的路径。定时任务循环扫描，用规则评测和模型语义评测检查回答和执行链路，按问题类型进入治理。诊断和修复可以回到原始执行证据。</p><h2>自动修复与验证闭环</h2><p>部分简单问题会自动修复。Prompt 等治理改动放进 Sandbox，在按生产标准复刻的环境里复现并验证。通过评测门禁后合并，随发布班车上线，再用新产生的对话 Trace 做下一轮检查。</p><h2>Hub 与编码 Agent</h2><p>Hub 承载问题、治理、实验和评测。CLI 与 Skill 向 Codex、Claude Code 等编码 Agent 提供经过企业登录和鉴权的日志与上下文，把线上执行证据接到研发诊断，让编码 Agent 按完整调用链看问题。</p><h2>大保 Bot</h2><p>钉钉 Bot 是团队入口，底层复用大保 CLI。本机运行时调度 Codex，做问题排查、文档撰写和总结，再把结果回传到群聊。</p><p>组里每个人把自己负责的模块沉淀成 Harness：上下文、排查手册和 Skill。Bot 按需加载、组合。团队知识从文档和口口相传，变成 Agent 可以执行的能力。Bot 再按 Harness 的归属，呈现各模块的负责人、贡献，以及业务链路怎么跑。</p><p class="pager"><a href="/work/case-01">上一则 蚁小保</a><a href="/work/case-03">下一则 数据工厂</a></p></main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
 </html>

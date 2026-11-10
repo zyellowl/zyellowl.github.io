@@ -1,20 +1,149 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f2f7f8" />
-    <link rel="icon" type="image/png" href="/assets/favicon-transparent-6LjMKZ8U.png" />
-    <link rel="apple-touch-icon" href="/assets/chatone-logo-BF7EnIk7.png" />
-    <meta
-      name="description"
-      content="一份可以追问、只引用本人确认公开资料的个人职业档案"
-    />
-    <title>Personal Career Agent</title>
-    <script type="module" crossorigin src="/assets/index-CuxiPvSn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DTQFF_jO.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code：公开 SDK 真正暴露了什么 — 张磊</title>
+  <meta name="description" content="不消费泄漏材料，只沿 MIT Python wrapper 的进程、反向控制、结束条件与恢复副本，建立可验证也不过界的运行时认识。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet">Claude Code / 公开边界，2026 年 8 月 26 日</p><h1>Claude Code：公开 SDK 真正暴露了什么</h1><p class="lede">研究私有核心最容易犯的错，是把猜测写成源码结论。Claude Agent SDK 的公开 wrapper 已经足够揭示一个成熟宿主如何驱动本地 CLI，也同样清楚地告诉我们：边界协议不能被拿来反推边界另一侧的完整实现。</p><p class="quiet">Claude Code 核心 CLI 是 proprietary 私有实现。本文只使用 anthropics/claude-agent-sdk-python 固定提交 542fefb3b94be87760b2513fff889b91bb5b6672 的公开 SDK、官方仓库许可与官方行为文档；任何泄漏、镜像、反编译或来历不明的源码都不作为证据。</p><h2>先分清三层证据，才有资格谈源码</h2><p>第一层是 Claude Code 产品仓库与其许可，它可以证明官方发布入口、行为文档和商业边界，却不是完整 CLI 核心的开源实现。第二层是采用开放许可的 Python Agent SDK wrapper，我们能对它逐文件、逐 symbol 审计。第三层是会持续变化的官方产品文档，它能支持行为契约，却不能证明 wrapper 没有展示的内部算法。把三层混在一起，就会把“官方可见”偷换成“核心已开源”。</p><p>SDK 的 README 与分发信息还揭示了一条重要事实：Python 包会驱动捆绑或系统中的 Claude Code CLI，但 wrapper 与 CLI 仍受不同许可边界约束。能读到 <code>SubprocessCLITransport</code>，只说明宿主怎样启动和通信；它不能证明私有 CLI 怎样拼装提示词、怎样规划任务，或终端产品与 SDK 在任何版本都功能等价。边界上的流量不是边界另一侧的类图。</p><p>所谓泄漏材料不进入本文，不只是因为法律风险。它通常没有可信版本链、完整构建上下文和可复核许可，技术上也可能只是 bundle、缓存或二次改写。用它补齐故事，会让读者无法区分观察和想象。高质量研究宁可明确写“公开证据无法回答”，也不靠一段来历不明的代码制造深度感。</p><p class="note"><strong>本文用语。</strong>“观察”来自固定公开源码；“官方行为”来自文档；“托管推论”是我对云部署的判断。三者不会互相冒充。</p><h3>公开 Python 入口把一次查询交给内部客户端与本地 transport，而不是直接调用一个远程聊天补全接口。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/query.py。query</p>
+<pre><code>if options is None:
+    options = ClaudeAgentOptions()
+
+client = InternalClient()
+
+async for message in client.process_query(
+    prompt=prompt, options=options, transport=transport
+):
+    yield message</code></pre>
+<ul><li>第 6 行，公开入口。query() 只补默认 options，再把输入交给 InternalClient，并异步转发解析后的 Message。</li><li>第 9 行，边界。这段是 Python SDK wrapper 的入口，不是 Claude Code 私有 agent loop 的实现。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/query.py">打开这一版源码</a></p><h3>公开类型暴露权限回调、hook、沙箱和会话选项的宿主契约，但不公开私有 CLI 内部调度算法。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/types.py。ClaudeAgentOptions，PermissionResult，HookContext</p>
+<pre><code>permission_mode: PermissionMode | None = None
+&quot;&quot;&quot;Permission mode for the session.
+
+- ``&quot;default&quot;`` — Standard permission behavior; prompts for dangerous operations.
+- ``&quot;acceptEdits&quot;`` — Auto-accept file edit operations.
+- ``&quot;bypassPermissions&quot;`` — Bypass all permission checks.
+- ``&quot;plan&quot;`` — Planning mode, no execution of tools.
+- ``&quot;dontAsk&quot;`` — Don&#39;t prompt for permissions; deny if not pre-approved.
+&quot;&quot;&quot;</code></pre>
+<ul><li>第 1 行，公开政策选项。ClaudeAgentOptions 把 permission mode 暴露为宿主可配置契约，行为选项包含默认、编辑放行、计划与拒问。</li><li>第 9 行，边界。类型声明说明可配置面，不公开私有 CLI 如何逐项解释规则、调度工具或实现 sandbox。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/types.py">打开这一版源码</a></p><h2>SDK 的真实形状是一名进程管理员</h2><p>观察：一次 <code>query()</code> 进入 <code>InternalClient.process_query</code>，在需要时准备 SessionStore 的 resume materialization，随后由 <code>_process_query_inner</code> 创建 <code>SubprocessCLITransport</code>。transport 查找捆绑或系统 CLI、组装 stream-json 参数，并用 anyio 建立子进程 stdin/stdout。它不是把 prompt 包成 JSON 直接发到一个聊天端点，而是在宿主进程里管理另一个本地运行时。</p><p>进程边界带来真实能力继承。cwd、用户身份、文件权限、可见环境与网络条件来自宿主；transport 会处理环境字段，但这不等于它自动建立了租户隔离。对于桌面工具，继承用户环境很方便；对于公网服务，同样的行为可能把部署凭据、共享目录和主机网络暴露给访客触发的会话。SDK 可运行，不代表默认拓扑可多租户。</p><p>托管推论：每次公开会话至少需要独立工作目录、环境变量白名单、CPU/内存/进程数限制、出网策略、超时与可观察的 shutdown。会话 resume 还要求同一身份映射到正确持久化记录。把 <code>ClaudeSDKClient</code> 接上一条 WebSocket 只能证明 demo 通了；没有上述边界，Agent 的能力就等于云服务器账户的能力。</p><h3>InternalClient 负责恢复材料准备、transport 构造和 Query 生命周期，是宿主到子进程的组合入口。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/_internal/client.py。InternalClient.process_query，_process_query_inner</p>
+<pre><code># Use provided transport or create subprocess transport
+if transport is not None:
+    chosen_transport = transport
+else:
+    chosen_transport = SubprocessCLITransport(
+        prompt=prompt,
+        options=configured_options,
+    )
+
+# Connect transport
+await chosen_transport.connect()</code></pre>
+<ul><li>第 2 行，组合边界。宿主可以注入自定义 transport；默认路径则构造 SubprocessCLITransport 并显式 connect。</li><li>第 11 行，边界。SDK 能证明宿主如何启动和对接 CLI，不能据此还原 CLI 内部的规划、调度或提示词。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/_internal/client.py">打开这一版源码</a></p><h3>transport 查找并启动本地 CLI，通过 stdin/stdout stream-json 通信，cwd、环境和进程权限由宿主边界提供。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/_internal/transport/subprocess_cli.py。SubprocessCLITransport.connect，close</p>
+<pre><code>self._process = await anyio.open_process(
+    cmd,
+    stdin=PIPE,
+    stdout=PIPE,
+    stderr=stderr_dest,
+    cwd=self._cwd,
+    env=process_env,
+    user=self._options.user,
+)
+_ACTIVE_CHILDREN.add(self._process)
+
+if self._process.stdout:
+    self._stdout_stream = TextReceiveStream(self._process.stdout)</code></pre>
+<ul><li>第 1 行，本地进程边界。默认 transport 用 anyio 启动 CLI 子进程，并把 stdin/stdout 接成 SDK 控制与消息通道。</li><li>第 8 行，边界。cwd、env 与 user 来自宿主配置；这段并不说明 CLI 内的工具最终具有哪些系统权限。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/_internal/transport/subprocess_cli.py">打开这一版源码</a></p><h2>stdout 不是 token 流，而是反向 RPC 总线</h2><p><code>Query._read_messages</code> 会把普通 assistant/result、<code>control_request</code>、<code>control_response</code>、<code>control_cancel_request</code> 与 <code>transcript_mirror</code> 分流。收到 <code>can_use_tool</code> 时，wrapper 在宿主执行权限回调；hooks 和进程内 SDK MCP 也沿控制面工作，最后写回关联的 control response。模型数据与政策协商共用 stream-json transport，却由不同消息类型保持身份。</p><p>这解释了为什么 Agent UI 不能只有一个 loading 布尔值。生成过程中可能暂停等待权限，宿主 hook 可能修改决策，工具可能在宿主进程执行，取消请求也要与正在等待的控制调用对应。前端至少应区分 generating、waiting-for-policy、tool-running、interrupted 与 completed，并让重连根据服务器事件恢复，而不是从最后一段文字猜状态。</p><p>反向 RPC 同样扩大了故障面：如果宿主过早关闭 stdin，CLI 之后发出的权限请求将永远得不到 response；如果回调无限等待，数据流也会看似卡住。正确做法是为每个控制请求分配 id、截止时间和确定的 deny-on-timeout 结果，同时让取消路径能唤醒等待者。结构化协议的价值，就在于这些故障可以被命名和测试。</p><h3>stdout 同时承载普通消息、result、控制请求、取消与 transcript mirror，形成可回调宿主的双向控制总线。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/_internal/query.py。Query._read_messages，_handle_control_request，_send_control_response</p>
+<pre><code>elif msg_type == &quot;control_request&quot;:
+    # Handle incoming control requests from CLI
+    # Cast message to SDKControlRequest for type safety
+    request: SDKControlRequest = message  # type: ignore[assignment]
+    if not self._closed:
+        self._spawn_control_request_handler(request)
+    continue
+
+elif msg_type == &quot;control_cancel_request&quot;:
+    cancel_id = message.get(&quot;request_id&quot;)
+    if cancel_id:
+        inflight = self._inflight_requests.pop(cancel_id, None)
+        if inflight:
+            inflight.cancel()</code></pre>
+<ul><li>第 1 行，双向控制。CLI 的 stdout 不只传普通消息，还能请求宿主回调并取消尚在处理的 control request。</li><li>第 6 行，边界。路由器处理的是 SDK 控制协议；具体 permission、hook 或 MCP 决策仍由对应 handler/callback 完成。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/_internal/query.py">打开这一版源码</a></p><figure><img src="/blog-assets/claude-control-channel.svg" alt="宿主通过公开 Python wrapper 与私有 CLI 双向通信，恢复镜像是独立的尽力写入支线。"><figcaption>绿色与紫色区域可以由公开提交验证；红色虚线内的私有 CLI 只能依据官方行为契约讨论，不能由 wrapper 反推。</figcaption></figure><h2>拿到 result，仍不等于拥有完整结束条件</h2><p>公开 wrapper 不会在看到第一个 result 时无条件关输入。它维护 <code>_inflight_tasks</code>，对 <code>local_agent</code> 与 <code>local_workflow</code> 的生命周期做有限跟踪；只有 result 已到且集合为空，相关 event 才允许推进 <code>end_input</code>。这解决了一个常见失败：后台任务仍可能通过控制通道请求权限，宿主若提前关 stdin，就把一个正常 run 截断成随机错误。</p><p>但源码注释明确否定了“问题已完全解决”。任务可能在 result 之前 settle，使集合暂时为空，而 continuation 尚未发生；shell/monitor 等长驻任务又被有意排除，避免永不结束。多消息 <code>AsyncIterable</code> 在第一回合没有被跟踪任务时也可能提前关闭 stdin。当前 ledger 是对已知竞态的 mitigation，不是一份由 CLI 明确声明的 run-boundary 协议。</p><p>这类自我否定比成功路径更值得写进文章。成熟设计应该由运行时发布明确的 turn end、run quiescent 与 session alive 状态，宿主不必从有限任务集合推导完成。现在的 wrapper 已经比“result 文本等于完成”可靠，但部署方仍需记录版本、覆盖反例测试，并避免把一个实现性补丁宣传成形式化保证。</p><p class="note"><strong>必须保留的反例。</strong>有限 task ledger 既不能覆盖所有后台活动，也可能在任务先于 result settle 时误判。它降低风险，但没有消灭终止歧义。</p><h3>wrapper 只跟踪有限任务类型来延后关闭输入，源码注释明确把它描述为 mitigation 而非完整 run-boundary。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/_internal/query.py。_track_task_lifecycle，_has_bidirectional_needs，wait_for_result_and_end_input</p>
+<pre><code>subtype = message.get(&quot;subtype&quot;)
+task_id = message.get(&quot;task_id&quot;)
+if not task_id:
+    return
+if subtype == &quot;task_started&quot;:
+    if message.get(&quot;task_type&quot;) in DEFERRING_TASK_TYPES:
+        self._inflight_tasks.add(task_id)
+elif subtype == &quot;task_notification&quot;:
+    self._inflight_tasks.discard(task_id)
+elif subtype == &quot;task_updated&quot;:
+    patch = message.get(&quot;patch&quot;)
+    status = patch.get(&quot;status&quot;) if isinstance(patch, dict) else None
+    if status in TERMINAL_TASK_STATUSES:
+        self._inflight_tasks.discard(task_id)</code></pre>
+<ul><li>第 7 行，有限账本。wrapper 依据 task lifecycle frame 维护已知的 deferring task 集合，用它延后关闭输入。</li><li>第 14 行，明确局限。源码注释称其为 mitigation：空集合只代表没有已知任务，不是 CLI 提供的完整 run-boundary 信号。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/_internal/query.py">打开这一版源码</a></p><h2>Transcript mirror 是恢复副本，不是审计账本</h2><p>只有配置 SessionStore 时，Query 才安装 transcript mirror batcher。mirror frame 会从普通 stdout 消费流中被剥离，在 result 前刷新，EOF 时再处理迟到批次。这个机制让宿主可以保存会话副本并支持恢复，却没有把每条消息的写入变成主执行路径上的强一致事务。没有 store 时，mirror 也不会神奇地落到别处。</p><p>最重要的是按失败类型分流：普通 append 异常会在固定上限内退避重试；<code>TimeoutError</code> 明确不重试，因为不可取消的 I/O 仍可能最终落盘，贸然重试会制造并发重复。buffer 满时连 <code>mirror_error</code> 通知都可能丢失。这个取舍避免恢复存储故障拖死业务 result，却仍允许镜像出现缺口或迟到写入。把它称为“append-only 审计日志”会误导合规和事故分析。</p><p>如果业务真的需要审计，宿主应另行记录请求配置 revision、权限判决、工具调用 id、副作用幂等键、外部系统回执与最终验收。Transcript mirror 可以帮助恢复对话语境，却不能单独回答“这封邮件是否发出”“部署是否成功”“谁批准了写入”。恢复视图与责任证据是两个产品，不应因为都叫日志就合并。</p><h3>transcript mirror 采用批处理的尽力写入；普通异常有限重试，超时为避免重复落盘而不重试，因此不能被描述为强一致审计账本。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/_internal/transcript_mirror_batcher.py。TranscriptMirrorBatcher，flush</p>
+<pre><code>for attempt in range(MIRROR_APPEND_MAX_ATTEMPTS):
+    if attempt &gt; 0:
+        await anyio.sleep(MIRROR_APPEND_BACKOFF_S[attempt - 1])
+    try:
+        with anyio.fail_after(self.send_timeout):
+            await self.store.append(key, entries)
+        succeeded = True
+        break
+    except TimeoutError as e:
+        # Don&#39;t retry on timeout: the cancel scope cancels the
+        # task but cancellation is best-effort for adapters
+        # wrapping non-cancellable I/O, so the in-flight call may
+        # still land — a retry would launch a concurrent
+        # duplicate. Also keeps worst-case lock hold at</code></pre>
+<ul><li>第 1 行，有限重试。普通 append 异常会在固定上限内退避重试；这直接纠正了“一切失败都不重试”的过度概括。</li><li>第 9 行，超时边界。超时不重试，因为不可取消 I/O 仍可能落盘，重试会制造并发重复；mirror 因而仍不是强一致主账本。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/_internal/transcript_mirror_batcher.py">打开这一版源码</a></p><h3>SessionStore 是可插拔的恢复存储契约，但 SDK 并未把业务副作用与政策判决自动提升为事务审计记录。</h3>
+<p class="quiet">anthropics/claude-agent-sdk-python，542fefb3b94be87760b2513fff889b91bb5b6672，src/claude_agent_sdk/_internal/session_store.py。SessionStore，StoredMessage</p>
+<pre><code>class SessionStore(Protocol):
+    &quot;&quot;&quot;Adapter for mirroring session transcripts to external storage.
+
+    The subprocess still writes to local disk (set ``CLAUDE_CONFIG_DIR=/tmp``
+    for an ephemeral local copy); the adapter receives a secondary copy.
+
+    The SDK never deletes from your store unless you call
+    ``delete_session_via_store()`` with :meth:`delete` implemented. Retention is
+    the adapter&#39;s responsibility —</code></pre>
+<ul><li>第 5 行，次级副本。SessionStore 的公开契约明确称 adapter 接收 secondary copy；CLI 仍把本地 transcript 写入自己的目录。</li><li>第 7 行，边界。接口只覆盖 transcript 镜像与恢复，不自动记录业务数据库副作用、授权理由或外部事务提交。</li></ul>
+<p><a href="https://github.com/anthropics/claude-agent-sdk-python/blob/542fefb3b94be87760b2513fff889b91bb5b6672/src/claude_agent_sdk/_internal/session_store.py">打开这一版源码</a></p><figure><img src="/blog-assets/claude-run-boundary.svg" alt="Claude Agent SDK 收到 result 后还要检查有限任务 ledger，而 transcript mirror 采用独立的尽力写入路径。"><figcaption>有限 task ledger 只是延后关闭 stdin 的 mitigation；mirror 对普通异常有限重试、对超时避免重复写入，因此两者都不能冒充完整运行或审计边界。</figcaption></figure><h2>Permission、sandbox、checkpoint 是三种承诺</h2><p>官方行为链把 hooks、显式 deny/ask、permission mode、allow 与 <code>canUseTool</code> 组合起来。一个容易踩的点是：更早已批准的调用未必还会经过 <code>canUseTool</code>；若想观察每次调用，应使用合适的 PreToolUse hook。<code>allowed_tools</code> 表示预批准，不等于模型只看得到这些工具；移除能力与批准能力必须分开表达。</p><p>sandbox 限制命令在操作系统层能造成的后果，permission 记录意图是否被允许；checkpoint 则尝试恢复被直接编辑工具追踪的文件。它们覆盖面不同。外部邮件、数据库写入、云部署、支付和 Bash 产生的复杂副作用，不会因为回滚文件就消失。沙箱不可用时是否 fail closed 也必须由部署配置明确，不能默许降级到非隔离执行。</p><p>对个人认知网站，三层可以更简单也更严格：访客模式没有任意 shell，因此不需要用频繁弹窗装安全；容器只读挂载经过脱敏的简历知识；所有回答先过主题与敏感信息 guard；超过每会话 20 次调用就停止。拥有者模式若增加写工具，再单独引入授权、隔离和外部副作用回执，而不是复用公开会话的宽松策略。</p><h2>能从公开边界学到什么，也不能声称什么</h2><p>可以确认的是：官方 Python wrapper 以宿主 + 本地 CLI 子进程组成运行时；stream-json 同时传输数据与反向控制；Query 对权限、hook、MCP、取消和有限 task 生命周期做协调；SessionStore mirror 提供尽力恢复路径。这些结论都能落到固定文件、symbol 与哈希，不需要碰私有源码。</p><p>不能确认的是：私有 CLI 内部完整 planner、prompt 拼装、上下文启发式、工具实现图，或者 SDK 与终端产品在任意时刻绝对等价。公开边界也不能证明云端多租户安全。任何关于这些部分的设计建议都只能标作推论，并在上游版本变化时重新验证。说清不知道什么，并不会让文章变浅，反而让每个已知结论更可信。</p><p>我会借走两点：把控制请求当作正式 RPC，而不是散落的 callback；把结束条件和恢复存储当作需要故障注入的独立协议。但我不会复制“启动本地 CLI 即得到安全服务”这个错误捷径。对外服务的真正工作在宿主：进程隔离、数据分区、限流、隐私输出、审计和可回收的生命周期都必须自己负责。</p><h2>结论</h2><ul><li>公开 SDK 能审计的是宿主到 CLI 的边界，不能据此反推私有核心。</li><li>stdout 同时是消息流与反向控制总线，UI 和 shutdown 都必须理解结构化状态。</li><li>有限 task ledger 是 mitigation，不是完整 run-boundary；反例应成为回归测试。</li><li>Transcript mirror 优先保证业务继续，因而不能冒充强一致副作用审计。</li></ul><h2>可以复现的检查</h2><h3>输入结束后的权限回调</h3><p>当 CLI 只在收到用户输入后才发出 can_use_tool 时，宿主提前关闭 stdin 是否会稳定破坏控制响应？</p><ul><li>用 mock transport 在收到 user frame 后发 can_use_tool，并在收到对应 control_response 后才发 assistant/result。</li><li>先实现提前 end_input 的错误版本，再保留输入直到 Query 结束条件满足，记录两次消息序列。</li></ul><ul><li>错误版本出现 stdin closed 或控制请求无法完成，而不是一条正常 result。</li><li>修正后 permission callback 返回 allow，control response 写回，最终 result 正常到达。</li></ul><p class="quiet">Mock 只验证 wrapper 的双向协议契约，不揭示私有 CLI 内部怎样决定何时请求某个工具。</p><h3>磁盘失败不能伪装成完整审计</h3><p>当 SessionStore.append 抛出磁盘错误时，业务结果、mirror 批次和错误通知分别表现为什么？</p><ul><li>注入会在 append 时抛出 disk full 的 SessionStore，并让 Query 接收正常 assistant/result 与 mirror frames。</li><li>记录消费者看到的 result、mirror store 内容和 mirror_error，在小 buffer 下再制造通知拥塞。</li></ul><ul><li>业务 result 仍可以返回；普通 append 异常触发有上限重试，<code>TimeoutError</code> 不重试，store 中可能出现可验证缺口或迟到写入。</li><li>系统可能发出非致命 mirror_error；buffer 满时错误本身也可能丢，因此不能推断审计完整。</li></ul><p class="quiet">实验说明固定 SDK 的可用性取舍；生产审计仍需独立持久化和外部副作用回执。</p><p class="pager"><a href="/blog/codex-protocol-core">上一篇 一次 Codex 回合，究竟由谁拥有</a><a href="/blog/pi-minimal-kernel">下一篇 Pi 的小内核，并不等于简单循环</a></p></main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
 </html>

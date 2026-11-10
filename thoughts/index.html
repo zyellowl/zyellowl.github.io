@@ -1,20 +1,32 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f2f7f8" />
-    <link rel="icon" type="image/png" href="/assets/favicon-transparent-6LjMKZ8U.png" />
-    <link rel="apple-touch-icon" href="/assets/chatone-logo-BF7EnIk7.png" />
-    <meta
-      name="description"
-      content="一份可以追问、只引用本人确认公开资料的个人职业档案"
-    />
-    <title>Personal Career Agent</title>
-    <script type="module" crossorigin src="/assets/index-CuxiPvSn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DTQFF_jO.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>想法 — 张磊</title>
+  <meta name="description" content="三则从蚁小保和大保里留下来的短想法。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<h1>想法</h1><h2>插话之后，模型该记住哪一段</h2><p>一轮回复生成完的时候，用户可能只听了前半段。下一轮应该保留用户实际收到的范围。客户端在打断时回报播放进度，服务端在下一轮上下文里标出已播范围。</p><h2>工具该返回多少数据</h2><p>工具返回什么，取决于下一步分析需要什么。确认执行结果时，只回状态和条数，避免把整批明细再次送进模型。</p><h2>如何判断一次修复有效</h2><p>把线上问题还原到当时的执行记录，才能在沙箱里复现并检查改动。大保从生产 Trace 发现问题，改动通过验证和评测后合并，发布后再看新的 Trace。</p></main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
 </html>

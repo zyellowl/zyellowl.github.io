@@ -1,20 +1,170 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f2f7f8" />
-    <link rel="icon" type="image/png" href="/assets/favicon-transparent-6LjMKZ8U.png" />
-    <link rel="apple-touch-icon" href="/assets/chatone-logo-BF7EnIk7.png" />
-    <meta
-      name="description"
-      content="一份可以追问、只引用本人确认公开资料的个人职业档案"
-    />
-    <title>Personal Career Agent</title>
-    <script type="module" crossorigin src="/assets/index-CuxiPvSn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DTQFF_jO.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepSeek Harness：事件日志不是装饰层 — 张磊</title>
+  <meta name="description" content="从 profile 组合、Log/Surface 双历史到 checkpoint、工具有序提交和压缩事务，辨清逻辑 append、物理耐久与热更新的真实边界。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<p class="quiet">DeepSeek Harness / 源码审计，2026 年 8 月 26 日</p><h1>DeepSeek Harness：事件日志不是装饰层</h1><p class="lede">DeepSeek Harness 最有意思的地方，不是又发明了一组 Agent 名词，而是把可组合服务、追加事件、模型视图和崩溃恢复接成一套能被故障注入的运行时。它也不是魔法：只要把 append 误写成 fsync，整篇理解就会偏掉。</p><p class="quiet">本文依据 deepseek-ai/deepseek-harness 固定提交 b150a551b8d465e31e418e1b2eaf5e79bbb7d28e（dsh-v0.1.1-rc.2）的公开源码与仓库文档。所有 durability、tool snapshot 与 delegated policy 结论均限定在该 preview 快照。</p><h2>没有单一 main 值得膜拜，profile 才是产品拓扑</h2><p>固定快照中的基础 bundle 通过 <code>cordis.patch.yml</code> 逐 row 组装 LLM、Session、JSONL persistence、sandbox、approval、tools、subagent、compaction 与 agent-loop。Web 或 headless profile 再以相同 service id 覆盖配置。模型默认值、telemetry 是否启用、某个 adapter 是否 dormant、shell 在不同平台使用什么 sandbox，都能在组合层看到。</p><p>这意味着配置不是代码之外的一层皮，而是依赖图的一部分。只读 TypeScript 类而不读 patch rows，会错过同一个接口在何处被替换、哪些服务根本未装载、默认政策来自哪里。反过来，只看 YAML 也不够：一个 row 决定实现进入系统，具体不变量仍由 service 源码和测试建立。源码审计必须把两层拼回一条运行链。</p><p>对个人 Agent，组合拓扑同样应该可审阅：public profile 只装载脱敏知识、只读检索、20 次限流与输出 guard；owner profile 才能装额外工具。两个 profile 即使复用同一 Agent loop，也不能共享数据库 audience、data key 和环境变量。把差异写成显式 bundle，比在 handler 里到处判断 <code>if public</code> 更容易验证。</p><h3>基础 profile 通过 patch rows 组装 LLM、Session、持久化、工具、沙箱、子代理、压缩与 agent-loop 服务。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/bundle/base/cordis.patch.yml。dsh-base，patch rows</p>
+<pre><code>- insert:
+    - id: timer
+      name: &#39;@deepseek-ai/cordis-plugin-timer&#39;
+
+    - id: hmr
+      name: &#39;@deepseek-ai/cordis-plugin-hmr&#39;
+      config:
+        root: [&#39;.&#39;]
+
+    - id: llm
+      name: &#39;@deepseek-ai/dsh-llm&#39;
+
+    - id: session
+      name: &#39;@deepseek-ai/dsh-session&#39;
+
+    - id: typert
+      name: &#39;@deepseek-ai/dsh-typert-registry&#39;</code></pre>
+<ul><li>第 1 行，Bundle 组装。基础 profile 用稳定 row id 把计时、热更新、LLM、Session 与类型注册服务装入 Cordis。</li><li>第 17 行，边界。YAML 只声明组合关系；激活依赖服务可用性，工具、沙箱与模式覆盖还由后续 rows 和 patch 层决定。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/bundle/base/cordis.patch.yml">打开这一版源码</a></p><h2>Session Log 保存发生过什么，Surface 决定模型看到什么</h2><p><code>Session.append</code> 先对 data 做 lossless JSON snapshot 与 deep-freeze，校验 surface intent，分配连续 seq，再同步发布逻辑事件。不是所有事件都成为模型消息：user、assistant、tool result 等 message-producing event 可以进入 Surface，chunk、turn/step boundary 等 log-only event 只留在日志。观察者可以获得细粒度生命周期，模型无需为每个进度 token 付费。</p><p>Surface 的 replace 也不是删除旧事件。摘要或其他替换会追加新 message，新的 projection 隐去旧节点，并用 <code>sourceEventSeqs</code> 记录来源。原始 event log 仍能回答“压缩前发生过什么”，<code>deriveMessages</code> 则回答“当前 provider 应看到什么”。这让审计、UI 与模型上下文不再争用同一 messages 数组。</p><p>两份历史带来额外责任：任何阅读工具都必须说明自己展示的是 Log 还是 Surface，否则用户会把“模型看不到旧消息”误解成“旧消息已删除”。隐私删除也不能只改 Surface；真正的 data erasure 需要处理持久日志、索引与备份。架构让视图边界清楚，却不会自动完成合规生命周期。</p><h3>Session.append 同步提交深冻结的逻辑事件并维护连续序号，Surface 只投影能成为模型消息的事件。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/core/session/src/index.ts。Session.append，deriveMessages</p>
+<pre><code>const event = deepFreeze({
+  type,
+  seq: this.log.length,
+  time: Date.now(),
+  data: dataSnapshot,
+  ...(surfaceMetadataSnapshot as { surfaceOp?: unknown; sourceEventSeqs?: unknown }),
+} as unknown as SessionEvent&lt;T&gt;)
+this.surfaceManager.validateNext(event as SessionEvent)
+
+if (entry !== undefined) entry.appending = true
+try {
+  let callbacks: SessionCallback[] | undefined
+  const callbackArgs: unknown[] = [this, event]</code></pre>
+<ul><li>第 3 行，同步接受边界。append 为事件分配连续 seq，深冻结数据，并在修改 log 前验证下一次 Surface 状态。</li><li>第 10 行，边界。进入内存 log 即逻辑提交；持久化 listener 在外层异步缓冲，必须另看 flush/checkpoint 才能谈崩溃耐久性。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/core/session/src/index.ts">打开这一版源码</a></p><h3>replace 操作改变模型可见节点但保留原始日志，并通过 sourceEventSeqs 记录摘要或替换的来源关系。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/core/session/src/surface.ts。Surface，applySurfaceIntent，sourceEventSeqs</p>
+<pre><code>if (sources.size !== raw.length) {
+  throw new Error(&#39;sourceEventSeqs must not contain duplicates&#39;)
+}
+if (nonEarlierSource !== undefined) {
+  throw new Error(`sourceEventSeqs must reference earlier events: ${nonEarlierSource} &gt;= current seq ${event.seq}`)
+}
+}
+const missing = shadowedSeqs.filter(seq =&gt; !sources.has(seq))
+if (missing.length &gt; 0) {
+  throw new Error(`surface replace: sourceEventSeqs must include every shadowed surface node; missing ${missing.join(&#39;, &#39;)}`)
+}</code></pre>
+<ul><li>第 1 行，来源约束。replace 的 sourceEventSeqs 必须无重复、只能引用更早事件，并完整覆盖被遮蔽的 Surface 节点。</li><li>第 8 行，边界。Surface 改的是模型可见投影；原始 append-only log 不被删改，外部 reconstructors 仍需使用同一 fold 规则。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/core/session/src/surface.ts">打开这一版源码</a></p><h2>最重要的纠正：append 不等于 fsync</h2><p><code>Session.append</code> 的同步成功只证明事件进入内存中的逻辑序列并通知观察者。JSONL backend 会把它编码为带校验、可拼接的压缩 frame，并通过 write-behind 窗口批量写文件。进程若在窗口内崩溃，最近逻辑事件未必已经到达稳定存储。因此把 append 称作 durable commit，等于抹掉最需要恢复协议的时间窗。</p><p>语义耐久性来自独立 checkpoint policy：在 model adapter 真正接收请求前、顶层工具 body 产生副作用前、下一 step 推导上下文前执行 <code>session/flush</code>。这些位置不是为了让每条 token 都 fsync，而是建立能解释崩溃的边界。恢复时若看到 durable tool/call 却没有 result，系统生成 <code>TOOL_OUTCOME_UNKNOWN</code>，提醒模型不要盲目重试。</p><p>这仍然不是 exactly-once。外部工具可能完成副作用后、结果 append 前崩溃，恢复只能诚实标记未知；真正判断要依赖幂等键或外部系统回执。设计的成熟之处不是消灭不确定性，而是把它编码进下一步决策。个人 Agent 若调用云服务器部署，也应记录 deployment id 并查询状态，不能把 HTTP 超时直接解释成失败后重试。</p><p class="note"><strong>一句话边界。</strong>append 是逻辑提交；write-behind 是持久化策略；checkpoint + flush 才建立可推理的崩溃边界。</p><h3>压缩 JSONL 后端采用带校验 frame 的 write-behind；逻辑 append 本身并不等于文件已经 flush 或 fsync。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/session/session-persistence-jsonl/README.md。JSONL backend，write-behind，session/flush</p>
+<pre><code>## Write path
+
+The plugin copies frozen session events into one controller per live session. The first pending event starts the configured fixed batching window, and later events join without resetting it. Expiry starts one durable append; events admitted during that write form a separately bounded follow-up batch. `session/flush` cancels the wait and drains current and pending batches. A per-session cursor prevents resumed sessions from re-appending stored events, and live sessions are seeded when the plugin loads. The owning backend instance serializes operations for one session; disposal drains every retained controller before teardown. Every logical event remains present: batching only lets one compressed frame or raw fsync carry more records.
+
+## Model Experience
+
+### Resumed conversation history
+
+#### What the model sees</code></pre>
+<ul><li>第 1 行，Write-behind。事件先进入每会话 controller 的固定批窗口；session/flush 才取消等待并排空当前与待处理批次。</li><li>第 3 行，边界。内存 append 不等于 fsync；只有持久 append 或 flush 完成后，相关前缀才具有这里描述的磁盘耐久性。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/session/session-persistence-jsonl/README.md">打开这一版源码</a></p><h3>checkpoint policy 在请求和顶层副作用前建立 flush 边界，崩溃后对未知工具结果给出显式恢复语义。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/session/session-checkpoint-policy/README.md。checkpoint policy，TOOL_OUTCOME_UNKNOWN</p>
+<pre><code>Semantic durability policy for persisted agents. It checkpoints the event-sourced session before a model adapter receives a request, before a top-level tool body may produce an external side effect, and at each `agent/pre-step` boundary so the preceding response and ordered tool results are durable before the next request.
+
+## Plugin (namespace: `session-checkpoint-policy`)
+
+This zero-config function plugin consumes `ctx.sessions`, `ctx.llm`, `ctx.tools`, and the presence of `ctx.sessionPersistence`. Load it beside one persistence backend:
+
+```yaml
+- id: session-persistence
+  name: &#39;@deepseek-ai/dsh-session-persistence-jsonl&#39;
+
+- id: session-checkpoints
+  name: &#39;@deepseek-ai/dsh-session-checkpoint-policy&#39;
+```</code></pre>
+<ul><li>第 1 行，语义检查点。策略把 flush 放在模型请求、顶层副作用工具和下一 step 前，使请求与副作用的前置事实先耐久。</li><li>第 5 行，边界。持久化后、工具结果前崩溃仍会留下 outcome unknown；恢复必须按幂等性验证，不能盲目重放。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/session/session-checkpoint-policy/README.md">打开这一版源码</a></p><figure><img src="/blog-assets/deepseek-log-surface.svg" alt="DeepSeek Harness 的事件日志投影成模型 Surface，checkpoint flush 后才进入可解释的持久化边界。"><figcaption>同步 append、模型投影和物理 fsync 是三条不同路径；把它们画开，崩溃后的 unknown 才有准确含义。</figcaption></figure><h2>一次模型调用冻结得很强，但不要外推到所有工具</h2><p>Agent 构造请求时先运行 request waterfall，再由 LLM runtime 的 prepare 阶段捕获当前 adapter registration、解析 exact-model defaults、深冻结 config/context，并返回只能 stream 一次的 prepared handle。随后 canonical request header 与 context 被追加到 session。热更新可以影响下一次 call，却不能让本次 capability lookup 与另一代 adapter implementation 拼在一起。</p><p>这是一条强而清晰的 model-call boundary：出问题时可以回看当时 provider、模型、默认项、system、tools 与 contextWindow，而不是只看当前配置。但旧稿把同样强度套给工具是错误的。DSH 对工具只冻结参数与部分 finalize 协议，尚未开始的调用会重新分类，body dispatch 仍按当时 registry resolve 实现。</p><p>为什么差异合理？模型请求是一次不可分割的远程 stream，跨代拼装几乎无法解释；工具 batch 可能很长，部署希望尚未开始的危险调用及时响应 policy 更新。选择 live reclassification 就必须接受复现复杂度，选择整批冻结则可能延迟安全修复。文章要描述实际边界，而不是为了叙事整齐把两种事务画成一样。</p><h2>Rolling pool 让 body 并发，commit 仍服从模型顺序</h2><p><code>executeToolCalls</code> 在每组开始前重新判断 execution mode；只有 <code>isConcurrencySafe(args) === true</code> 才进入并行，未声明、异常或未知都 fail closed 为 exclusive。Rolling pool 允许安全 body 重叠，工具的 start 与物理完成事件可以交错。并发资格不是永久标签，它可以依赖参数，也会看到尚未开始时的 registry 状态。</p><p>结果提交由 <code>commitReady</code> 控制：只有从模型顺序第一个尚未提交 slot 开始的连续 settled 区间才能进入 Log/Surface。调用 c2 可以先完成，却必须等 c1 后才提交 <code>tool/result:c2</code>。这与 Codex、Pi 体现了相同不变量，但实现位置不同；比较 Harness 时应该对齐不变量，而不是只数有没有 parallel 选项。</p><p>有序 commit 也会形成 head-of-line blocking：一个很慢的 c1 让后面所有结果等待，即使它们已经完成。换来的好处是 provider 上下文稳定，call/result 不因网络竞速重排。真正优化应从工具分组、超时和可取消性入手，而不是直接让结果抢跑。性能曲线与语义契约必须同时被 benchmark。</p><h3>rolling pool 允许安全工具重叠执行，但 commitReady 只提交从模型顺序起点连续完成的结果。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/core/agent-loop/src/tool-calls.ts。executeToolCalls，runGroup，commitReady</p>
+<pre><code>// `committed` advances only across contiguous model-order slots.
+const commitReady = async (): Promise&lt;void&gt; =&gt; {
+  while (committed &lt; group.length) {
+    const slot = slots[committed]
+    if (slot === undefined) break
+    const call = group[committed]
+    const result = slot.needsPost
+      ? await ctx.tools[TOOL_RUNTIME_SCHEDULER].finalize(slot.exec, slot.result)
+      : ctx.tools[TOOL_RUNTIME_SCHEDULER].finish(slot.exec, slot.result)
+    // oxlint-disable-next-line typescript/no-non-null-assertion -- bounded index
+    appendToolResult(session, turn, step, call!.block, result, callSeqs[committed]!)
+    for (const context of result.additionalContexts ?? []) acceptContext(context)
+    concluded ||= result.concludesTurn === true
+    committed++
+  }
+}</code></pre>
+<ul><li>第 3 行，连续前缀提交。slot 可以乱序完成，但 committed 只跨过从模型顺序开头连续就绪的区间，随后才 append result。</li><li>第 11 行，边界。这保证模型历史顺序，不回滚并行工具已经发生的外部副作用，也不把它们变成串行执行。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/core/agent-loop/src/tool-calls.ts">打开这一版源码</a></p><h3>工具只冻结参数与部分 finalize 协议；未开始调用会重新分类，body dispatch 仍按当时 registry 解析实现。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/core/tools/src/index.ts。executionMode，createExecution，dispatchToolBody，finalizeScheduledExecution</p>
+<pre><code>executionMode(exec: ToolExecutionInput): ToolExecutionMode {
+  const tool = this.resolveExecution(exec.name, exec.agent, exec.parent !== undefined)
+  if (!tool?.isConcurrencySafe) return { kind: &#39;exclusive&#39; }
+  try {
+    const concurrencySafe: unknown = tool.isConcurrencySafe(exec.arguments)
+    return concurrencySafe === true ? { kind: &#39;parallel&#39; } : { kind: &#39;exclusive&#39; }
+  } catch {
+    return { kind: &#39;exclusive&#39; }
+  }
+}</code></pre>
+<ul><li>第 3 行，Fail closed。只有 classifier 精确返回 true 才标记 parallel；缺失、未知或抛错都会降为 exclusive。</li><li>第 5 行，边界。分类发生在未启动调用上；registry 在前序提交后可能变化，因此后续调用会重新解析而非永久绑定旧实现。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/core/tools/src/index.ts">打开这一版源码</a></p><h2>工具运行时只有局部快照，政策链也有精确顺序</h2><p><code>createExecution</code> 复制并冻结 arguments，并提前捕获定义里的 <code>finalizeContent</code>；<code>dispatchToolBody</code> 却会按当时 registry 重新 <code>resolveExecution</code>。实际链是 pre-execute、approval service、monotonic guards、execute/body、按序 post-execute、已捕获 finalizer、materialize，最后通知 contained observers。把 guard 和 approval 写反，或说“整个工具世界在批次开始时冻结”，都会误导热更新分析。</p><p>局部冻结保护的是已经承诺的输入和结果收尾协议，live resolve 让未开始的调用吸收新实现或新分类。代价是同一模型 response 中不同调用可能跨越 registry 更新。审计记录若只保存 tool name 和 args，不保存定义 revision、政策判决与实际 handler generation，就无法完整复现。DSH 在这里提供了可组合机制，但部署者仍要定义所需证据。</p><p>Monotonic guard 的含义也应谨慎：后续阶段可以进一步收紧，不能把已拒绝动作重新放开；它不自动让外部副作用可回滚。Observers 应被隔离，避免遥测异常改变业务结果，但若 post hook 拒绝时 body 已执行，系统仍需记录副作用状态。Policy chain 是决策顺序，不是数据库事务。</p><h2>Compaction 是带 bracket 的 Surface 事务</h2><p><code>compactSurfaceRegion</code> 先校验 balanced boundary，再追加 <code>compaction/start</code> 形成可检测的锁。摘要必须比被替换内容更小，成功体依次写 summary 与带 replace intent 的 checkpoint user message，最后追加 end。压缩改变 Surface projection，旧事件仍在 Log；这正是“可继续推理”与“保留证据”分离的具体实现。</p><p>稳定性检查也不是全局一刀切。自动 whole-surface compaction 会拒绝任意 Surface 变化；手动 selected-span 只要求所选区间稳定，区间外新增节点明确允许。Log-only event 不一定让摘要过期。若 end append 失败，系统宁可留下 unmatched start，让下一次尝试返回 busy，也不伪装成事务完整。失败是可见状态，而不是被 finally 静默吞掉。</p><p>这套设计值得借，但要看见成本：orphan bracket 需要运维修复，summary 服务慢会占用 region，手动与自动模式的并发规则不同。测试不能只有“摘要生成成功”，还要在 summarizer 阻塞时替换 span、让 close append 失败、让摘要不够短。事务的质量由失败路径定义，不由正常截图定义。</p><h3>压缩用 start/summary/replacement/end 包围 Surface 事务，并在提交前检查目标区间是否仍稳定。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/compaction/compaction-basic/src/region.ts。compactSurfaceRegion，commitCompactionBody</p>
+<pre><code>const prepared = prepareCompaction(dependencies, session, selection)
+const summarized = await summarizeCompaction(
+  dependencies,
+  prepared,
+  agent,
+  compactionId,
+  options.sourceCommandId,
+  signal,
+)
+if (options.owner === null) signal?.throwIfAborted()
+assertStable(dependencies, session, summarized)
+stage = &#39;commit&#39;
+const pending = commitCompactionBody(session, startEvent, summarized)
+closing = true
+const endEvent = session.append(&#39;compaction/end&#39;, lifecycle)</code></pre>
+<ul><li>第 11 行，稳定后提交。摘要在 await 后先通过 assertStable 复核目标区域，再同步写 replacement body 与 compaction/end。</li><li>第 15 行，边界。稳定检查防止摘要覆盖已变化的 Surface 区间；它不校验摘要语义是否忠实，也不替代持久化 flush。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/compaction/compaction-basic/src/region.ts">打开这一版源码</a></p><figure><img src="/blog-assets/dsh-tool-compaction.svg" alt="DeepSeek Harness 用 rolling pool 并发工具并按模型顺序提交，压缩则由四段 bracket 包围 Surface 替换。"><figcaption>工具只冻结局部执行信息；compaction 的 start、summary、replacement 与 end 让竞争和半提交成为可检测状态。</figcaption></figure><h2>委派权限只能在具体 provider 范围内下结论</h2><p>基础 bundle 把 spawn 配成 fresh + continuable，把 fork 配成 completed-prefix + one-shot。内置 in-process provider 会把 child approval 固定为 never，并复制父会话显式设置的 sandbox override。若父会话没有 override，child 跟随 deployment default，而不是凭空获得一份冻结的 restricted sandbox。因此“子代理永远不能扩大权限”是超出证据的口号。</p><p>结论必须限定：在这个 shipped provider 中，child 不会主动弹出新的审批，并继承明确覆盖的文件效果策略。其他 provider、网络能力、进程策略和部署默认值仍需单独审查。当前 SandboxMode 的词汇主要描述 file effects，也不能据此声称网络已隔离。Preview session format 仍是 v0，同样没有长期迁移承诺。</p><p>我的判断是，DeepSeek Harness 最值得吸收的是把恢复歧义、Surface 替换和并发提交写成显式协议；最不该复制的是在未证明部署默认值时使用宏大安全结论。公共个人 Agent 的子任务应继承服务器端不可变 audience 与数据挂载，工具 capability 只减不增，并由集成测试验证，而不是依赖“subagent”这个名字自带最小权限。</p><h3>内置进程内委派固定 child approval 为 never，只复制父会话的显式 sandbox override，权限结论必须限定在该 provider。</h3>
+<p class="quiet">deepseek-ai/deepseek-harness，b150a551b8d465e31e418e1b2eaf5e79bbb7d28e，packages/subagent/subagent/README.md。Delegated policy，spawn，fork</p>
+<pre><code>Every in-process child&#39;s runtime-context snapshot carries the `subagent:delegation` statement below, after the sandbox-policy and approval-policy sentences.
+
+##### The delegation-scope statement
+
+```markdown
+You are a delegated subagent: your permission scope was fixed when you were started and cannot be widened from inside this session — operations that require approval are rejected automatically. When the job needs access beyond that scope, do not retry the denied operation; state the limitation in your reply so the delegating agent can handle it.
+```</code></pre>
+<ul><li>第 1 行，委派权限固定。进程内 child 复制父会话的显式 sandbox override，并把 approval 固定为 never，避免无人值守审批悬挂。</li><li>第 6 行，边界。结论只适用于文档所述的两条 in-process provider；外部 provider 必须按自己的隔离与授权实现单独审计。</li></ul>
+<p><a href="https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8d465e31e418e1b2eaf5e79bbb7d28e/packages/subagent/subagent/README.md">打开这一版源码</a></p><h2>结论</h2><ul><li>组合 patch 是运行拓扑的一部分，审计时要把配置与 service 源码一起读。</li><li>Log 保存事实，Surface 是模型投影；替换可隐藏节点，却不等于删除原始数据。</li><li>Session.append 不是 fsync，副作用前的 checkpoint + flush 才建立可解释恢复边界。</li><li>模型调用强冻结、工具局部冻结；热更新语义必须按各自实现描述。</li></ul><h2>可以复现的检查</h2><h3>反向完成，正向提交</h3><p>并行工具 c2 先于 c1 完成时，系统能否保留物理完成事实，同时阻止 c2 result 越过 c1 进入 Surface？</p><ul><li>让 c1 在可控 barrier 阻塞，c2 立即返回；记录 body completion、event log 与 deriveMessages。</li><li>确认 c2 完成后释放 c1，再检查两个 tool/result 的 seq 与 Surface 顺序。</li></ul><ul><li>c2 body 已完成时，不会出现越过 c1 的 committed result。</li><li>释放后 result 按 c1、c2 提交，模型 call/result 配对保持原序。</li></ul><p class="quiet">有序提交会产生 head-of-line blocking；实验不代表所有工具批次都应并行，也不衡量真实网络尾延迟。</p><h3>副作用后硬崩溃</h3><p>当 tool/call 已 checkpoint、body 已产生副作用、result 尚未 append 就崩溃时，恢复是否会明确标记结果未知？</p><ul><li>在顶层工具 checkpoint 完成后写入外部 marker，并在 result append 前强制终止进程。</li><li>重新加载压缩 JSONL frame，检查 durable call、合成结果与下一步模型上下文。</li></ul><ul><li>恢复能看到已持久化 tool/call，并生成 TOOL_OUTCOME_UNKNOWN，而不是伪造失败。</li><li>提示明确要求不要盲目重试；外部 marker 用于证明副作用可能已经发生。</li></ul><p class="quiet">Unknown 是诚实状态而非自动修复；业务仍需幂等键或外部查询才能决定补偿、接受还是重试。</p><p class="pager"><a href="/blog/pi-minimal-kernel">上一篇 Pi 的小内核，并不等于简单循环</a><a href="/blog/coding-agent-harness-comparison">下一篇 四种 Coding Agent，不能用功能表来比较</a></p></main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
 </html>

@@ -1,20 +1,32 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f2f7f8" />
-    <link rel="icon" type="image/png" href="/assets/favicon-transparent-6LjMKZ8U.png" />
-    <link rel="apple-touch-icon" href="/assets/chatone-logo-BF7EnIk7.png" />
-    <meta
-      name="description"
-      content="一份可以追问、只引用本人确认公开资料的个人职业档案"
-    />
-    <title>Personal Career Agent</title>
-    <script type="module" crossorigin src="/assets/index-CuxiPvSn.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DTQFF_jO.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文章 — 张磊</title>
+  <meta name="description" content="关于 Codex、Claude Code、Pi 和 DeepSeek Harness 的五篇源码笔记。">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">张磊</a>
+  <nav aria-label="站点">
+    <a href="/#work">工作</a>
+    <a href="/blog">文章</a>
+    <a href="/thoughts">想法</a>
+    <a href="/products">作品</a>
+    <a href="/#contact">联系</a>
+  </nav>
+</header>
+<main id="content">
+<h1>文章</h1><p>这些笔记按固定的公开提交来写。判断和源码观察是分开的。</p><p class="piece"><a href="/blog/codex-protocol-core">一次 Codex 回合，究竟由谁拥有</a><br><span class="quiet">2026 年 8 月 26 日。从 Submission 进入会话，到工具结果按顺序回到模型：沿真实调用链拆开任务所有权、能力快照、并发门和历史投影。</span></p><p class="piece"><a href="/blog/claude-code-runtime-boundary">Claude Code：公开 SDK 真正暴露了什么</a><br><span class="quiet">2026 年 8 月 26 日。不消费泄漏材料，只沿 MIT Python wrapper 的进程、反向控制、结束条件与恢复副本，建立可验证也不过界的运行时认识。</span></p><p class="piece"><a href="/blog/pi-minimal-kernel">Pi 的小内核，并不等于简单循环</a><br><span class="quiet">2026 年 8 月 26 日。从真实 composition root 进入双层队列、工具批次、会话树与扩展事务：理解它刻意保持小，以及哪些安全能力必须由部署补齐。</span></p><p class="piece"><a href="/blog/deepseek-harness-event-os">DeepSeek Harness：事件日志不是装饰层</a><br><span class="quiet">2026 年 8 月 26 日。从 profile 组合、Log/Surface 双历史到 checkpoint、工具有序提交和压缩事务，辨清逻辑 append、物理耐久与热更新的真实边界。</span></p><p class="piece"><a href="/blog/coding-agent-harness-comparison">四种 Coding Agent，不能用功能表来比较</a><br><span class="quiet">2026 年 8 月 26 日。把 Codex、Claude Agent SDK、Pi 与 DeepSeek Harness 放进同一任务、权限、故障和预算记录中，比较真正影响可靠性的控制面。</span></p></main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+</body>
 </html>
