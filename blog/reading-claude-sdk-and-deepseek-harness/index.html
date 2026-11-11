@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Claude SDK 里的 result 不等于结束，DeepSeek 的 append 先停在内存 — 张磊</title>
+  <title>result 未结束，append 未落盘 — 张磊</title>
   <meta name="description" content="Claude 这边我只看了公开的 Python SDK。DeepSeek Harness 看的是公开仓库里日志和压缩怎么写。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2026-08-22">2026 年 8 月 22 日</time></p>
-<h1>Claude SDK 里的 result 不等于结束，DeepSeek 的 append 先停在内存</h1>
+<h1>result 未结束，append 未落盘</h1>
 <p>Claude Code 本体不是公开源码。我打开的是 claude-agent-sdk-python，看它怎么拉起 CLI、stdout 上除了文本还有没有控制消息。有。权限一类的请求会从子进程绕回来。我没据此去猜 CLI 里面怎么规划。</p>
 <p>有一段注释让我停下来：拿到 result 也不等于事情结束，因为还可能有没完成的任务。我把这句抄在旁边。抄注释比自己总结安全。</p>
 <p>DeepSeek Harness 的公开仓库里，session.append 看下来是先进入内存里的序列。写盘是后面的事。我以前会把 append 说成已经落盘，这次不敢这么说了。</p>
@@ -38,5 +36,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

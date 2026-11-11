@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>进程杀掉后如果只贴回聊天记录，已经改过的函数会被再改一遍 — 张磊</title>
+  <title>只贴聊天记录会把改动重做 — 张磊</title>
   <meta name="description" content="它上一句说已经改了。文件改到一半，测试没跑。把聊天贴回去，它又改了一遍。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-04-09">2025 年 4 月 9 日</time></p>
-<h1>进程杀掉后如果只贴回聊天记录，已经改过的函数会被再改一遍</h1>
+<h1>只贴聊天记录会把改动重做</h1>
 <p>四月把一个小任务故意杀掉：改文件，跑测试，再改。只把对话贴进新会话，它从自述接着干，重复了已经做过的修改。</p>
 <p>第二次我只给一个状态文件：目标、已做的检查、还没做的、不许重复的动作。行是脚本在命令结束之后写的，带退出码。没有退出码的行，恢复时当作没有。</p>
 <p>我试过让它自己更新这个文件。它把没跑的测试写成跑过了。那一行没有退出码，被忽略。以后只许脚本追加。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

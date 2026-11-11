@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>合并前若只检查最后一段总结，中间的工具失败进不了门禁 — 张磊</title>
+  <title>只看总结就挡不住合并 — 张磊</title>
   <meta name="description" content="题没过就不让自己合并。跑了两次发现，输出对了，中间做了什么没有留下。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-06-06">2025 年 6 月 6 日</time></p>
-<h1>合并前若只检查最后一段总结，中间的工具失败进不了门禁</h1>
+<h1>只看总结就挡不住合并</h1>
 <p>最后一段话是最不适合拿来挡合并的。它最会说自己做完了。</p>
 <p>事件我先要这些：哪个工具、参数有没有被拒、结果空不空、这是不是重试。一个追加写的文件，一行一件。不写失败的话，检查永远看见成功。</p>
 <p>没有事件的输出，脚本直接丢掉，不送给检查。文件只有这个任务能写，别的打印不许追加。总结经常打印得很好看，混进去检查就又在看感觉。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

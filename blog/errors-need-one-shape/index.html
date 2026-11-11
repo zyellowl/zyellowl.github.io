@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>函数调用、只读工具和命令失败，要收成同一组种类才好并排看 — 张磊</title>
+  <title>三种失败要收成同一组 — 张磊</title>
   <meta name="description" content="自己的函数调用、MCP 那个只读工具、编码助手的命令失败，文本各写各的。排查时先翻译。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-05-16">2025 年 5 月 16 日</time></p>
-<h1>函数调用、只读工具和命令失败，要收成同一组种类才好并排看</h1>
+<h1>三种失败要收成同一组</h1>
 <p>我想要的就几行：没发现、调用失败、结果为空、被拒绝。可重试由这行决定，不由它当时的语气决定。</p>
 <p>还有一种是不知道副作用发生了没有。命令可能已经跑了，响应丢了。这种不要自动再来一次。代码里我干脆不写那个重试函数。</p>
 <p>成功的字段统一了，失败还是各写各的，模型会接过长长的失败文本继续聊。失败文本我要短，到此为止。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

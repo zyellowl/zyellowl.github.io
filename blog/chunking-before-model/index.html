@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>连换两次向量模型，近邻不变，改成一个动作一条之后才变 — 张磊</title>
+  <title>换模型没用，改切块才变 — 张磊</title>
   <meta name="description" content="反方向的动作还挨在一起。后来只改了切法，同一组查询才不一样。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2023-08-17">2023 年 8 月 17 日</time></p>
-<h1>连换两次向量模型，近邻不变，改成一个动作一条之后才变</h1>
+<h1>换模型没用，改切块才变</h1>
 <p>八月初又换了个做向量的模型，近邻还是放下和拿开挨着，问句还是召回问句。我停下来看切块。</p>
 <p>一条观察被切成三小句之后，查询打中其中一句，主语和时间都丢了。改回一个动作一条，带上时间，模型还是原来那个，近邻先变了。</p>
 <p>重叠半句也试过。召回变多，同一件事在答案里说两遍，像有两个版本。我取消重叠，宁可边界上漏半句。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

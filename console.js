@@ -6,7 +6,8 @@
     reduce = false;
   }
 
-  var root = document.querySelector(".console");
+  var root = document.querySelector(".window");
+  var cursor = document.getElementById("cursor");
   var promptEl = document.getElementById("prompt");
   var trace = document.getElementById("trace");
   var answer = document.getElementById("answer");
@@ -173,14 +174,14 @@
           tool: "open_blog",
           arg: "2026-11",
           ms: 900,
-          result: "11 月 6 日那篇的题目是「修复算不算完成，要看再跑、评测，以及发出去之后还能不能看见」。认的结束有三样：写明的限制下再跑过，挡合并的题没有相关退步，发出去之后还能看见这类事件。",
+          result: "11 月 6 日那篇叫「结束语不能当修复完成」。认的结束有三样：写明的限制下再跑过，挡合并的题没有相关退步，发出去之后还能看见这类事件。",
           links: [{ href: "/blog/the-model-does-not-declare-done", text: "打开这篇" }]
         },
         {
           tool: "open_blog",
           arg: "2026-10",
           ms: 800,
-          result: "10 月那篇写模块说明。没有主人的说明，导入脚本会跳过，并写一行日志。助手不是那份说明的主人。",
+          result: "10 月那篇叫「模块说明缺主人就跳过」。没有主人的说明，导入时跳过，并写一行日志。",
           links: [{ href: "/blog/modules-need-owners", text: "打开这篇" }]
         },
         {
@@ -192,9 +193,9 @@
         }
       ],
       answer: [
-        { text: "最近一篇写的是" },
-        { text: "修复算不算完成", href: "/blog/the-model-does-not-declare-done" },
-        { text: "，不能只看模型说的那句。再往前是模块说明没有主人就跳过。目录在" },
+        { text: "最近一篇是" },
+        { text: "结束语不能当修复完成", href: "/blog/the-model-does-not-declare-done" },
+        { text: "。再往前是模块说明没有主人就跳过。目录在" },
         { text: "文章", href: "/blog" },
         { text: "。" }
       ]
@@ -238,6 +239,9 @@
   }
 
   function rowBits(step, label) {
+    var ico = document.createElement("span");
+    ico.className = "ico";
+    ico.setAttribute("aria-hidden", "true");
     var tool = document.createElement("span");
     tool.className = "tool";
     tool.textContent = step.tool;
@@ -247,7 +251,23 @@
     var ms = document.createElement("span");
     ms.className = "ms";
     ms.textContent = label;
-    return [tool, arg, ms];
+    return [ico, tool, arg, ms];
+  }
+
+  function clearTrace() {
+    Array.prototype.slice.call(trace.children).forEach(function (child) {
+      if (child !== cursor) child.remove();
+    });
+  }
+
+  function moveCursor(el) {
+    if (!cursor) return;
+    if (!el || reduce) {
+      cursor.hidden = true;
+      return;
+    }
+    cursor.hidden = false;
+    cursor.style.transform = "translateY(" + (el.offsetTop + 16) + "px)";
   }
 
   function renderRunning(step) {
@@ -272,6 +292,7 @@
     summary.addEventListener("click", function () {
       details.dataset.user = "1";
     });
+    summary.querySelector(".ico").textContent = "✓";
     details.appendChild(summary);
     fillResult(details, step);
     return details;
@@ -295,7 +316,8 @@
     token += 1;
     setPressed(run.id);
     promptEl.textContent = run.prompt;
-    trace.textContent = "";
+    clearTrace();
+    moveCursor(null);
     run.steps.forEach(function (step) {
       trace.appendChild(renderDone(step, false));
     });
@@ -313,8 +335,6 @@
     var parts = run.answer;
     var index = 0;
     var charAt = 0;
-    var node = null;
-
     return new Promise(function (resolve) {
       function tick() {
         if (mark !== token) {
@@ -334,20 +354,17 @@
           answer.insertBefore(a, caret);
           index += 1;
           charAt = 0;
-          node = null;
           window.setTimeout(tick, 36);
           return;
         }
-        if (!node) {
-          node = document.createTextNode("");
-          answer.insertBefore(node, caret);
-        }
-        node.data += part.text.slice(charAt, charAt + 2);
+        var bit = document.createElement("span");
+        bit.className = "tok";
+        bit.textContent = part.text.slice(charAt, charAt + 2);
+        answer.insertBefore(bit, caret);
         charAt += 2;
         if (charAt >= part.text.length) {
           index += 1;
           charAt = 0;
-          node = null;
         }
         window.setTimeout(tick, 28);
       }
@@ -365,7 +382,7 @@
     var mark = ++token;
     setPressed(run.id);
     promptEl.textContent = run.prompt;
-    trace.textContent = "";
+    clearTrace();
     answer.textContent = "";
     root.setAttribute("aria-busy", "true");
     live.textContent = "开始回放。" + run.prompt;
@@ -373,18 +390,21 @@
       var step = run.steps[i];
       var running = renderRunning(step);
       trace.appendChild(running);
+      moveCursor(running);
       var ok = await wait(step.ms, mark);
       if (!ok) return;
       var done = renderDone(step, true);
       running.replaceWith(done);
       closeAuto();
       done.open = true;
+      moveCursor(done);
     }
     ok = await wait(240, mark);
     if (!ok) return;
     ok = await typeAnswer(run, mark);
     if (!ok) return;
     closeAuto();
+    moveCursor(null);
     root.setAttribute("aria-busy", "false");
     live.textContent = "回放结束。" + answer.textContent;
   }

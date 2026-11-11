@@ -8,25 +8,24 @@
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="where">京东集团</p><h1>京东金融首页 Feed</h1><p class="lede">内容规模扩大到原来的 20 倍，服务要同时守住内存、吞吐和尾延时。</p><p>参与推荐服务全链路优化，重构有效池，并处理缓存同步里的问题。</p><figure><img src="/assets/feed-BFUNXK0F.svg" alt="有效池内存变化与单机压测结果。"><figcaption>有效池内存变化与单机压测结果。</figcaption></figure><h2>有效池与缓存</h2><p>重构有效池，内存占用下降 75%。同步过程中的 Redis BigKey 也一并处理，让更大的内容池还能稳住。</p><h2>容量</h2><p>8 核 16 GB 单机压测到 5000 QPS。TP99 从 15ms 降到 10ms 以下。</p><p class="pager"><a href="/work/case-04">上一则 京东领航者</a><a href="/work/case-06">下一则 京东金融智能问答</a></p></main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

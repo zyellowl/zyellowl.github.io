@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JSON 模式用了几周，留下的坏样本都是括号完整、内容另补的 — 张磊</title>
+  <title>括号完整，内容仍是补的 — 张磊</title>
   <meta name="description" content="语法错误少了。字段齐全、类型正确、内容是补的，这种更难发现。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2024-08-27">2024 年 8 月 27 日</time></p>
-<h1>JSON 模式用了几周，留下的坏样本都是括号完整、内容另补的</h1>
+<h1>括号完整，内容仍是补的</h1>
 <p>括号完整的时候，我第一反应是下游逻辑有问题，不是它在编。排查方向被格式带歪了。</p>
 <p>要是“可靠”指程序别因为解析崩掉，JSON 模式有用。要是指内容能当记录，它基本没管。我以前把这两件写成一个词。</p>
 <p>重试也清楚了一点：形状明确，失败可以再要一次。我的调用还没有副作用，所以重试没事。一旦会写入，再试就是另一件事，注释里先写上，免得以后照抄。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

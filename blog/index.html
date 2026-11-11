@@ -4,104 +4,97 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>文章 — 张磊</title>
-  <meta name="description" content="2023 年到 2026 年的笔记，按年份排。">
+  <meta name="description" content="2023 年到 2026 年的笔记。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
-<div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
-<main id="content">
-<h1>文章</h1>
-<p>从 2023 年记到现在。以前写的留在原来的日期，不改成现在的说法。</p>
-<p class="quiet"><a href="#y2026">2026</a> <a href="#y2025">2025</a> <a href="#y2024">2024</a> <a href="#y2023">2023</a></p>
-<h2 id="y2026">2026</h2>
-<p class="piece"><a href="/blog/the-model-does-not-declare-done">修复算不算完成，要看再跑、评测，以及发出去之后还能不能看见</a><br><span class="quiet"><time datetime="2026-11-06">2026 年 11 月 6 日</time>。到十一月，新接口还是会邀请我把结束交回去。交回去的话，今年的笔记可以删了。</span></p>
-<p class="piece"><a href="/blog/modules-need-owners">模块说明缺了主人，导入脚本会跳过并写一行日志</a><br><span class="quiet"><time datetime="2026-10-14">2026 年 10 月 14 日</time>。十月把助手的材料从尽量多的文档，改成谁负责的模块谁维护一份说明。</span></p>
-<p class="piece"><a href="/blog/invariants-after-the-source-notes">读过 Codex、Pi、Claude SDK 和 DeepSeek 之后，留下三条还想用的</a><br><span class="quiet"><time datetime="2026-09-09">2026 年 9 月 9 日</time>。笔记写得很短。还想用的是：任务有一个主人，工具结果别按谁先做完来交，失败要能说不知道。</span></p>
-<p class="piece"><a href="/blog/reading-claude-sdk-and-deepseek-harness">Claude SDK 里的 result 不等于结束，DeepSeek 的 append 先停在内存</a><br><span class="quiet"><time datetime="2026-08-22">2026 年 8 月 22 日</time>。Claude 这边我只看了公开的 Python SDK。DeepSeek Harness 看的是公开仓库里日志和压缩怎么写。</span></p>
-<p class="piece"><a href="/blog/reading-codex-and-pi">读 Codex 和 Pi 的公开代码时，忙时输入和工具次序都还留着问号</a><br><span class="quiet"><time datetime="2026-08-11">2026 年 8 月 11 日</time>。两个仓库都克隆了。我先找谁真正把任务跑起来。名字最像入口的类，我看错过一次。</span></p>
-<p class="piece"><a href="/blog/observation-is-the-second-half">代码合并之后，还要用日志里的词找到下一次同类事件</a><br><span class="quiet"><time datetime="2026-07-17">2026 年 7 月 17 日</time>。发出去之后，要能再找到这类事件。找不到，先写成看不见，别写成没再发生。</span></p>
-<p class="piece"><a href="/blog/one-cli-kernel">定时扫描和群里提问的拒绝文本一旦不一致，同一套 CLI 就分叉了</a><br><span class="quiet"><time datetime="2026-06-30">2026 年 6 月 30 日</time>。两个入口各长一个循环的话，失败和重试会对不上。</span></p>
-<p class="piece"><a href="/blog/logs-the-coding-agent-may-see">大段日志交给编码助手后，醒目异常盖过了真正相关的空结果</a><br><span class="quiet"><time datetime="2026-06-11">2026 年 6 月 11 日</time>。它抓住醒目的异常，放过了真正相关的空结果。日志里还有不该给这个任务的路径。</span></p>
-<p class="piece"><a href="/blog/rerun-the-fix-like-production">本地跑通仍不能关问题，超时差异必须写上秒数或标明未对齐</a><br><span class="quiet"><time datetime="2026-05-28">2026 年 5 月 28 日</time>。本地的权限、数据、超时都和生产不一样。跑通只说明另一种环境里能走完。</span></p>
-<p class="piece"><a href="/blog/traces-as-the-source-of-problems">把轨迹收成故事时删掉了超时和重复，题就对不上原来的事件</a><br><span class="quiet"><time datetime="2026-05-07">2026 年 5 月 7 日</time>。故事不好讲的部分，经常是条件。删掉再写题，题对的是我讲的版本。</span></p>
-<p class="piece"><a href="/blog/team-assistant-is-not-chat">群助手的回复只留说明标识，最近几十条消息不进默认材料</a><br><span class="quiet"><time datetime="2026-04-16">2026 年 4 月 16 日</time>。把最近的消息总结成答案很快。某个人的猜测会变成好像大家都这么说。</span></p>
-<p class="piece"><a href="/blog/protocol-plugins-one-session">文字和语音各记一份当前任务时，抢话会在日志里变成两次成功</a><br><span class="quiet"><time datetime="2026-03-24">2026 年 3 月 24 日</time>。文字那边还觉得上一句没说完，语音这边人已经打断了。</span></p>
-<p class="piece"><a href="/blog/unified-runtime-is-about-boundaries">开口语音、离线复查和编码命令不能共用同一个超时</a><br><span class="quiet"><time datetime="2026-03-05">2026 年 3 月 5 日</time>。我想统一的是拒绝、编号、空了就停、能重看。不想统一的是时钟。</span></p>
-<p class="piece"><a href="/blog/eval-set-has-to-change-on-purpose">旧题全绿只说明没有退步，新题要指到一次事件才用来挡合并</a><br><span class="quiet"><time datetime="2026-02-13">2026 年 2 月 13 日</time>。题集很稳。线上要是出一种新的失败，旧题还是绿的。</span></p>
-<p class="piece"><a href="/blog/production-feedback-must-return">事件来源、再跑限制、发出去看什么，有一格空着就先别写闭环</a><br><span class="quiet"><time datetime="2026-01-26">2026 年 1 月 26 日</time>。只停在聊天里的问题，下一版不会因此不一样。</span></p>
-<p class="piece"><a href="/blog/harness-is-not-another-framework">用 Harness 称呼一套东西之前，先看换库之后还有没有事件文件</a><br><span class="quiet"><time datetime="2026-01-08">2026 年 1 月 8 日</time>。一月用这个词的时候，先限制它别变成又一个库的名字。</span></p>
-<h2 id="y2025">2025</h2>
-<p class="piece"><a href="/blog/replayable-traces">只有总结、没有事件的日志，复述时会把没做完说成已经修好</a><br><span class="quiet"><time datetime="2025-12-09">2025 年 12 月 9 日</time>。有用的是能按时间重看的那些行：拒绝、空结果、检查点、diff 里的路径。最后一句经常把事说成做完了。</span></p>
-<p class="piece"><a href="/blog/outside-the-sandbox">沙箱拒绝写文件之后，模型建议发到一个本机并不存在的配置名</a><br><span class="quiet"><time datetime="2025-11-12">2025 年 11 月 12 日</time>。写文件失败了，它建议把结果发到某个外部位置，还说出一个我机器上没有的配置名。</span></p>
-<p class="piece"><a href="/blog/multi-agent-waits">读取和写入拆开之后，写的那一侧大部分时间在等另一次生成</a><br><span class="quiet"><time datetime="2025-10-23">2025 年 10 月 23 日</time>。一个只读，一个等只读的结果才许写。等的不是计算，是另一段生成结束。</span></p>
-<p class="piece"><a href="/blog/gates-block-regressions">评测总是红时，不稳的题移出挡合并组，提交说明里写上题号</a><br><span class="quiet"><time datetime="2025-10-07">2025 年 10 月 7 日</time>。有一道题和这次改动无关，材料变了就不稳定。门一直红，我差点把脚本停了。</span></p>
-<p class="piece"><a href="/blog/diffs-i-can-finish-reading">一次任务超过 8 个路径，脚本就先不打印测试摘要</a><br><span class="quiet"><time datetime="2025-09-18">2025 年 9 月 18 日</time>。读不完包括注释和它新建的文件。绿灯不看注释。</span></p>
-<p class="piece"><a href="/blog/gpt5-did-not-replace-the-set">GPT-5 发布当周仍跑旧题，解释更完整也不改失败的判定</a><br><span class="quiet"><time datetime="2025-08-29">2025 年 8 月 29 日</time>。八月上旬公开的。当周我只把旧题跑了一遍，没给它出新题，也没把思考长度写进通过条件。</span></p>
-<p class="piece"><a href="/blog/checkpoints-for-long-tasks">长任务的状态行由命令退出码写入，模型宣布完成不算这一行</a><br><span class="quiet"><time datetime="2025-08-08">2025 年 8 月 8 日</time>。行是脚本在命令结束之后写的，带检查名和结果。模型说做完了，不算这行。</span></p>
-<p class="piece"><a href="/blog/subagent-permissions-shrink">查找子过程沿用了主过程的写权限，往文件里加了一行注释</a><br><span class="quiet"><time datetime="2025-07-15">2025 年 7 月 15 日</time>。查找本来只该读。我图省事用了主过程的权限，它写了一行说是帮助性的注释。</span></p>
-<p class="piece"><a href="/blog/reasoning-does-not-order-tools">计划文本写着先读后写，读工具还在睡眠，写提议已经出现</a><br><span class="quiet"><time datetime="2025-06-25">2025 年 6 月 25 日</time>。六月底用一个爱写长计划的模型做两步：先读，再决定写不写。文字里总是先读。</span></p>
-<p class="piece"><a href="/blog/no-events-no-gate">合并前若只检查最后一段总结，中间的工具失败进不了门禁</a><br><span class="quiet"><time datetime="2025-06-06">2025 年 6 月 6 日</time>。题没过就不让自己合并。跑了两次发现，输出对了，中间做了什么没有留下。</span></p>
-<p class="piece"><a href="/blog/errors-need-one-shape">函数调用、只读工具和命令失败，要收成同一组种类才好并排看</a><br><span class="quiet"><time datetime="2025-05-16">2025 年 5 月 16 日</time>。自己的函数调用、MCP 那个只读工具、编码助手的命令失败，文本各写各的。排查时先翻译。</span></p>
-<p class="piece"><a href="/blog/sandbox-before-ambition">目录外不可写、网络关掉之后，命令里还是会出现 curl</a><br><span class="quiet"><time datetime="2025-04-28">2025 年 4 月 28 日</time>。工作目录之外不可写，网络默认关。它去读外面的配置，失败了，失败比悄悄读到有用。</span></p>
-<p class="piece"><a href="/blog/resume-state-not-transcript">进程杀掉后如果只贴回聊天记录，已经改过的函数会被再改一遍</a><br><span class="quiet"><time datetime="2025-04-09">2025 年 4 月 9 日</time>。它上一句说已经改了。文件改到一半，测试没跑。把聊天贴回去，它又改了一遍。</span></p>
-<p class="piece"><a href="/blog/coding-agent-first-week">编码助手第一周测试是绿的，README 却多了代码里没有的自动重试</a><br><span class="quiet"><time datetime="2025-03-14">2025 年 3 月 14 日</time>。自己的小仓库，小到能读完 diff。测试是绿的，它还改了没让它碰的说明，注释里写了猜测。</span></p>
-<p class="piece"><a href="/blog/claude37-did-not-write-acceptance">Claude 3.7 的思考字段里塞了假编号，引用检查仍应判失败</a><br><span class="quiet"><time datetime="2025-02-26">2025 年 2 月 26 日</time>。二月末的版本会把思考摊开。空结果那题它想了很久，最后还是给了一段建议。按旧验收，没过。</span></p>
-<p class="piece"><a href="/blog/mcp-on-one-readonly-tool">只读 MCP 返回空标题列表时，描述里的“自动”会让它继续往下说</a><br><span class="quiet"><time datetime="2025-02-11">2025 年 2 月 11 日</time>。工具只返回本地笔记的标题，不返回正文。描述里我删掉了助手、自动这几个词。</span></p>
-<p class="piece"><a href="/blog/deepseek-r1-and-boundaries">DeepSeek R1 的思考步骤变多，空结果后面的建议仍按旧验收算失败</a><br><span class="quiet"><time datetime="2025-01-23">2025 年 1 月 23 日</time>。1 月 20 日左右公开的。我 23 号用去年的短题集看了看，没加新题。</span></p>
-<p class="piece"><a href="/blog/multi-agent-not-renamed-prompts">规划、执行、检查拆开之后，执行侧没有自己的材料，只是在复述</a><br><span class="quiet"><time datetime="2025-01-07">2025 年 1 月 7 日</time>。规划、执行、检查轮流说话。拆完我看日志，失败还是停在同一处。</span></p>
-<h2 id="y2024">2024</h2>
-<p class="piece"><a href="/blog/what-actually-reached-production">2024 年还在用的是三条退路，非法参数拒绝、引用对上原文、空了就停</a><br><span class="quiet"><time datetime="2024-12-27">2024 年 12 月 27 日</time>。模型名单换了好几轮。还在用的是：参数不对就拒绝，引用要对上这次的原文，空了就停。</span></p>
-<p class="piece"><a href="/blog/cost-control-is-architecture">默认调用改成短材料，重试写成常数，第三次请求在代码里到不了</a><br><span class="quiet"><time datetime="2024-12-18">2024 年 12 月 18 日</time>。长窗口、整段历史、失败了不停地试、慢模型放进已经开口的回合。每件当时都有理由。</span></p>
-<p class="piece"><a href="/blog/mcp-is-a-draft-interface">MCP 刚公布时做的本地试验，超时和空结果之后能不能发挥还得自己定</a><br><span class="quiet"><time datetime="2024-12-03">2024 年 12 月 3 日</time>。十一月底的公布。十二月初读了说明，挂了一个只读的本地工具，看日志能不能分清没发现和调用失败。</span></p>
-<p class="piece"><a href="/blog/slow-reasoning-who-owns-the-wait">先想再答的模型放在离线复查，不放进已经开口的语音回合</a><br><span class="quiet"><time datetime="2024-11-08">2024 年 11 月 8 日</time>。九月之后出现了先想一段再答的模型。到十一月我拿离线题试了试，等待明显更长。</span></p>
-<p class="piece"><a href="/blog/bigger-window-more-cutting">同一段历史在多轮里被整段重发，用户更正过的句子不能当过期删掉</a><br><span class="quiet"><time datetime="2024-10-16">2024 年 10 月 16 日</time>。窗口允许每次都带上全部历史。等待和账单也如实反映。</span></p>
-<p class="piece"><a href="/blog/joining-ant-with-realtime-habits">到蚂蚁财保的第一周，笔记本上只有四个关于时间和停住的问题</a><br><span class="quiet"><time datetime="2024-09-13">2024 年 9 月 13 日</time>。九月到财保做 Agent。相机和实时语音是要碰的。第一周没画架构。</span></p>
-<p class="piece"><a href="/blog/json-mode-is-not-reliability">JSON 模式用了几周，留下的坏样本都是括号完整、内容另补的</a><br><span class="quiet"><time datetime="2024-08-27">2024 年 8 月 27 日</time>。语法错误少了。字段齐全、类型正确、内容是补的，这种更难发现。</span></p>
-<p class="piece"><a href="/blog/structured-outputs-move-parse-errors">结构化输出减少了解析崩溃，编号仍可能指向这次没有的记录</a><br><span class="quiet"><time datetime="2024-08-09">2024 年 8 月 9 日</time>。八月初接口能按给定结构返回。不合形状的我可以在进下一步之前丢掉。形状对了，编号仍可能是编的。</span></p>
-<p class="piece"><a href="/blog/evaluation-without-acceptance">题里没写必须出现什么、必须拒绝什么之前，两个接口没法比较</a><br><span class="quiet"><time datetime="2024-07-19">2024 年 7 月 19 日</time>。七月想比两个接口。做到一半发现很多题我事先没写什么叫对。</span></p>
-<p class="piece"><a href="/blog/multimodal-clocks">“看这个”和选中的帧如果不是同一时刻，模型仍会把看见的讲成所说的</a><br><span class="quiet"><time datetime="2024-06-12">2024 年 6 月 12 日</time>。用户说看这个，帧如果还是手没抬起来的那张，模型也会讲得很完整。</span></p>
-<p class="piece"><a href="/blog/voice-latency-from-capture">语音这一跳从采集和端点算起，模型首字只是中间的一段时间</a><br><span class="quiet"><time datetime="2024-05-30">2024 年 5 月 30 日</time>。模型首字只是中间。前面有端点判定，后面有合成和播放缓冲。</span></p>
-<p class="piece"><a href="/blog/gpt4o-voice-is-not-a-call">GPT-4o 语音演示很快，端点、首包和已播出的音频怎么停都没有写</a><br><span class="quiet"><time datetime="2024-05-15">2024 年 5 月 15 日</time>。5 月中的演示接话很快。采集缓冲多长、用户抢话时已播出的音频怎么废，演示里没写。</span></p>
-<p class="piece"><a href="/blog/llama3-closed-model-stays">Llama 3 可以在本机跑草稿，要被别人复述的记录仍走外部接口</a><br><span class="quiet"><time datetime="2024-04-21">2024 年 4 月 21 日</time>。本地短句比去年夏天顺。要严格停住的题，我还是先看外部接口那份失败样本。</span></p>
-<p class="piece"><a href="/blog/tool-failure-before-production">函数调用接到会写的系统之前，先记下越界参数、重复提议和空列表</a><br><span class="quiet"><time datetime="2024-03-29">2024 年 3 月 29 日</time>。成功的演示谁都会。我先写了参数不合法、同一次里再调用、结果为空这三种。</span></p>
-<p class="piece"><a href="/blog/claude3-changed-the-set">Claude 3 发布当周重跑旧题，空检索之后再讲常识仍然记为失败</a><br><span class="quiet"><time datetime="2024-03-07">2024 年 3 月 7 日</time>。3 月初的发布。我没加新题，把留空、引用、空检索必须停这几题又跑了一遍。</span></p>
-<p class="piece"><a href="/blog/million-tokens-not-a-task">长窗口对照能对上更远的句子，中间少掉的那条动作仍不会自己说出来</a><br><span class="quiet"><time datetime="2024-02-18">2024 年 2 月 18 日</time>。二月有人说到一百万 token。我没有做从草堆里抽句子的演示，拿自己圈好的一段记录让它列动作。</span></p>
-<p class="piece"><a href="/blog/reread-last-years-prompts">把 2023 年的提示重跑一遍，例子里的建议口吻一年后还在</a><br><span class="quiet"><time datetime="2024-01-25">2024 年 1 月 25 日</time>。禁令贴了三遍。真正带偏的是一个带建议的例子。</span></p>
-<p class="piece"><a href="/blog/citations-before-tools">检索结果带上编号之后，模型会把最顺的编号安在自己补的句子上</a><br><span class="quiet"><time datetime="2024-01-08">2024 年 1 月 8 日</time>。答案里用到旧记录，就把编号写在句后。对不上的编号，整段作废。</span></p>
-<h2 id="y2023">2023</h2>
-<p class="piece"><a href="/blog/2023-misjudgments">2023 年有四条判断后来站不住，提示、向量、链和长窗口各算一条</a><br><span class="quiet"><time datetime="2023-12-21">2023 年 12 月 21 日</time>。提示写成合同就会稳，向量看懂了场景，链一接上边界就清楚，窗口够长就不用检索。这几句我都说过。</span></p>
-<p class="piece"><a href="/blog/not-an-agent-yet">2023 年把提示、检索和函数调用放在一起，仍然没写清什么叫做完</a><br><span class="quiet"><time datetime="2023-11-28">2023 年 11 月 28 日</time>。提示、向量、一条拆开的链、函数调用的脚本、流式草稿。每样都能演示，合在一起我还是不会叫它 Agent。</span></p>
-<p class="piece"><a href="/blog/gpt4-turbo-long-window-misuse">GPT-4 Turbo 的长窗口塞进一个月旁白，中间的动作仍会悄悄少一条</a><br><span class="quiet"><time datetime="2023-11-09">2023 年 11 月 9 日</time>。11 月 6 日前后窗口变很长。我把一个月的旁白塞进去，它提得更多，中间还是会少一条，而且不说少了。</span></p>
-<p class="piece"><a href="/blog/longer-prompt-longer-bill">整段观察放进提示之后，头尾会被抓住，中间那次放下没有了</a><br><span class="quiet"><time datetime="2023-10-19">2023 年 10 月 19 日</time>。少做检索，把最近的观察整段放进去。它抓头尾，中间的动作没了，等待先变长。</span></p>
-<p class="piece"><a href="/blog/whisper-first-look">Whisper 转写里，两人交替说话会并成一段，沉默有时被写成“嗯”</a><br><span class="quiet"><time datetime="2023-09-05">2023 年 9 月 5 日</time>。安静短句还行。两个人说话它合成一段，沉默有时变成嗯。</span></p>
-<p class="piece"><a href="/blog/chunking-before-model">连换两次向量模型，近邻不变，改成一个动作一条之后才变</a><br><span class="quiet"><time datetime="2023-08-17">2023 年 8 月 17 日</time>。反方向的动作还挨在一起。后来只改了切法，同一组查询才不一样。</span></p>
-<p class="piece"><a href="/blog/llama2-local-bill">Llama 2 放在自己机器上跑，风扇先响，该留空的旁白照样在补词</a><br><span class="quiet"><time datetime="2023-07-22">2023 年 7 月 22 日</time>。小模型在自己机器上。风扇先响了，编造还在。</span></p>
-<p class="piece"><a href="/blog/streaming-is-not-token-drips">流式输出要是接到播放，已经打出的那一行不能被后面的 token 改掉</a><br><span class="quiet"><time datetime="2023-07-08">2023 年 7 月 8 日</time>。字在跳只是屏幕上的事。真要出声，得知道哪一段已经播出去了。</span></p>
-<p class="piece"><a href="/blog/function-calling-is-not-a-protocol">GPT-4 function calling 会给出说明里没有的参数，也会绕开调用直接写散文</a><br><span class="quiet"><time datetime="2023-06-16">2023 年 6 月 16 日</time>。六月中接口能让模型提出调用。我定义了一个很窄的函数，它有时给说明里没有的词，有时直接写散文。</span></p>
-<p class="piece"><a href="/blog/langchain-hides-the-boundary">LangChain 把检索和回答串起来之后，空结果在日志里像一次成功</a><br><span class="quiet"><time datetime="2023-05-11">2023 年 5 月 11 日</time>。有一次检索是空的，答案照样写了一大段。日志看起来像没失败过。</span></p>
-<p class="piece"><a href="/blog/similarity-search-three-misses">那周检索错在三处，切得太碎，问句去撞陈述句，还把 0.8 当成很有把握</a><br><span class="quiet"><time datetime="2023-04-23">2023 年 4 月 23 日</time>。切太碎、问句去撞陈述句、还有把 0.8 当成很有把握。</span></p>
-<p class="piece"><a href="/blog/embeddings-do-not-see">查询是“放下杯子”的时候，向量近邻的第一条却是“把杯子拿开”</a><br><span class="quiet"><time datetime="2023-04-06">2023 年 4 月 6 日</time>。查询是放下杯子，最近的一条是把杯子拿开。分数看着还不低。</span></p>
-<p class="piece"><a href="/blog/gpt4-same-prompt-again">同一段摄像头旁白换 GPT-4 再跑，不再写成水杯，轻轻放下还在</a><br><span class="quiet"><time datetime="2023-03-18">2023 年 3 月 18 日</time>。3 月 14 日发布的。我 18 号用一月那份旁白原样再跑，少编了一点，副词还在。</span></p>
-<p class="piece"><a href="/blog/prompt-is-not-config">两页提示删到半页之后，禁令贴三遍仍不如例子容易把口吻带偏</a><br><span class="quiet"><time datetime="2023-02-14">2023 年 2 月 14 日</time>。两页提示删到半页。例子比禁令管用，也更会带偏。</span></p>
-<p class="piece"><a href="/blog/camera-caption-first-try">ChatGPT 改写摄像头旁白时，把原稿没写材质的杯子说成了水杯</a><br><span class="quiet"><time datetime="2023-01-27">2023 年 1 月 27 日</time>。它把桌上的杯子写成了水杯。我的原稿里没写材质。</span></p>
-<p class="piece"><a href="/blog/rtc-latency-meets-chatgpt">ChatGPT 从按下回车到第一个字，空档大约够说完一句“喂，在吗”</a><br><span class="quiet"><time datetime="2023-01-09">2023 年 1 月 9 日</time>。晚上问了一句很普通的问题，从回车到第一个字，我默数着已经能说完一句喂。</span></p>
+<a class="skip" href="#content">跳到内容</a>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
+<main class="wrap index-list" id="content">
+<p class="year" id="y2026">2026</p>
+<p class="piece"><a href="/blog/the-model-does-not-declare-done">结束语不能当修复完成</a><time datetime="2026-11-06">2026</time></p>
+<p class="piece"><a href="/blog/modules-need-owners">模块说明缺主人就跳过</a><time datetime="2026-10-14">2026</time></p>
+<p class="piece"><a href="/blog/invariants-after-the-source-notes">四家仓库后留下三条</a><time datetime="2026-09-09">2026</time></p>
+<p class="piece"><a href="/blog/reading-claude-sdk-and-deepseek-harness">result 未结束，append 未落盘</a><time datetime="2026-08-22">2026</time></p>
+<p class="piece"><a href="/blog/reading-codex-and-pi">Codex 忙时输入还是问号</a><time datetime="2026-08-11">2026</time></p>
+<p class="piece"><a href="/blog/observation-is-the-second-half">合并后还要找到同类事件</a><time datetime="2026-07-17">2026</time></p>
+<p class="piece"><a href="/blog/one-cli-kernel">两入口拒绝不一致即分叉</a><time datetime="2026-06-30">2026</time></p>
+<p class="piece"><a href="/blog/logs-the-coding-agent-may-see">醒目异常盖过了空结果</a><time datetime="2026-06-11">2026</time></p>
+<p class="piece"><a href="/blog/rerun-the-fix-like-production">本地跑通不能关闭问题</a><time datetime="2026-05-28">2026</time></p>
+<p class="piece"><a href="/blog/traces-as-the-source-of-problems">删掉失败分支题会对不上</a><time datetime="2026-05-07">2026</time></p>
+<p class="piece"><a href="/blog/team-assistant-is-not-chat">群回复只留说明标识</a><time datetime="2026-04-16">2026</time></p>
+<p class="piece"><a href="/blog/protocol-plugins-one-session">两个入口会记成两次成功</a><time datetime="2026-03-24">2026</time></p>
+<p class="piece"><a href="/blog/unified-runtime-is-about-boundaries">语音和文本不共用超时</a><time datetime="2026-03-05">2026</time></p>
+<p class="piece"><a href="/blog/eval-set-has-to-change-on-purpose">旧题全绿不等于能挡合并</a><time datetime="2026-02-13">2026</time></p>
+<p class="piece"><a href="/blog/production-feedback-must-return">三格有空先别写闭环</a><time datetime="2026-01-26">2026</time></p>
+<p class="piece"><a href="/blog/harness-is-not-another-framework">Harness 先看有没有事件</a><time datetime="2026-01-08">2026</time></p>
+<p class="year" id="y2025">2025</p>
+<p class="piece"><a href="/blog/replayable-traces">没有事件的总结会说修好</a><time datetime="2025-12-09">2025</time></p>
+<p class="piece"><a href="/blog/outside-the-sandbox">沙箱拒绝后建议发到外面</a><time datetime="2025-11-12">2025</time></p>
+<p class="piece"><a href="/blog/multi-agent-waits">拆开之后写的一侧在等</a><time datetime="2025-10-23">2025</time></p>
+<p class="piece"><a href="/blog/gates-block-regressions">总是红时把不稳的题移出</a><time datetime="2025-10-07">2025</time></p>
+<p class="piece"><a href="/blog/diffs-i-can-finish-reading">超过八个文件先不看测试</a><time datetime="2025-09-18">2025</time></p>
+<p class="piece"><a href="/blog/gpt5-did-not-replace-the-set">GPT-5 当周不改失败判定</a><time datetime="2025-08-29">2025</time></p>
+<p class="piece"><a href="/blog/checkpoints-for-long-tasks">状态行只认命令退出码</a><time datetime="2025-08-08">2025</time></p>
+<p class="piece"><a href="/blog/subagent-permissions-shrink">查找子过程写下了一行注释</a><time datetime="2025-07-15">2025</time></p>
+<p class="piece"><a href="/blog/reasoning-does-not-order-tools">先读后写挡不住写提议</a><time datetime="2025-06-25">2025</time></p>
+<p class="piece"><a href="/blog/no-events-no-gate">只看总结就挡不住合并</a><time datetime="2025-06-06">2025</time></p>
+<p class="piece"><a href="/blog/errors-need-one-shape">三种失败要收成同一组</a><time datetime="2025-05-16">2025</time></p>
+<p class="piece"><a href="/blog/sandbox-before-ambition">关了网络命令里还有 curl</a><time datetime="2025-04-28">2025</time></p>
+<p class="piece"><a href="/blog/resume-state-not-transcript">只贴聊天记录会把改动重做</a><time datetime="2025-04-09">2025</time></p>
+<p class="piece"><a href="/blog/coding-agent-first-week">测试绿了 README 却写了重试</a><time datetime="2025-03-14">2025</time></p>
+<p class="piece"><a href="/blog/claude37-did-not-write-acceptance">思考字段里的假编号仍失败</a><time datetime="2025-02-26">2025</time></p>
+<p class="piece"><a href="/blog/mcp-on-one-readonly-tool">描述里的自动会让它接着说</a><time datetime="2025-02-11">2025</time></p>
+<p class="piece"><a href="/blog/deepseek-r1-and-boundaries">R1 的建议仍按旧验收失败</a><time datetime="2025-01-23">2025</time></p>
+<p class="piece"><a href="/blog/multi-agent-not-renamed-prompts">三个角色拆开后只是复述</a><time datetime="2025-01-07">2025</time></p>
+<p class="year" id="y2024">2024</p>
+<p class="piece"><a href="/blog/what-actually-reached-production">留下的是三条退路</a><time datetime="2024-12-27">2024</time></p>
+<p class="piece"><a href="/blog/cost-control-is-architecture">第三次请求在代码里到不了</a><time datetime="2024-12-18">2024</time></p>
+<p class="piece"><a href="/blog/mcp-is-a-draft-interface">超时和空结果还得自己定</a><time datetime="2024-12-03">2024</time></p>
+<p class="piece"><a href="/blog/slow-reasoning-who-owns-the-wait">慢模型不进开口的回合</a><time datetime="2024-11-08">2024</time></p>
+<p class="piece"><a href="/blog/bigger-window-more-cutting">更正过的句子不能当过期删</a><time datetime="2024-10-16">2024</time></p>
+<p class="piece"><a href="/blog/joining-ant-with-realtime-habits">第一周只写了四个问题</a><time datetime="2024-09-13">2024</time></p>
+<p class="piece"><a href="/blog/json-mode-is-not-reliability">括号完整，内容仍是补的</a><time datetime="2024-08-27">2024</time></p>
+<p class="piece"><a href="/blog/structured-outputs-move-parse-errors">形状对了，编号仍可能是编的</a><time datetime="2024-08-09">2024</time></p>
+<p class="piece"><a href="/blog/evaluation-without-acceptance">没写对错就没法比较</a><time datetime="2024-07-19">2024</time></p>
+<p class="piece"><a href="/blog/multimodal-clocks">话和帧不同刻仍会被讲圆</a><time datetime="2024-06-12">2024</time></p>
+<p class="piece"><a href="/blog/voice-latency-from-capture">语音时间从采集端点算起</a><time datetime="2024-05-30">2024</time></p>
+<p class="piece"><a href="/blog/gpt4o-voice-is-not-a-call">演示很快，但没有端点</a><time datetime="2024-05-15">2024</time></p>
+<p class="piece"><a href="/blog/llama3-closed-model-stays">要被复述的仍走外部接口</a><time datetime="2024-04-21">2024</time></p>
+<p class="piece"><a href="/blog/tool-failure-before-production">先记下越界、重复和空列表</a><time datetime="2024-03-29">2024</time></p>
+<p class="piece"><a href="/blog/claude3-changed-the-set">空检索后再讲常识仍算失败</a><time datetime="2024-03-07">2024</time></p>
+<p class="piece"><a href="/blog/million-tokens-not-a-task">少掉的一条不会自己说</a><time datetime="2024-02-18">2024</time></p>
+<p class="piece"><a href="/blog/reread-last-years-prompts">建议口吻一年后还在</a><time datetime="2024-01-25">2024</time></p>
+<p class="piece"><a href="/blog/citations-before-tools">假编号会安在补的句子上</a><time datetime="2024-01-08">2024</time></p>
+<p class="year" id="y2023">2023</p>
+<p class="piece"><a href="/blog/2023-misjudgments">四条判断后来都站不住</a><time datetime="2023-12-21">2023</time></p>
+<p class="piece"><a href="/blog/not-an-agent-yet">还是没写清什么叫做完</a><time datetime="2023-11-28">2023</time></p>
+<p class="piece"><a href="/blog/gpt4-turbo-long-window-misuse">长窗口里仍会悄悄少一条</a><time datetime="2023-11-09">2023</time></p>
+<p class="piece"><a href="/blog/longer-prompt-longer-bill">整段塞进去，中间那次没了</a><time datetime="2023-10-19">2023</time></p>
+<p class="piece"><a href="/blog/whisper-first-look">两人说话会被并成一段</a><time datetime="2023-09-05">2023</time></p>
+<p class="piece"><a href="/blog/chunking-before-model">换模型没用，改切块才变</a><time datetime="2023-08-17">2023</time></p>
+<p class="piece"><a href="/blog/llama2-local-bill">本地模型该留空仍在补</a><time datetime="2023-07-22">2023</time></p>
+<p class="piece"><a href="/blog/streaming-is-not-token-drips">已经打出的行不能改</a><time datetime="2023-07-08">2023</time></p>
+<p class="piece"><a href="/blog/function-calling-is-not-a-protocol">窄函数仍会给出越界参数</a><time datetime="2023-06-16">2023</time></p>
+<p class="piece"><a href="/blog/langchain-hides-the-boundary">空检索在日志里像成功</a><time datetime="2023-05-11">2023</time></p>
+<p class="piece"><a href="/blog/similarity-search-three-misses">检索错在切块和分数</a><time datetime="2023-04-23">2023</time></p>
+<p class="piece"><a href="/blog/embeddings-do-not-see">放下杯子的近邻是拿开</a><time datetime="2023-04-06">2023</time></p>
+<p class="piece"><a href="/blog/gpt4-same-prompt-again">水杯少了，副词还在</a><time datetime="2023-03-18">2023</time></p>
+<p class="piece"><a href="/blog/prompt-is-not-config">例子比禁令更容易带偏</a><time datetime="2023-02-14">2023</time></p>
+<p class="piece"><a href="/blog/camera-caption-first-try">杯子被写成了水杯</a><time datetime="2023-01-27">2023</time></p>
+<p class="piece"><a href="/blog/rtc-latency-meets-chatgpt">首字空档够说一句喂</a><time datetime="2023-01-09">2023</time></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
-</div>
+<script src="/nav.js"></script>
 </body>
 </html>

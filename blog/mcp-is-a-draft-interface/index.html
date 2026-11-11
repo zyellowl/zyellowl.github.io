@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MCP 刚公布时做的本地试验，超时和空结果之后能不能发挥还得自己定 — 张磊</title>
+  <title>超时和空结果还得自己定 — 张磊</title>
   <meta name="description" content="十一月底的公布。十二月初读了说明，挂了一个只读的本地工具，看日志能不能分清没发现和调用失败。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2024-12-03">2024 年 12 月 3 日</time></p>
-<h1>MCP 刚公布时做的本地试验，超时和空结果之后能不能发挥还得自己定</h1>
+<h1>超时和空结果还得自己定</h1>
 <p>发现和调用分开，比把函数说明全写进一个提示清楚。这点我认。</p>
 <p>超时、空结果之后能不能发挥，还是我自己补的。协议把这些留成各自实现的话，它就是草案。草案可以试，生产路径上刚写好的失败处理先不动。</p>
 <p>语音和文本的时钟不一样。登记在一起可以，共用一个超时会把实时那条拖坏。</p>
@@ -40,5 +38,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>函数调用接到会写的系统之前，先记下越界参数、重复提议和空列表 — 张磊</title>
+  <title>先记下越界、重复和空列表 — 张磊</title>
   <meta name="description" content="成功的演示谁都会。我先写了参数不合法、同一次里再调用、结果为空这三种。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2024-03-29">2024 年 3 月 29 日</time></p>
-<h1>函数调用接到会写的系统之前，先记下越界参数、重复提议和空列表</h1>
+<h1>先记下越界、重复和空列表</h1>
 <p>参数不在说明里，脚本拒绝，原始参数留下。拒绝之后不许改用散文把动作做完。我曾经写过这个回退，演示很顺，后来删了。</p>
 <p>重试时它可能再提一次同样的调用。我的试验函数没有副作用，但日志里每次调用用我生成的编号，不让模型自己编。真有写入的时候，第二次就不是重试。</p>
 <p>结果是空列表，回答只能说做不了。空列表不是让它发挥的信号。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>检索结果带上编号之后，模型会把最顺的编号安在自己补的句子上 — 张磊</title>
+  <title>假编号会安在补的句子上 — 张磊</title>
   <meta name="description" content="答案里用到旧记录，就把编号写在句后。对不上的编号，整段作废。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2024-01-08">2024 年 1 月 8 日</time></p>
-<h1>检索结果带上编号之后，模型会把最顺的编号安在自己补的句子上</h1>
+<h1>假编号会安在补的句子上</h1>
 <p>开年没接新工具。先把检索做实一点：每条记录一个短编号，原文和编号一起给模型。用了哪条，句后写编号。不许它编一个看起来像的号。</p>
 <p>第一次它很爱写编号，而且写错，把最顺的那条编号安在自己补的句子上。我改成只能整句引用，不能半句拼。答案变短，假编号少了。</p>
 <p>短答案不好给别人演示。营销侧要是把表和字段引用错了，顺的句子更麻烦。这些还是离线问题，没说成线上系统。</p>
@@ -38,5 +36,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

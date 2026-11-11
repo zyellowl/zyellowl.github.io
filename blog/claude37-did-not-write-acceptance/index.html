@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Claude 3.7 的思考字段里塞了假编号，引用检查仍应判失败 — 张磊</title>
+  <title>思考字段里的假编号仍失败 — 张磊</title>
   <meta name="description" content="二月末的版本会把思考摊开。空结果那题它想了很久，最后还是给了一段建议。按旧验收，没过。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-02-26">2025 年 2 月 26 日</time></p>
-<h1>Claude 3.7 的思考字段里塞了假编号，引用检查仍应判失败</h1>
+<h1>思考字段里的假编号仍失败</h1>
 <p>没为它新编题。新编题就像选美。</p>
 <p>思考写得诚恳的时候，我会想把失败放宽。所以思考放单独字段，引用检查不读这个字段。我加了一条测试：字段里塞一条假编号，结果必须仍然是失败。</p>
 <p>不进开口回合。理由和一月一样。判定文件的日期我检查过，没有手滑改掉。</p>
@@ -40,5 +38,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

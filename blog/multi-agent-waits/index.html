@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>读取和写入拆开之后，写的那一侧大部分时间在等另一次生成 — 张磊</title>
+  <title>拆开之后写的一侧在等 — 张磊</title>
   <meta name="description" content="一个只读，一个等只读的结果才许写。等的不是计算，是另一段生成结束。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-10-23">2025 年 10 月 23 日</time></p>
-<h1>读取和写入拆开之后，写的那一侧大部分时间在等另一次生成</h1>
+<h1>拆开之后写的一侧在等</h1>
 <p>等如果换来权限分开，我觉得值。等如果只为了两个提示轮流说话，就不值。图上总像是并行，日志里常常是串的。</p>
 <p>等待的事件里只记工具编号，不记客气话。优化要是去缩短客套，就找错地方了。</p>
 <p>能一个过程做完的，我强制单过程跑一遍当对照。一样能做完，拆分就删。删的时候把等待日志留下，说明这次只买到了等待。</p>
@@ -40,5 +38,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

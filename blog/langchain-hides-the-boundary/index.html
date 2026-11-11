@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LangChain 把检索和回答串起来之后，空结果在日志里像一次成功 — 张磊</title>
+  <title>空检索在日志里像成功 — 张磊</title>
   <meta name="description" content="有一次检索是空的，答案照样写了一大段。日志看起来像没失败过。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2023-05-11">2023 年 5 月 11 日</time></p>
-<h1>LangChain 把检索和回答串起来之后，空结果在日志里像一次成功</h1>
+<h1>空检索在日志里像成功</h1>
 <p>五月用 LangChain 把改写查询、检索、再回答串起来。演示是快的，输入一句，出来一段像那么回事的话。</p>
 <p>我讲不清某一句是检索回来的，还是它补的。默认提示又让它根据上下文回答，上下文空的时候它也回答。我为了给别人看，把严格一点的开关关过，后来忘了开。</p>
 <p>有一晚才发现，某次检索结果是空的，答案全是生成的。框架把重试吞了，日志像一次成功。实时链路里我会先看每一跳的输入输出。这里得自己把每一步落成文件。</p>
@@ -46,5 +44,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

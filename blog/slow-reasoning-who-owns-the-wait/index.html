@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>先想再答的模型放在离线复查，不放进已经开口的语音回合 — 张磊</title>
+  <title>慢模型不进开口的回合 — 张磊</title>
   <meta name="description" content="九月之后出现了先想一段再答的模型。到十一月我拿离线题试了试，等待明显更长。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2024-11-08">2024 年 11 月 8 日</time></p>
-<h1>先想再答的模型放在离线复查，不放进已经开口的语音回合</h1>
+<h1>慢模型不进开口的回合</h1>
 <p>步骤写得更多。步骤不是验收。步骤很完整，结论仍可能和材料不符。七月的题我没改判定。</p>
 <p>文本工具里多等一会儿，只要失败还能对，我能接受。已经开口的回合里，多出来的时间得有个去处：继续给等待提示，先回一句不承诺事实的短的，或者这条慢的根本不走。</p>
 <p>我把慢的留在离线复查。开口的回合要能预期。两个超时写成两个常数，名字用场景，不用模型的营销名。调用的时候必须选一个，省略的话，复查里即使答对也记一笔。</p>
@@ -37,5 +35,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

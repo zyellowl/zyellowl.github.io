@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>读 Codex 和 Pi 的公开代码时，忙时输入和工具次序都还留着问号 — 张磊</title>
+  <title>Codex 忙时输入还是问号 — 张磊</title>
   <meta name="description" content="两个仓库都克隆了。我先找谁真正把任务跑起来。名字最像入口的类，我看错过一次。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2026-08-11">2026 年 8 月 11 日</time></p>
-<h1>读 Codex 和 Pi 的公开代码时，忙时输入和工具次序都还留着问号</h1>
+<h1>Codex 忙时输入还是问号</h1>
 <p>八月上旬把 openai/codex 和 badlogic/pi-mono 克隆到本地，只看公开代码。没有跟任何内部仓库对。</p>
 <p>Codex 里我先搜 submit。外部丢进来的东西要进到一个会话循环里，忙的时候新输入更像是插话，不是再开一个循环。我把这个理解写在笔记本上，旁边标了问号，因为我只跟了几条函数，没有把测试跑全。</p>
 <p>Pi 更小。agent 循环本身不长，真正组装会话的在更外层。我一开始从 AgentHarness 看，后来发现生产路径不是从那儿进来的。看错入口这事我记一笔。</p>
@@ -38,5 +36,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

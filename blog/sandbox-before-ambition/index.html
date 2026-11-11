@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>目录外不可写、网络关掉之后，命令里还是会出现 curl — 张磊</title>
+  <title>关了网络命令里还有 curl — 张磊</title>
   <meta name="description" content="工作目录之外不可写，网络默认关。它去读外面的配置，失败了，失败比悄悄读到有用。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-04-28">2025 年 4 月 28 日</time></p>
-<h1>目录外不可写、网络关掉之后，命令里还是会出现 curl</h1>
+<h1>关了网络命令里还有 curl</h1>
 <p>这不是一套完整的隔离。墙外面还有我自己拷进去的文件。那些洞是我的。</p>
 <p>做不成的时候我改任务范围，不先拆墙。拆墙很痛快，之后出事的样子和没加墙一样。</p>
 <p>拒绝日志里要有路径。没有路径，只知道失败，不知道它想碰哪。每周看一次路径，开始集中到某个目录外的位置，就把那个位置写进任务说明，不默许。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

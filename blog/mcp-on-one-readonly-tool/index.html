@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>只读 MCP 返回空标题列表时，描述里的“自动”会让它继续往下说 — 张磊</title>
+  <title>描述里的自动会让它接着说 — 张磊</title>
   <meta name="description" content="工具只返回本地笔记的标题，不返回正文。描述里我删掉了助手、自动这几个词。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-02-11">2025 年 2 月 11 日</time></p>
-<h1>只读 MCP 返回空标题列表时，描述里的“自动”会让它继续往下说</h1>
+<h1>描述里的自动会让它接着说</h1>
 <p>十二月说它是草案。二月给自己挂了一个：列出笔记标题。没有写入，没有网络。</p>
 <p>发现失败和调用失败在日志里是两行不同的字。这比全写进一个提示清楚。空列表回来，给出去的还是“没取到”，校验在我这边，协议没替我停。</p>
 <p>描述我改了三版，每版都看调用有没有变宽。用了助手、自动之后，它更常在空列表后面继续说。那些词删了。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

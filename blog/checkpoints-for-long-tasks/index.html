@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>长任务的状态行由命令退出码写入，模型宣布完成不算这一行 — 张磊</title>
+  <title>状态行只认命令退出码 — 张磊</title>
   <meta name="description" content="行是脚本在命令结束之后写的，带检查名和结果。模型说做完了，不算这行。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2025-08-08">2025 年 8 月 8 日</time></p>
-<h1>长任务的状态行由命令退出码写入，模型宣布完成不算这一行</h1>
+<h1>状态行只认命令退出码</h1>
 <p>中断再恢复，脚本先读最后一行。最后一行不允许下一步，就停。叫模型来只解释当前行，不直接往下做。</p>
 <p>不存整段对话。存文件在不在、测试跑过没有、退出码是什么。</p>
 <p>有一次写入成功了，检查点还没写上，恢复后又改了一遍。后来把写入和写检查点放在同一个成功分支里，先写检查点再把结果交给模型。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

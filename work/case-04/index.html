@@ -8,25 +8,24 @@
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="where">京东集团</p><h1>京东领航者</h1><p class="lede">用对话串起营销费用、活动、人群和数据分析，并独立做了统一 RAG 平台。2023 年京东云峰会宣讲过初版。</p><p>2023 年京东云峰会宣讲初版 MVP 的核心研发成员，负责数据分析洞察模块。统一 RAG 平台独立负责。</p><figure><img src="/assets/query-CrikprqA.svg" alt="SQL 执行反馈与领域内准确率。"><figcaption>SQL 执行反馈与领域内准确率。</figcaption></figure><h2>对话式营销工作台</h2><p>基于 SOP 和多轮对话，把营销费用申请、活动策划、人群推送和数据分析串成一个工作台。</p><p>复杂查询上，用 Dynamic Few-shot 加 CoT 组织 Prompt，用 Schema Linking 筛出相关的表和字段，让生成依据停在当前问题需要的结构和示例上。</p><p>SQL 执行结果再接回修正流程，处理复杂 Join 和字段引用。领域内 SQL 准确率从 40% 提到 92%。</p><h2>统一 RAG 平台</h2><p>把文档解析、向量化和检索收成一个平台，让不同业务接入知识问答。</p><p>基于 Qdrant 管理文档、切片、Embedding 和向量集合的关系，围绕文件解析、数据无感更新和 Embedding 绑定来入库、维护。</p><p>声明式 API 把底层向量能力交给业务调用，支持向量集群自动扩缩容。</p><p class="pager"><a href="/work/case-03">上一则 数据工厂</a><a href="/work/case-05">下一则 京东金融首页 Feed</a></p></main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>

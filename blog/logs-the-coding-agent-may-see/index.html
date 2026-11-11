@@ -3,30 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>大段日志交给编码助手后，醒目异常盖过了真正相关的空结果 — 张磊</title>
+  <title>醒目异常盖过了空结果 — 张磊</title>
   <meta name="description" content="它抓住醒目的异常，放过了真正相关的空结果。日志里还有不该给这个任务的路径。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <a class="skip" href="#content">跳到正文</a>
 <div class="wrap">
-<header class="top">
-  <a class="name" href="/">张磊</a>
-  <nav aria-label="站点">
-    <a href="/#work">工作</a>
-    <a href="/blog">文章</a>
-    <a href="/thoughts">想法</a>
-    <a href="/products">作品</a>
-    <a href="/#contact">联系</a>
-  </nav>
-</header>
+<nav class="mini" aria-label="站点">
+  <a href="/" aria-label="首页"></a>
+  <a href="/work/case-01" aria-label="蚁小保"></a>
+  <a href="/work/case-02" aria-label="大保"></a>
+  <a href="/work/case-03" aria-label="数据工厂"></a>
+  <a href="/work/" aria-label="工作"></a>
+  <a href="/blog" aria-label="文章"></a>
+</nav>
 <main id="content">
 <p class="quiet"><time datetime="2026-06-11">2026 年 6 月 11 日</time></p>
-<h1>大段日志交给编码助手后，醒目异常盖过了真正相关的空结果</h1>
+<h1>醒目异常盖过了空结果</h1>
 <p>给得越多越能查，这个想法我试过，不成立。醒目不等于相关。</p>
 <p>读日志本身是一次调用，范围得写明：哪一段时间，哪一个调用编号，哪一类事件。人来圈，不让它先扫完全部再决定。先扫的话，范围已经破了。</p>
 <p>范围是空的就返回空，然后停。不要附带“附近也许相关”的片段。</p>
@@ -39,5 +37,6 @@
 </main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
+<script src="/nav.js"></script>
 </body>
 </html>
