@@ -127,6 +127,8 @@ body.stage {
   will-change: transform;
 }
 .rail {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   height: auto;
@@ -142,7 +144,7 @@ body.stage {
   height: min(52vh, calc(clamp(240px, (100vw - 76px) / 2.7, 520px) * 0.66));
   background: var(--paper);
   color: var(--ink);
-  overflow: hidden;
+  overflow: visible;
   text-decoration: none;
   display: block;
 }
@@ -167,16 +169,22 @@ body.stage {
 }
 .intro span { display: block; white-space: nowrap; }
 .intro span:nth-child(even) { padding-left: 0.7em; }
-.disc {
+.disc-slot {
   position: absolute;
+  left: 0;
   top: 10%;
-  right: 4%;
   height: 80%;
   width: auto;
   aspect-ratio: 1;
+  z-index: 1;
+  pointer-events: none;
+  --inset-right: 4;
+}
+.disc {
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
   background: #ffff02;
-  z-index: 0;
   display: grid;
   place-items: center;
   font-size: 18px;
@@ -188,7 +196,7 @@ body.stage {
   position: absolute;
   left: 0.08em;
   top: 50%;
-  z-index: 1;
+  z-index: 2;
   transform: translateY(-52%);
   font-family: Inter, sans-serif;
   font-size: clamp(44px, 4.6vw, 78px);
@@ -231,7 +239,7 @@ body.stage {
     height: 54vw;
     flex-basis: 80vw;
   }
-  .disc { height: 62%; top: 19%; right: 3%; }
+  .disc-slot { top: 19%; height: 62%; --inset-right: 3; }
   .giant { font-size: clamp(36px, 12vw, 52px); left: 0.12em; }
   .mini { gap: 8px; }
 }

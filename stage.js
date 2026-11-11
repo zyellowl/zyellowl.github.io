@@ -32,6 +32,34 @@
     return max;
   }
 
+  var slot = document.getElementById("disc");
+  var discX = 0;
+  var discReady = false;
+
+  function trackDisc(index) {
+    if (!slot || !cards[index]) return;
+    var card = cards[index];
+    var inset = parseFloat(getComputedStyle(slot).getPropertyValue("--inset-right"));
+    if (isNaN(inset)) inset = narrow.matches ? 3 : 4;
+    var heightRatio = narrow.matches ? 0.62 : 0.8;
+    var topRatio = narrow.matches ? 0.19 : 0.1;
+    var h = card.offsetHeight * heightRatio;
+    if (h < 1) return;
+    slot.style.height = h.toFixed(2) + "px";
+    slot.style.width = h.toFixed(2) + "px";
+    slot.style.top = (card.offsetTop + card.offsetHeight * topRatio).toFixed(2) + "px";
+    var dest = card.offsetLeft + card.offsetWidth - h - card.offsetWidth * (inset / 100);
+    if (!discReady || reduce) {
+      discX = dest;
+      discReady = true;
+    } else {
+      var delta = dest - discX;
+      discX += delta * 0.22;
+      if (Math.abs(delta) < 0.4) discX = dest;
+    }
+    slot.style.transform = "translate3d(" + discX.toFixed(2) + "px,0,0)";
+  }
+
   function apply() {
     var y = window.scrollY;
     view.style.transform = "translate3d(" + (-y) + "px,0,0)";
@@ -43,12 +71,13 @@
     ticks.forEach(function (a, n) {
       a.setAttribute("aria-current", n === i ? "true" : "false");
     });
+    return i;
   }
 
   function frame() {
     scale += (target - scale) * (reduce ? 1 : 0.2);
     if (Math.abs(target - scale) < 0.001) scale = target;
-    apply();
+    trackDisc(apply());
     requestAnimationFrame(frame);
   }
 
@@ -161,7 +190,10 @@
     });
   }
 
-  window.addEventListener("resize", layoutHeight);
+  window.addEventListener("resize", function () {
+    discReady = false;
+    layoutHeight();
+  });
   layoutHeight();
   apply();
   requestAnimationFrame(frame);
