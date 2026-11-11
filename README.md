@@ -4,7 +4,7 @@
 
 - 首页是介绍和项目
 - [文章](blog/) 是读后
-- [想法](thoughts/) 是三则短记
+- [想法](thoughts/) 是短想法
 - [作品](products/) 是工作之外做的东西
 
 站点是静态页面，由 `main` 部署到 GitHub Pages。`CNAME` 指向 jojoo.cc。

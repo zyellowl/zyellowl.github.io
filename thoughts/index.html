@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>想法 — 张磊</title>
-  <meta name="description" content="三则从蚁小保和大保里留下来的短想法。">
+  <meta name="description" content="张磊的短想法。">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +22,50 @@
   <a href="/thoughts" aria-label="Thoughts"></a>
   <a href="/products" aria-label="Products"></a>
 </nav>
-<main id="content">
-<h1>想法</h1><h2>插话之后，模型该记住哪一段</h2><p>一轮回复生成完的时候，用户可能只听了前半段。下一轮应该保留用户实际收到的范围。客户端在打断时回报播放进度，服务端在下一轮上下文里标出已播范围。</p><h2>工具该返回多少数据</h2><p>工具返回什么，取决于下一步分析需要什么。确认执行结果时，只回状态和条数，避免把整批明细再次送进模型。</p><h2>如何判断一次修复有效</h2><p>把线上问题还原到当时的执行记录，才能在沙箱里复现并检查改动。大保从生产 Trace 发现问题，改动通过验证和评测后合并，发布后再看新的 Trace。</p></main>
+<main class="notes" id="content">
+<article class="note">
+<time datetime="2026-11-10">2026-11-10</time>
+<h2>共用的 Harness，要每人交一份</h2>
+<p>组内私人助手要好用，每个人得贡献自己那块排障和文档的经验。只靠一个人写，最后就是一个人替全组兜底。</p>
+</article>
+<article class="note">
+<time datetime="2026-11-09">2026-11-09</time>
+<h2>慢一秒，语音里听得见</h2>
+<p>新链路的事实率、准确率都对齐了，平均却慢了约一秒。文字场景里一秒无所谓，语音里用户会以为你没听见。只看准确率的评测，等于没测语音。</p>
+</article>
+<article class="note">
+<time datetime="2026-11-04">2026-11-04</time>
+<h2>卡住上线的，常常不是代码</h2>
+<p>业务代码早就上线了，开关一直没开，在等评测口径。技术问题有人修，口径问题没人认领，后者拖得更久。</p>
+</article>
+<article class="note">
+<time datetime="2026-11-04">2026-11-04</time>
+<h2>协议差异，留在插件里消化</h2>
+<p>非标准 SSE、基于 OpenAI 协议的业务扩展、纯 OpenAI 协议，三种对外协议放进一个插件，宿主 Agent 按需加载。差异不收在边上，就会一路渗进核心逻辑。</p>
+</article>
+<article class="note">
+<time datetime="2026-11-04">2026-11-04</time>
+<h2>为评测开接口，要先问值不值</h2>
+<p>为了评测开了好几个定制接口。每开一个，都是把评测团队该做的能力挪到了业务这边。下次先谈端到端口径，再动手开接口。</p>
+</article>
+<article class="note">
+<h2>修复有没有用，看下一批 Trace</h2>
+<p>从生产 Trace 发现问题，在沙箱复现，改完过评测再合并。发布后不再看 Trace，就不知道到底修没修好。</p>
+</article>
+<article class="note">
+<h2>被打断后，只记用户听到的部分</h2>
+<p>回复生成完，用户可能只听了前半段。下一轮的上下文应该以播放进度为准，而不是以模型说了什么为准。</p>
+</article>
+<article class="note">
+<h2>工具返回值，按下一步需要来给</h2>
+<p>确认执行结果时，回状态和条数就够了。把整批明细再塞回模型，既慢又容易让它跑偏。</p>
+</article>
+<article class="note">
+<time datetime="2024-06">2024-06</time>
+<h2>能演示和能天天用，是两回事</h2>
+<p>SQL 生成从演示版到 92% 准确率，中间加的几乎都是工程：Schema Linking、执行反馈、动态示例，不是更漂亮的指令。</p>
+</article>
+</main>
 <footer><p>© 2026 张磊</p></footer>
 </div>
 <script src="/nav.js"></script>
