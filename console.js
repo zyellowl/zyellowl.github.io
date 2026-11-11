@@ -172,17 +172,17 @@
       steps: [
         {
           tool: "open_blog",
-          arg: "2026-09",
+          arg: "2026-05",
           ms: 900,
-          result: "最近一篇是「电商 Agent 的取舍」。",
-          links: [{ href: "/blog/2026-09-05-dianshang-agent-qushe", text: "打开这篇" }]
+          result: "最近一篇是「Agent 其实是 Harness」。",
+          links: [{ href: "/blog/2026-05-12-agent-jiu-shi-harness", text: "打开这篇" }]
         },
         {
           tool: "open_blog",
-          arg: "2026-05",
+          arg: "2026-04",
           ms: 800,
-          result: "再往前一篇是「Agent 其实是 Harness」。",
-          links: [{ href: "/blog/2026-05-12-agent-jiu-shi-harness", text: "打开这篇" }]
+          result: "再往前一篇是「会话该怎么切」。",
+          links: [{ href: "/blog/2026-04-18-huihua-gai-zenme-qie", text: "打开这篇" }]
         },
         {
           tool: "open_blog",
@@ -194,9 +194,9 @@
       ],
       answer: [
         { text: "最近一篇是" },
-        { text: "电商 Agent 的取舍", href: "/blog/2026-09-05-dianshang-agent-qushe" },
-        { text: "。再往前是" },
         { text: "Agent 其实是 Harness", href: "/blog/2026-05-12-agent-jiu-shi-harness" },
+        { text: "。再往前是" },
+        { text: "会话该怎么切", href: "/blog/2026-04-18-huihua-gai-zenme-qie" },
         { text: "。目录在" },
         { text: "文章", href: "/blog" },
         { text: "。" }

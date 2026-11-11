@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>结构化输出怎么用 — 张磊</title>
+  <meta name="description" content="结构化输出怎么用">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2023-12-31">2023 年 12 月 31 日</time></p>
+<h1>结构化输出怎么用</h1>
+<p class="quiet tags">结构化输出、函数调用、SQL生成</p>
+<p>生成 SQL 这件事，我很快意识到：模型用自然语言把语句“说出来”，和我能稳定地把它接到执行器上，是两回事。字段名多一个空格、少一个引号，后面的修正流程就接不住。Max Woolf 这篇讲 ChatGPT 的结构化数据，核心就是把输出卡进 JSON 架构里，再用函数调用让程序能直接读。我读的时候想的不是摘要和 SEO 关键词，是查询语句能不能被可靠地接走。</p>
+<blockquote><p>使输出强制遵循特定的 JSON 架构，这样我就能通过编程方式访问它或将其存入数据库进行索引。</p></blockquote>
+<p>强制出结构，这个方向我对。自由文本看起来完整，解析时却经常要人肉收拾。营销洞察里，模型给出的 SQL 如果不能被程序稳定拿走，执行反馈也就谈不上。函数调用、JSON 架构，至少先保证形状是对的。形状对了，并不等于语句对。这是我跟文章略有不同的地方。他后面展示了用这两项技术之后摘要更干净，我信。可 SQL 写错表、Join 条件反了，仍然是一份合法的结构化输出。</p>
+<blockquote><p>多亏了提示工程和 ChatGPT 的函数调用功能，这已经成为可能。</p></blockquote>
+<p>提示工程和函数调用要一起用，不是选边。我们这边，Schema Linking 和 Few-shot 决定模型看什么、怎么想，结构化输出决定结果怎么被程序接住，执行反馈再决定要不要改下一轮。少了任何一段，准确率都起不来。40% 到 92%，不是某一天换了 JSON 模式就跳上去的，是生成依据收窄之后，再加上跑一遍、把报错送回去改。</p>
+<blockquote><p>这些结果并不特别准确，我还得手动一个个复制粘贴。</p></blockquote>
+<p>他写的是没做结构化之前的摘要。这个痛感我熟。没有稳定的接口，所谓“模型会写 SQL”，到头来还是人在中间倒手。对话式工作台如果还要人去拷语句，就谈不上把申请、策划、推送和分析串起来。结构化输出解决的是交接，不是正确性。正确性还得靠上下文约束和实际跑出来的结果。</p>
+<blockquote><p>你可以像提供结构化输出那样，向 ChatGPT 提供结构化输入。</p></blockquote>
+<p>这句我倒很想拿来对照 Schema Linking。给模型的不该是一整份库表说明书，而应是跟当前问题有关的表、字段、示例，最好也是结构清楚的。输入乱，输出格式再严，也只是把错包装得更工整。我现在会把“这一轮喂进去的结构”和“这一轮要出来的结构”放在一起看，而不是只盯着输出侧的 schema。智能问答里后来接了 ChatGLM6B，自由对话更容易写出看起来完整、程序却拿不准的回复。能解析、能进流程，比把话说圆更要紧。</p>
+<p>原文：<a href="https://minimaxir.com/2023/12/chatgpt-structured-data/">Pushing ChatGPT&#x27;s Structured Data Support To Its Limits</a> by Max Woolf；中文译文：宝玉 <a href="https://baoyu.io/translations/llm/chatgpt-structured-data">https://baoyu.io/translations/llm/chatgpt-structured-data</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>做了一年 LLM 的教训 — 张磊</title>
+  <meta name="description" content="做了一年 LLM 的教训">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2024-06-11">2024 年 6 月 11 日</time></p>
+<h1>做了一年 LLM 的教训</h1>
+<p class="quiet tags">评测、提示工程、RAG</p>
+<p>从去年峰会讲初版 MVP，到今年把 SQL 生成的准确率做到 92%，再把 RAG 收成统一平台，算下来也差不多一年。applied-llms.org 上这篇文章是几位长期做大模型应用的人合写的，篇幅长，但很少空话。我读的时候不断在对：哪些我已经踩过，哪些我以为做完了，其实只做了一半。</p>
+<blockquote><p>一个提示词通常从简单开始：几句指令，几个示例，就可以了。</p></blockquote>
+<p>这几乎是 SQL 生成的工作日记。一开始真的就是几条指令加几个例子，能跑通演示。后来 Join 一复杂、字段一多，例子往上堆，指令越写越长，常见的简单查询反而开始不稳。我采取的办法不是继续往同一段提示词里塞例外，而是把字段筛选拆出去，用 Dynamic Few-shot 按问题挑例子，思维链只用来理清当前该怎么 Join。提示词还是会变长，但长在这一轮需要的结构上，不是长在一份全能说明书上。</p>
+<blockquote><p>不知不觉中，我们最初简单的提示词变成了一个 2000 个 Token 的怪物。</p></blockquote>
+<p>他们紧接着写，更糟的是它在处理更常见、更简单的输入时，表现反而更差。为了难例子牺牲容易的例子，这种交换在演示里看不出来，一放到真实查询分布上就原形毕露。执行反馈能抓住跑失败的语句，却不太能提醒我：简单查询是不是被那些为边缘情况写的指令带坏了。以后再加规则，我得顺手留几条最常见的查询，改完先看它们有没有掉下来。</p>
+<blockquote><p>没有评估，你就无法确定你的提示工程是否足够好，或者何时你的微调模型（fine-tuned model）准备好取代原始模型（base model）。</p></blockquote>
+<p>评估这件事，我在 SQL 上有数，在 RAG 上还不够硬。他们建议从真实输入输出里写断言，变更提示、变更检索上下文都要跑一遍。这比“我觉得这轮回答不错”可执行。平台已经能把文档和向量的关系管起来，业务也能用声明式接口接进来，缺的是把检索和问答质量做成跟发布绑在一起的检查。检索对不对、回答偏没偏，还多半靠抽查。这跟 SQL 这边能对照执行结果，差了一截。微调他们也提到了。我还没有用微调去替换现在的 SQL 提示流程，也就谈不上“何时取代”。没有评估的微调，我更不敢做。文章把评估写成不管团队多小都要做的事，我认同，只是文档问答的断言比“语句能不能跑”更难写，还在摸。</p>
+<blockquote><p>正确的提示技巧，若运用得当，能极大地推动项目前进；但仅依靠提示技巧，无论其设计多精妙，最终都需要围绕其构建复杂的工程解决方案。</p></blockquote>
+<p>这句像是给这一年做总结。Schema Linking、Few-shot、思维链，确实把项目推过了能演示、能宣讲的阶段；可要接到工作台里持续用，还得有执行修正、有文档入库和更新、有声明式的检索接入。智能问答里把 ChatGLM6B 接到原有 SOP 上，也是同一类工作：模型只是其中一层，版本控制和会话连续性还是工程问题。提示技巧不是不重要，它扛不住一整条产品链路。一年下来我越来越确信：能演示的那一版，和能每天被业务查询打的那一版，中间隔的都是这些工程，不是再写一句更漂亮的指令。</p>
+<p>原文：<a href="https://applied-llms.org/">What We Learned from a Year of Building with LLMs</a> by Eugene Yan, Bryan Bischof, Charles Frye, Hamel Husain, Jason Liu, Shreya Shankar；中文译文：宝玉 <a href="https://baoyu.io/translations/llm/what-we-learned-from-a-year-of-building-with-llms">https://baoyu.io/translations/llm/what-we-learned-from-a-year-of-building-with-llms</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

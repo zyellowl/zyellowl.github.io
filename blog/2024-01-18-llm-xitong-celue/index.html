@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLM 系统的几种策略 — 张磊</title>
+  <meta name="description" content="LLM 系统的几种策略">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2024-01-18">2024 年 1 月 18 日</time></p>
+<h1>LLM 系统的几种策略</h1>
+<p class="quiet tags">评测、RAG、LLM应用</p>
+<p>年初回看过去几个月做的两件事，一件是营销平台里的 SQL 生成，一件是把文档解析、向量化和检索收成统一 RAG 平台。两边都不只是“会调 API”。Eugene Yan 把 LLM 系统拆成评估、检索增强、微调、缓存、护栏、防御性体验和用户反馈七种策略，我读完没有打算照单全收，但评估和 RAG 两节，几乎就是我正在撞的墙。</p>
+<blockquote><p>评估对团队而言的重要性，是区分迅速推出低质量产品和认真开发高质量产品的团队的关键。</p></blockquote>
+<p>这话听着硬，细想是对的。SQL 生成如果只看几条样例好不好，很容易自我感觉良好。我们后来能把领域内准确率从 40% 做到 92%，靠的是能跑、能对照执行结果，而不是我觉得这句 SQL“看起来像样”。没有评估，改 Prompt、加 Few-shot、换一版模型，都不知道是变好还是变差。</p>
+<blockquote><p>没有评估，我们就像盲人摸象，或者只能靠肉眼检查大语言模型的输出来判断改动的效果。</p></blockquote>
+<p>肉眼检查我做过，也知道它撑不久。查询一类变了，原来眼看能过的例子就不代表性了。执行反馈其实就是一种很窄的评估：语句能不能跑、结果是否对得上预期。它解决不了所有语义问题，但比只盯生成文本要硬。RAG 这边我还没有同等清晰的指标，检索得准不准，常常要靠抽查。平台可以先把入库和检索接口做统一，评估怎么做成日常习惯，我还在找办法。</p>
+<blockquote><p>检索增强生成（RAG）：用于增加最新的外部知识</p></blockquote>
+<p>这个定位我基本同意。模型自己不会带着业务文档来，知识问答要靠检索把材料送进上下文。不过“增加最新知识”说得比较轻。我独立做统一 RAG 平台时，花时间最多的不是选一个更新颖的检索算法，而是把文档、切片、Embedding 和向量集合的关系理清楚，让解析、无感更新和 Embedding 绑定能按同一套流程走。业务侧用声明式 API 接入，不必直接碰 Qdrant 的细节。没有这部分，所谓 RAG 策略落不到可复用的平台上，只能每个项目自己搭一套。</p>
+<blockquote><p>微调（Fine-tuning）：用于提高特定任务的效果</p></blockquote>
+<p>微调被他列为七种策略之一。SQL 这件事上，我还没有走这条路。收窄上下文、补执行修正，已经把准确率拉了上来。不是说微调没价值，是在评估还没完全稳住、检索平台还在收口的时候，先上微调，我分不清到底是哪一层在起作用。缓存、护栏他后面也写了，方向对，只是我这几件事里还没做到那种份上，就不拿没做过的实践去附和。用户反馈这一条，营销工作台倒是有天然来源：语句跑失败、业务说结果不对，都是信号。怎么把这些信号稳定收进来，比再列一条新策略更急。</p>
+<p>原文：<a href="https://eugeneyan.com/writing/llm-patterns/">Patterns for Building LLM-based Systems &amp; Products</a> by Eugene Yan；中文译文：宝玉 <a href="https://baoyu.io/translations/llm/patterns-for-building-llm-based-systems-products">https://baoyu.io/translations/llm/patterns-for-building-llm-based-systems-products</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

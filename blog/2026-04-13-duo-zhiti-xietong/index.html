@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>五种多智能体协作 — 张磊</title>
+  <meta name="description" content="五种多智能体协作">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-04-13">2026 年 4 月 13 日</time></p>
+<h1>五种多智能体协作</h1>
+<p class="quiet tags">多智能体、路由、实时语音</p>
+<p>蚁小保 IM 这一侧，一直是协调者加领域专家，LangGraph 做调度，Graph State 里放计划、槽位、执行状态。路由做粗分流、槽位校验、澄清补齐，项目评测准确率到过 90%。有人问我这算不算“多智能体”，我答得清架构，却不太能说清：五种协作模式里，我们到底站在哪一种上，有没有站错。</p>
+<p>Anthropic 这篇讲的就是这件事。他们假定你已经决定走多智能体，接下来只问该选哪种模式。这个问法比“要不要上多智能体”对我更有用。</p>
+<blockquote><p>从最简单的、能跑通的模式开始，观察它在哪里会遇到瓶颈，然后再逐步升级。</p></blockquote>
+<p>这话我赞成。保险咨询很容易一上来就按业务域切出一堆专家，听起来完整，跑起来却发现退保和理赔要共用前面填过的槽位，专家之间还得互相看一眼。我们并不是先画了五种模式再施工，而是任务拆不开、一个窗口处理不过来，才把协调者和专家分开。如果现在让我重来，我仍会先让一个 Agent 把单任务跑通，等它在跨域、长任务上卡住，再拆。为了架构好看提前升级，后续要改的是状态怎么同步，成本更高。</p>
+<blockquote><p>当任务拆解非常明确，且子任务之间互相没啥依赖时，这个模式非常得心应手。</p></blockquote>
+<p>这是他们给“调度 - 子智能体”的适用条件。我们表面上很像这种模式：协调者规划、分发，专家办事，再汇总。可保险对话里，子任务常常有依赖。用户先问退保，接着补一张材料，再问到账时间，槽位、口径、已经确认的事实要跟着走。说“互不依赖”在我们这儿不成立。线性、并行、混合三种任务我们都支持，并行也只出现在彼此真的能分开的步骤上，不能当成默认。语音那一侧更明显，话轮短，用户还可能插话打断，专家之间如果还在等对方的结果，开口就会停住。调度可以用，但前提不是“没依赖”，而是把依赖先写进共享状态里。</p>
+<blockquote><p>调度者很容易变成信息的“瓶颈”。一旦某个子智能体发现了可能影响另一个子智能体工作的信息，这个情报必须先上报给调度者，再由调度者下发。</p></blockquote>
+<blockquote><p>如果信息在上下级之间倒手太多次，关键细节很容易就在被一次次“总结汇报”的过程中弄丢了。</p></blockquote>
+<p>这两句说中了交接的代价。专家回传如果只剩一句结论，协调者再转述给下一个专家，保单号、免责、用户刚刚纠正过的口径，都可能在摘要里消失。我们用统一的 Graph State 承载计划、槽位、执行状态、结果和 Trace，就是不想让调度者当唯一的传话筒。这更接近他们后文说的共享状态：大家对着同一块“黑板”读写，而不是所有发现都先打包给主管。共享状态也有自己的麻烦，他们写了重复劳动和来回补充的死循环。所以我们没有丢掉协调者，路由还是要做，迭代也有上限，长任务用两阶段准出往回收。调度和共享状态是叠在一起用的，不是五选一。</p>
+<p>语音和图像问答会把这个问题放大。视频以 VAD 起止界定话轮内的上传窗口，话轮结束时把画面信息和 ASR 文本一起交给模型，用户当轮所说和所见必须对得上。这些上下文如果只活在某个专家自己的窗口里，下一轮协调者看不见，就只能再问一遍，或者按常识补一条。模式可以讨论，状态放在哪，我现在看得比“要几个 Agent”更重。</p>
+<p>原文：<a href="https://claude.com/blog/multi-agent-coordination-patterns">Multi-agent coordination patterns: Five approaches and when to use them</a> by Anthropic；中文译文：宝玉 <a href="https://baoyu.io/translations/2026-04-11/multi-agent-coordination-patterns">https://baoyu.io/translations/2026-04-11/multi-agent-coordination-patterns</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>
