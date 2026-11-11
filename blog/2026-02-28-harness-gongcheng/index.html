@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>何谓 Harness 工程 — 张磊</title>
+  <meta name="description" content="何谓 Harness 工程">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-02-28">2026 年 2 月 28 日</time></p>
+<h1>何谓 Harness 工程</h1>
+<p class="quiet tags">Harness、Codex、协作</p>
+<p>大保 CLI 调度本机的 Codex，结果从钉钉 Bot 回给同事。每个人还会往里面塞自己的 Harness。时间一长，说明文件就越写越长，好像要把仓库、规范、踩坑全写进去，模型才肯听话。Ryan Lopopolo 写 OpenAI 内部用 Codex 做 Codex 的这篇，正好打在这件事上。</p>
+<blockquote><p>因此，我们不把 AGENTS.md 当作百科全书，而是把它当作目录。</p></blockquote>
+<p>他们后面补了一句，注入上下文的这份文件很短，大约 100 行，主要当地图用。这个尺寸我喜欢。大而全的说明，模型不一定会读完，人也懒得维护。我们后来走 Hub 加 CLI、再加 Skill 的路，某种程度上就是把“目录”和“深文档”分开。CLI 负责怎么进仓库、怎么拿经过鉴权的日志和调用链，具体业务说明放进 Skill，按需加载。我还没把各人的 Harness 都收成一百行，但这是该往回砍的方向。说明越长，过期越快。有人贡献的 Harness 里会夹着过期的接口说明，模型仍会按那行过期的话去调用，这种错比说明太短更难查。</p>
+<blockquote><p>当任务失败时，修复办法绝不是“再试一次”。</p></blockquote>
+<p>同意，而且我们吃过这个亏。自迭代 Loop 如果在同一处失败上不停重跑，只会把同样的错再犯一遍，还浪费一轮评测时间。正确做法是先看 Trace，把失败写成可复现的问题，再改 Prompt、改工具或者改流程，放进沙箱里验证。门禁过了才算修完。“再试一次”只适合偶然抖动，不适合系统性错误。</p>
+<blockquote><p>人类可以评审 PR，但非必须。随着时间推移，我们将绝大部分评审工作都推给了“智能体对智能体”的互评模式。</p></blockquote>
+<p>这句我不同意照搬到财保。编码助手之间互评，用来提速可以。涉及口径、规则、可能影响用户看到的回复，我不能把“人可以不看”当成默认。我们现在的自动修复，简单 Prompt 问题可以走沙箱加评测，评测本身就已经偏慢；更敏感的改动，还是要人过一眼。他们给的前提是智能体吞吐量已经远超人类注意力，而且做的是 Codex 这个产品。财保这边，吞吐量没有到那个程度，评测还经常排队，出了错的代价也不一样。0 行人类代码、大部分评审交给模型，那是他们的实验条件，不是我能直接学的方法。</p>
+<blockquote><p>在一个智能体吞吐量远超人类注意力的系统中，修正很廉价，等待却昂贵。</p></blockquote>
+<p>修正真的廉价吗。改一行 Prompt 很快，可要证明这行改动没把别的对话改坏，并不便宜。评测排期一慢，等待照样昂贵，而且还发生在你以为已经修完之后。文章其实也写了，在低吞吐量环境里，这种做法是不负责任的。我觉得我们更接近后一种环境。我认同少在那里等完美设计，认同快速改、快速验证。验证这一步省掉，所谓廉价的修正，只是把成本挪到线上。他们能这么做，是因为环境已经被改成智能体可读、可执行：日志、指标、界面都能被 Codex 直接用。大保 Hub 把鉴权后的日志和调用链交给模型，走的是同一条路，只是我们还远没有把评审和合并的默认权交出去。地图可以学，默认权我暂时不会学。</p>
+<p>原文：<a href="https://openai.com/index/harness-engineering/">Harness engineering: leveraging Codex in an agent-first world</a> by Ryan Lopopolo；中文译文：宝玉 <a href="https://baoyu.io/translations/2026-02-12/harness-engineering">https://baoyu.io/translations/2026-02-12/harness-engineering</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

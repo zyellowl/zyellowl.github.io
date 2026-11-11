@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>上下文工程实用指南 — 张磊</title>
+  <meta name="description" content="上下文工程实用指南">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2025-10-05">2025 年 10 月 5 日</time></p>
+<h1>上下文工程实用指南</h1>
+<p class="quiet tags">上下文工程、工具设计、Agent</p>
+<p>这段时间我改 Prompt 越来越少，改“这一轮到底喂给模型什么”越来越多。系统提示词、工具说明、Observation、用户 Workspace 里的材料摘要，全在抢同一块窗口。Anthropic 把这件事叫做上下文工程，听着像新词，做起来就是这种挑选。</p>
+<blockquote><p>“什么样的上下文配置，最有可能引导我们的模型产生期望的行为？”</p></blockquote>
+<p>问法我喜欢。措辞当然还重要，可我最近几次翻车，很少是某句指令不够漂亮，更多是这一轮里塞进了不该在的东西，或者该在的东西被挤到了很后面。数据工厂里，一次工具调用如果把完整数据集带回来，后面的分析质量会掉一截。我已经在 Observation 上做了区分：真正要分析的才进上下文，只确认跑没跑成功的，回状态和条数。这跟他们说的“筛选 Token”是同一类活。</p>
+<blockquote><p>随着上下文窗口中的 Token 数量增加，模型从中准确回忆信息的能力反而会下降。</p></blockquote>
+<blockquote><p>因此，我们必须将上下文视为一种有限的、边际效益递减的资源。</p></blockquote>
+<p>衰减这件事，用过长会话的人都见过。窗口越大，越容易产生“再多放一点也没关系”的心态。蚁小保的图片问答，我会把理赔照片先转成图像摘要再进上下文，就是怕原图和长对话叠在一起，模型开始忽略前面说过的槽位。语音那一侧更明显，VAD、ASR 之后还要进推理、再 TTS，上下文一长，既容易忘前面的约束，也会把开口时间拖住。摘要会丢细节，这是代价。什么该进摘要、什么必须留原句，我还没有一套稳定的规矩，只能按任务试。保单号、免责、已经确认的槽位，我倾向留原句；材料的观感、重复的工具日志，可以进摘要。</p>
+<blockquote><p>如果一个人类工程师都无法确定在特定情况下应该使用哪个工具，那么我们也不能指望一个 AI 智能体能做得更好。</p></blockquote>
+<p>这条比“上下文要短”更扎人。他们前面还写了，最常见的失败是工具集臃肿，功能重叠，选的时候犯糊涂。IM 多智能体里，路由要做粗分流、槽位校验、澄清补齐，项目评测准确率到过 90%，靠的也是先把“该找谁”说清楚。工具要是功能重叠，模型和人都得猜。我回头看自己写过的分析工具，有的查询和有的统计界线并不干净，模型偶尔会选错。以后加工具之前，我得先问一句：换个人来，看名字和描述，能不能判断该用哪一个。问不清楚，就先别加。</p>
+<p>他们还建议少样本不要堆边缘案例，改用少量有代表性的例子。这点我部分同意。保险场景里有些边界必须写明，不然模型会按常识编一条规则。但把所有例外都堆进系统提示词，确实会把真正常见的路径淹没。我现在的折中是：高频约束写死，长尾的例子先少放，等线上 Trace 里反复出现再补。补的时候也要克制，不能每出现一次新案子就往窗口里再塞一段。我有过这种冲动：线上刚出一个怪问题，就想立刻把说明写进系统提示词。写进去当时会放心一点，过两周窗口更挤，模型对高频路径的遵守反而差了。Trace 里反复出现再补，说起来简单，执行时还是得忍住。</p>
+<p>原文：<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a> by Anthropic 工程团队；中文译文：宝玉 <a href="https://baoyu.io/translations/effective-context-engineering-for-ai-agents">https://baoyu.io/translations/effective-context-engineering-for-ai-agents</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

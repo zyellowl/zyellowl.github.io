@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>给 Agent 写好用的工具 — 张磊</title>
+  <meta name="description" content="给 Agent 写好用的工具">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2025-09-14">2025 年 9 月 14 日</time></p>
+<h1>给 Agent 写好用的工具</h1>
+<p class="quiet tags">工具设计、评测、Agent</p>
+<p>改完一轮工具，想知道是变好了还是变差了，常常要等评测同学排期。事实率、准确率、时延，这几项我们都要，可一轮出来得等挺久。中间那段时间，我只能拿自己手里的样本看一看，心里没底。</p>
+<p>Anthropic 这篇讲的就是给 Agent 写工具，而且把评估写进了方法，不是写完再补一章。我读的时候一直在想，我们自己的工具到底是写给模型的，还是把内部接口换了个皮。</p>
+<blockquote><p>我们不能再像为其他开发者或系统编写函数和 API 那样去写工具和 MCP 服务器，而是要为智能体量身设计。</p></blockquote>
+<p>这话听着绝对，细想是对的。给人用的 API 追求完整、灵活，字段可以又臭又长，调用方自己会挑。模型不会挑。它看见什么就往上下文里塞，还可能抓住一个 uuid 开始编故事。数据工厂里我已经吃过亏：分析工具如果把整份查询结果扔回去，窗口立刻脏掉。后来改成，分析真正需要的数据才进 Observation，只是确认执行状态的，只回状态和条数。这就是在为模型改契约，不是给后端加个 wrapper。</p>
+<blockquote><p>同理，工具的实现也应注意只向智能体返回高价值的信息。</p></blockquote>
+<p>“相关性优先于灵活性”，我愿意把这句话钉在工具评审上。灵活听起来总是好的，字段多一点、过滤少一点，以后好扩展。可对 Agent 来说，多一个没人用的字段，就是多一段可能被误读的上下文。他们点名别把 uuid 这类标识符直接扔回去，我认同。模型抓住一个内部 id 开始编，比少一个扩展字段麻烦得多。京东做营销 SQL 生成的时候，我也是先用 Schema Linking 把表和字段收窄，再让模型写，准确率才从 40% 做到 92%。当时觉得是 Prompt 技巧，现在看就是同一件事：别把用不上的结构交给模型。</p>
+<blockquote><p>我们建议你避免使用那些过于简单或肤浅的“沙盒”环境，因为它们无法用足够的复杂度来对你的工具进行压力测试。</p></blockquote>
+<p>这条我同意，也有点无奈。他们的理由是，太干净的环境撑不出工具在复杂任务里的真实用法，一个好的评估任务可能要走许多次工具调用。大保这边后来做自动修复，会把 Prompt 一类改动放进按生产标准复刻的环境里复现、再验证，这方向是对的。可评测本身如果场景太干净，门禁过了，线上照样会出怪问题。我们现在的困难不完全是没有沙箱，是评测轮次太慢，事实率、准确率、时延都要，一轮出来往往得等。</p>
+<blockquote><p>因为解决任务的正确路径可能不止一条，所以要尽量避免过度指定或对某种特定策略产生过拟合（overfitting）。</p></blockquote>
+<p>他们还建议，除了顶层准确率，把单个工具调用和任务的总运行时长、工具调用总数、token 消耗总量以及工具错误也收集起来。顶层准确率当然要，但如果我们把“必须调用某几个工具、按某个顺序”写死，评测会惩罚一条同样能答对、只是路径不同的路。工具调用次数、耗时、token、错误，这些更能暴露工具是不是难用。数据工厂里已经有评测挖掘平台，我希望以后这些过程指标能一起跑出来，不必等一次完整的人工事实率才知道工具改坏了。眼下还做不到这么快。能改的地方，我先把工具返回值写刻薄一点：该回状态的回状态，该回数据的再回数据，标识符能翻译成人能读懂的名字就翻译。等评测节奏跟上了，再回头看这些改动到底有没有把路径走顺。</p>
+<p>原文：<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing effective tools for agents — with agents</a> by Anthropic 工程团队；中文译文：宝玉 <a href="https://baoyu.io/translations/writing-tools-for-agents">https://baoyu.io/translations/writing-tools-for-agents</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

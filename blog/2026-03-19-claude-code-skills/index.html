@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude Code 的 Skills — 张磊</title>
+  <meta name="description" content="Claude Code 的 Skills">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-03-19">2026 年 3 月 19 日</time></p>
+<h1>Claude Code 的 Skills</h1>
+<p class="quiet tags">Skills、Claude Code、Harness</p>
+<p>大保这边，同事把自己的 Harness 往里加的时候，文档、操作手册、Skill 常常揉在一个目录里。谁都能贡献，这是好事。读起来却经常分不清：这是给模型触发用的，还是给人看的说明。Thariq 讲 Claude Code Skills 的这篇，把“什么叫一个 Skill”说得比较硬。</p>
+<blockquote><p>它们不只是文本文件——它们是文件夹，可以包含脚本、资源文件、数据等等，智能体可以发现、探索和使用这些内容。</p></blockquote>
+<p>这点我同意，也正好解释了为什么只丢一篇 markdown 往往不够。要让 Codex 或 Claude Code 真的干活，经常还得带上可执行的检查、示例输入、权限说明。我们后来用 Hub 加 CLI、再加 Skill 去对接这些工具，其实已经把 Skill 当成一个小包裹。模型需要的时候自己去翻这个文件夹，比把所有说明一次性写进系统提示词干净。</p>
+<blockquote><p>最好的 Skills 清晰地落在某一个类别里；让人困惑的 Skills 往往横跨了好几个。</p></blockquote>
+<p>理想状态是这样。落地以后没那么干净。一个同事为了修一类线上问题，会把排查步骤、相关日志怎么查、以及对应业务口径写进同一个 Skill。横跨了，确实会让模型触发时犹豫，人也不好复用。可硬拆成三个“单一类别”的 Skill，又可能在一次真实排查里来回切。我倾向于先容忍这种脏，等同一种横切出现第三次，再拆。一上来就按分类学做纯 Skill，团队贡献会变慢。Thariq 列的那些类别——库和 API 参考、产品验证、数据获取——作为检查清单有用，当作门禁就太硬了。</p>
+<blockquote><p>所以 description 字段不是摘要——它描述的是何时该触发这个 Skill。</p></blockquote>
+<p>这句话我会拿去改已经写过的 Skill。很多人（包括我）会把 description 写成“这个 Skill 提供某某能力”，读起来像产品介绍。模型要的是触发条件：在什么用户意图、什么错误模式、什么文件类型下该加载它。触发写不准，再好的正文也进不了上下文；触发写得太宽，又会把不相关的 Skill 一起拖进来。</p>
+<blockquote><p>任何 Skill 中信息量最大的部分就是踩坑点章节。</p></blockquote>
+<p>这也是我读别人 Harness 时最先翻的部分。成功路径大家写得都差不多，真正能少走一遍弯路的，是“这个工具的返回值会骗过你”“这个权限看起来有、其实没有”“这个问题看起来像 A，其实是 B”。如果一个 Skill 没有踩坑点，我现在会怀疑它只是把文档搬过来了，还没被真实跑轮次打过。</p>
+<p>按需加载能力，和把所有规范一次喂进去，是两件事。跟上下文工程是同一条线上的活。只是团队贡献的时候，分类不会像文章里那么整齐，这点我可以接受，但触发条件和踩坑点不能省。没有这两项，所谓 Skill 就只是换了个目录放文档。我自己准备回头把已经写下的 description 过一遍，看看有多少还在介绍能力，有多少真正写了触发条件。过完一遍再决定要不要对同事贡献的目录提更硬的要求。现在先不提，提早了，人家就不往里放了。</p>
+<p>原文：<a href="https://x.com/trq212/status/2033949937936085378">Lessons from Building Claude Code: How We Use Skills</a> by Thariq Shihipar；中文译文：宝玉 <a href="https://baoyu.io/translations/2026-03-17/claude-code-skills-lessons">https://baoyu.io/translations/2026-03-17/claude-code-skills-lessons</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

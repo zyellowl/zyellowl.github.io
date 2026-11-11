@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>会话该怎么切 — 张磊</title>
+  <meta name="description" content="会话该怎么切">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-04-18">2026 年 4 月 18 日</time></p>
+<h1>会话该怎么切</h1>
+<p class="quiet tags">会话管理、上下文工程、Claude Code</p>
+<p>我自己用 Claude Code 或 Codex 排障时，经常在同一个会话里连续问下去，直到窗口发沉、回答开始飘。Thariq 这篇讲会话管理和一百万上下文，读起来不像方法论，更像有人把那些说不清的使用习惯摊开了。里面有几条我赞成，有几条搬到面向用户的对话里会出事。</p>
+<blockquote><p>我们的经验法则是：当你开始一项新任务时，你也应该开启一个新会话。</p></blockquote>
+<p>写代码时，这条基本成立。修完一个问题再去做另一件无关的事，旧会话里的报错、试错、读过的文件会变成噪音。大保 Bot 给同事用，新任务新会话也说得通，无非是群里换一个问题，CLI 开一轮新的。蚁小保就不一样了。用户在 IM 里问退保，接着补一句材料，再问到账时间，这不是三个任务，是同一笔咨询被切开问。这时强行新开会话，前面填过的槽位就没了，模型会把已经确认的信息再问一遍，或者按常识补一条规则。面向用户的保险对话，我更在意会话怎么续，而不是怎么切。</p>
+<blockquote><p>如果非要我挑出一个能代表“优秀上下文管理能力”的好习惯，那一定是用好“回溯（Rewind）”。</p></blockquote>
+<p>在编码助手里，我认这个习惯。模型读了五个文件，走错路，与其在后面追加“刚才那招不行，换 B”，不如退回到读完文件的那个点，带着新约束再走。错路留下的工具输出，留在上下文里会继续带偏。可生产对话几乎做不到这种回溯。用户已经看到了一段回复，你没法把那几分钟从他眼前抹掉。内部自动修复倒可以接近这个动作：发现改歪了，不要在同一段脏上下文里继续补丁，回到改之前的状态，带着新的约束进沙箱再验证。对用户可见的那一侧，我只能把错答记进 Trace，下一轮换策略，不能假装刚才没发生过。</p>
+<blockquote><p>我们发现，这种“翻车”通常发生在一个特定的时刻：那就是大语言模型（LLM）无法预测你下一步工作方向的时候。</p></blockquote>
+<p>这句比“摘要会丢细节”更具体。压缩的人（或者说模型）只能按当前主线来保留信息。用户下一句要是拐到一个刚才随口提过的警告、一条免责、一张还没展开的材料，压缩后的上下文里可能已经没了。保险咨询尤其容易这样问。我现在不太信任“把长会话自动总结一下就能继续”。真要压缩，得留下能找回原文的引用，并且把已经确认的槽位写成不易被摘要吞掉的结构。做不到这两点，宁可会话短一点，也不要一次糊里糊涂的压缩。</p>
+<blockquote><p>我们判断是否该用子智能体的“灵魂拷问”是：以后我还需要看这些工具运行的详细输出吗，还是我只想要一个最终结论？</p></blockquote>
+<p>这个提问方式很好用。蚁小保 IM 里，协调者把任务分给领域专家时，我希望回传的是结论和关键证据，而不是专家翻过的全部材料。详细输出要是以后还要核对，就该落在 Graph State 或者 Workspace 里，而不是指望还在子上下文中。反过来，排查类的内部任务，我有时就是要看工具的原始输出，这时候不该包一层子智能体把细节滤掉。用不用子 Agent，先问自己还想不想看见中间过程，比先问“架构上是否优雅”要实在。大保里排查一次线上问题，我常常就是要看原始日志和调用链，这时候如果先派个子智能体“总结一下”，细节可能在交接里就没了。反过来，写一份给同事看的结论，详细输出就可以留下，只把结论送回来。同一套系统里，这两种情况会交替出现，所以没有一劳永逸的选法。</p>
+<p>原文：<a href="https://x.com/trq212/status/2044548257058328723">Using Claude Code: Session Management &amp; 1M Context</a> by Thariq Shihipar；中文译文：宝玉 <a href="https://baoyu.io/translations/claude-code-session-management">https://baoyu.io/translations/claude-code-session-management</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

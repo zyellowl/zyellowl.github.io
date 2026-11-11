@@ -172,30 +172,32 @@
       steps: [
         {
           tool: "open_blog",
-          arg: "2026-11",
+          arg: "2026-09",
           ms: 900,
-          result: "11 月 6 日那篇叫「结束语不能当修复完成」。认的结束有三样：写明的限制下再跑过，挡合并的题没有相关退步，发出去之后还能看见这类事件。",
-          links: [{ href: "/blog/the-model-does-not-declare-done", text: "打开这篇" }]
+          result: "最近一篇是「电商 Agent 的取舍」。",
+          links: [{ href: "/blog/2026-09-05-dianshang-agent-qushe", text: "打开这篇" }]
         },
         {
           tool: "open_blog",
-          arg: "2026-10",
+          arg: "2026-05",
           ms: 800,
-          result: "10 月那篇叫「模块说明缺主人就跳过」。没有主人的说明，导入时跳过，并写一行日志。",
-          links: [{ href: "/blog/modules-need-owners", text: "打开这篇" }]
+          result: "再往前一篇是「Agent 其实是 Harness」。",
+          links: [{ href: "/blog/2026-05-12-agent-jiu-shi-harness", text: "打开这篇" }]
         },
         {
           tool: "open_blog",
           arg: "目录",
           ms: 700,
-          result: "笔记从 2023 年 1 月排到 2026 年 11 月，按年份放在文章页。",
+          result: "文章按日期排在文章页。",
           links: [{ href: "/blog", text: "全部文章" }]
         }
       ],
       answer: [
         { text: "最近一篇是" },
-        { text: "结束语不能当修复完成", href: "/blog/the-model-does-not-declare-done" },
-        { text: "。再往前是模块说明没有主人就跳过。目录在" },
+        { text: "电商 Agent 的取舍", href: "/blog/2026-09-05-dianshang-agent-qushe" },
+        { text: "。再往前是" },
+        { text: "Agent 其实是 Harness", href: "/blog/2026-05-12-agent-jiu-shi-harness" },
+        { text: "。目录在" },
         { text: "文章", href: "/blog" },
         { text: "。" }
       ]

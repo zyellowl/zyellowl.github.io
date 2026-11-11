@@ -3,7 +3,7 @@
 [jojoo.cc](https://jojoo.cc/) 是张磊的个人站点。
 
 - 首页是介绍和项目
-- [文章](blog/) 是 coding agent 运行时笔记
+- [文章](blog/) 是读后
 - [想法](thoughts/) 是三则短记
 - [作品](products/) 是工作之外做的东西
 

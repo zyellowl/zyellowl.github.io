@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>长跑任务怎么交接 — 张磊</title>
+  <meta name="description" content="长跑任务怎么交接">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2025-11-30">2025 年 11 月 30 日</time></p>
+<h1>长跑任务怎么交接</h1>
+<p class="quiet tags">Harness、自迭代、Agent</p>
+<p>大保的自迭代 Loop 不是一次会话跑完的。定时任务驱动 CLI，把生产上回流的 Trace 扫一遍，发现问题，分级修复，放进沙箱里验证，过评测门禁再发布，然后用新的对话再观察。每一段都可能换一次上下文，甚至换一个模型进程。Anthropic 写长跑 Agent 的这篇，一开头就把我最烦的那个感觉写出来了。</p>
+<blockquote><p>每一个新开启的会话，本质上都对之前发生的事情“失忆”了。</p></blockquote>
+<p>对。长跑任务本来就是分段的，这是核心挑战。我们靠 Trace、问题单和治理记录当交接，不靠模型自己“还记得上周那个 bug”。谁要是觉得压缩一下历史就能把长任务接住，我建议先看一眼压缩后还剩什么。他们用初始化智能体搭环境，再用编程智能体每次只往前推一点，并留下交接文件。结构和我们的“发现到再观测”很像，只是他们面对的是从零写应用，我们面对的是线上已经跑着的 Agent。生产事故的修复路径更脏，不会像功能清单那样一项一项往前勾。</p>
+<blockquote><p>在构建了一些功能后，后续的智能体实例环顾四周，看到已经有了一些成果，就会草率地宣布“工作完成”。</p></blockquote>
+<p>自动修复最怕这个。简单问题可以让它改 Prompt、再进沙箱复现，可模型一旦看到“好像已经没报错了”，就容易收工。我们在门禁里卡评测，就是为了不让它自己宣布完成。门禁慢，是现在最别扭的地方。没有门禁更危险。</p>
+<blockquote><p>下一个人可以直接开始新功能，而不用先去收拾烂摊子。</p></blockquote>
+<p>他们把“干净状态”定义成可以合并到主分支：没有重大 Bug，代码整洁且有文档，交接时不用先收拾。这个标准我赞成，落到生产治理上要改一下词。我们的“干净”，要看这次修复能不能在按生产标准复刻的环境里复现并验证，改动能不能追溯到原始 Trace，合并后能不能被下一轮扫描看见。功能列表全绿，在我们这儿不够。文档和提交说明当然要有，否则下一个同事的 Harness 接不住。这个感觉是对的。烂摊子在我们这儿，通常是一条修过却没留下证据的问题。</p>
+<blockquote><p>相比 Markdown，模型在处理 JSON 时更不容易随意篡改或覆盖文件。</p></blockquote>
+<p>他们连功能清单的格式都做了对抗：模型不许删测试项，清单用 JSON。这很值钱。Markdown 太好改了，Agent 会“顺手整理”。我们的问题单、评测结果，以后也该用更硬的结构存，允许改状态，不允许悄悄把失败项抹掉。我还没做这部分，先记在这里。生产回流的问题本身就比功能清单乱，结构太硬可能会把分级信息放不下；太软又会被模型改掉。这中间怎么卡，还得试。</p>
+<blockquote><p>Claude 倾向于在没有进行适当测试的情况下就将功能标记为“完成”。</p></blockquote>
+<p>单元测试通过和端到端能用，中间差很远。他们后来明确要求用浏览器把流程走一遍。我们对应的是沙箱里按生产标准复现，再加上评测。缺的是，有些对话问题很难用一条自动测试表达，尤其是事实率和口径。这类问题我还不主张全交给自动修复，先分级，简单的走自动，含糊的留给人。</p>
+<p>原文：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a> by Anthropic 工程团队；中文译文：宝玉 <a href="https://baoyu.io/translations/effective-harnesses-for-long-running-agents">https://baoyu.io/translations/effective-harnesses-for-long-running-agents</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

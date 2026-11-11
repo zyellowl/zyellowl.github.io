@@ -96,6 +96,15 @@ pre { overflow: auto; background: #fff; border: 1px solid var(--line); padding: 
 table { width: 100%; border-collapse: collapse; font-size: 15px; }
 th, td { text-align: left; vertical-align: top; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); }
 ul, ol { padding-left: 1.2em; }
+.wrap a { overflow-wrap: anywhere; }
+.index-list .piece a { flex: 1; min-width: 0; }
+blockquote {
+  margin: 28px 0;
+  padding: 0 0 0 16px;
+  border-left: 2px solid var(--line);
+}
+blockquote p { margin: 0; }
+.post .tags { margin-top: 0; }
 .pager { display: flex; gap: 20px; margin: 36px 0; }
 .pager a { text-decoration: none; }
 .pager a:hover { text-decoration: underline; }

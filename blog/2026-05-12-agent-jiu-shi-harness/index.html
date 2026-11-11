@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent 其实是 Harness — 张磊</title>
+  <meta name="description" content="Agent 其实是 Harness">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-05-12">2026 年 5 月 12 日</time></p>
+<h1>Agent 其实是 Harness</h1>
+<p class="quiet tags">Harness、Runtime、上下文工程</p>
+<p>这段时间我把语音通道的后端 Agent 往 DSH 上迁。DSH 是我们做的 DeepSeek Harness 统一 Runtime，协议也不再按端拆开写：IM 非标准 SSE、语音侧那个 OpenAI 协议的 PCP 扩展、以及纯 OpenAI 协议，收到同一个协议适配插件里。功能对齐之后，平均还是要慢大约一秒，我正在查是慢在哪。读 Akshay 这篇拆 Harness 的文章，有种把桌上零件被人点过名的感觉。</p>
+<blockquote><p>“如果你不是模型本身，那你就是 Harness。”</p></blockquote>
+<p>这句定义我喜欢，也正好回应对方问“你是不是在做 Agent”。用户看见的是蚁小保或者大保 Bot，我改的是循环、工具、状态、协议和门禁。当有人说“我开发了一个 Agent”时，他真正的意思是“我开发了一套 Harness，并把它接入了模型”。把这两层分开，讨论会清楚很多。换模型是一回事，换 Runtime、换协议适配是另一回事。DSH 这次功能齐了、平均还慢一秒，我就不能先怪模型，得先看 Harness 里多了哪些转换和等待。</p>
+<blockquote><p>围绕模型，工程化可以分为三个同心圆层次：</p></blockquote>
+<p>他写下的三层是提示词工程、上下文工程、Harness 工程。层次这样画没有错，我自己排障时却很少按圈往外走。改一句工具描述，既动了提示词，也改了模型能看见的上下文，还改了 Runtime 的契约。协议适配更是典型的 Harness 工作，但它会直接改变上下文里出现的事件形状。圈与圈的边界，在生产里是糊的。文章把它写成递进关系，容易让人以为做完 Prompt，再做上下文，然后才轮到 Harness。我的经验几乎相反：先把循环、工具和状态跑通，提示词是在这条管子上不断修的。</p>
+<blockquote><p>Agent 将自己的记忆视为一种“提示”，在行动前必须根据实际状态进行验证。</p></blockquote>
+<p>同意，而且应该写进纪律。模型很容易把上一轮的摘要、槽位或者自己生成的计划当成事实。保险场景里，如果把“用户好像已经提供过保单号”这类记忆直接当输入，后面就会在错误的前提上推理。能验证的就去工具或 Workspace 里对一下，对不上就当它只是提示，不是事实。大保的自动修复也一样，不能因为模型说“已经没报错了”就收工，得在按生产标准复刻的环境里再跑一遍。</p>
+<blockquote><p>核心问题在于上下文腐烂：当关键信息处于窗口中间位置时，模型表现会下降 30% 以上（这就是斯坦福大学发现的“迷失在中间”现象）。</p></blockquote>
+<p>百分之三十这个数字我没有自己测过，不敢拿来当结论。腐烂这件事本身，长会话里确实能感觉到：前面确认过的约束，到了后面就不被遵守。语音这边窗口策略更紧，还要跟时延较劲，多塞一点材料和少塞一点，体感会立刻出来。我现在更关心哪些信息绝对不能掉到窗口中间去等着被忽略，这个百分比反而没那么要紧。槽位、口径、已经验证过的事实，应该放在不容易被冲掉的结构里，别混在一长串工具返回值中间。慢那一秒还在查，上下文策略和协议转换我都会看，不会只盯模型。</p>
+<p>原文：<a href="https://x.com/akshay_pachaar/status/2041146899319971922">The Anatomy of an Agent Harness</a> by Akshay Pachaar；中文译文：宝玉 <a href="https://baoyu.io/translations/2026-05-10/akshay-pachaar-2041146899319971922">https://baoyu.io/translations/2026-05-10/akshay-pachaar-2041146899319971922</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

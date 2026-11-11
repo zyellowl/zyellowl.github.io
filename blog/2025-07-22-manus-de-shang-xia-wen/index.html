@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manus 的上下文工程 — 张磊</title>
+  <meta name="description" content="Manus 的上下文工程">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2025-07-22">2025 年 7 月 22 日</time></p>
+<h1>Manus 的上下文工程</h1>
+<p class="quiet tags">上下文工程、Agent、工具</p>
+<p>数据工厂里那个对话式分析工具，最近老把窗口撑满。用户问一句行为分布，NL2DSL 转完，工具一跑，Observation 里有时会带上不该出现的整段结果。我后来改成：真正要分析的数据才进上下文，只是确认“跑没跑成功”的，只回状态和条数。改完舒服了一些，但总觉得这事不该靠每次手工裁。</p>
+<p>正好读到季逸超写 Manus 上下文工程的这篇。他选择把上下文本身当成实验对象，框架重构了四次，没把赌注押在再训一个智能体模型上。这个判断我认。模型涨得那么快，把产品焊在某一次微调上，确实容易过时。</p>
+<blockquote><p>如果非要我只选一个指标，我认为 KV 缓存命中率是生产阶段 AI 智能体最重要的单一指标。</p></blockquote>
+<p>这句话我没完全同意。缓存命中率当然重要，尤其他们给出的比例很极端：Manus 里输入和输出大约是 100:1，缓存过的输入 token 能差到十倍价钱。可我这几个月真正被卡住的，多半是工具把不该看的东西塞进来了。前缀命不命中，反而排在后面。窗口一脏，后面的推理再省前缀也救不回来。对我们这种业务 Agent，我更想先盯工具返回值和上下文里有多少是噪音。</p>
+<blockquote><p>一个常见的错误是在系统提示词的开头包含时间戳——尤其是精确到秒的时间戳。</p></blockquote>
+<p>这点我被说中了。分析工具里有的请求会把“当前时间”写得很靠前，图的是模型知道数据截止到哪一天。精确到秒确实没必要，他后面也写了，这样会把缓存命中率扼杀掉。时间要给，也可以放在不破坏稳定前缀的位置，或者只给到日期。这周我会去翻一下我们拼上下文的代码，看前缀到底稳不稳。JSON 序列化键顺序不固定这种事，说出来才想起来要查。蚁小保语音那一侧对时延更敏感，如果系统提示词前缀每天、每秒都在变，缓存形同虚设，首字也会拖。我还没有把两端的拼装代码放在一起对过，只是现在觉得该对。</p>
+<blockquote><p>除非绝对必要，否则避免在迭代中途动态增删工具。</p></blockquote>
+<p>他的理由是工具定义通常在上下文前部，中途一改，后面的缓存全废，模型还可能引用已经消失的工具。这个我信。不过业务上我们会按任务加载不同 Skill，工具集并不是从头到尾一张死表。我现在的想法是：一轮对话开始时把工具集定住，不要在同一次循环里增删；换任务再换套工具，顺便开一段新的上下文。有没有更细的做法，我还没试过。</p>
+<blockquote><p>这就是为什么我们将文件系统视为 Manus 的终极上下文：它的大小无限，天然持久，并且智能体可以直接对其进行操作。</p></blockquote>
+<p>这倒是跟我裁 Observation 的方向一致。大结果先落地，模型按需再读，压缩也可以逆回去。蚁小保里用户的理赔照片，我们是先做成图像摘要，放进 Workspace，再进后续对话，也是把重的东西放到模型窗外。Peak 把它说成“结构化的外部记忆”，比我原来只想着“别把表打满”要完整。</p>
+<p>Peak 把压缩写成可恢复的：丢掉网页正文，但留下 URL；丢掉文档内容，但留下沙箱里的路径。这个我比“摘要写细一点”更信。数据工厂里大结果如果只裁不留路径，过后想核对某一行，只能重新跑。我打算把“落地文件的引用”写成工具返回的标配，而不是哪次窗口又炸了再临时改。</p>
+<p>能不变的前缀就别变，能不进窗口的结果就别进，实在要压缩，得留一条能找回原文的路。这三句够我先改一轮了。</p>
+<p>原文：<a href="https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">Context Engineering for AI Agents: Lessons from Building Manus</a> by 季逸超 (Peak)；中文译文：宝玉 <a href="https://baoyu.io/translations/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">https://baoyu.io/translations/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

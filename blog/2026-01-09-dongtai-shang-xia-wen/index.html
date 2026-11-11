@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>上下文该动态发现 — 张磊</title>
+  <meta name="description" content="上下文该动态发现">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">跳到正文</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-01-09">2026 年 1 月 9 日</time></p>
+<h1>上下文该动态发现</h1>
+<p class="quiet tags">上下文工程、Cursor、Agent</p>
+<p>工具一跑，返回值超长，我以前常用的办法是截断。看起来窗口保住了，后面的推理却会突然缺一块：错误栈的关键行、DSL 的后半段、用户材料里真正有用的那句，刚好在截掉的那边。Cursor 这篇讲动态上下文发现，把这个坑写得很直。</p>
+<blockquote><p>我们在最开始提供给模型的细节越少，效果反而越好，因为这让智能体能够更轻松地自行抓取相关的上下文。</p></blockquote>
+<p>这句话我部分同意，部分不敢照搬。编码 Agent 面对一个仓库，先给地图、再按需展开，确实比把所有文件塞进第一轮更干净。保险对话不是这样。退保规则、必填槽位、口径约束，缺一条模型就会按常识补一条。那些“一开始就必须在”的内容，不是细节，是边界。能动态发现的，是材料、日志、长结果；不能动态发现的，是产品不能错的硬约束。我不会为了“少即是多”把这些也藏起来。大保给 Codex 用的说明如果一上来就写得很薄，模型会自己去翻仓库，这没问题；蚁小保面对用户时，模型去“发现”一条不存在的退保规则，就是事故。同样叫动态上下文，编码助手和业务对话的边界不一样。我现在只能按入口来分：给内部排障用的，尽量少喂、多发现；给用户用的，硬约束先放在手里。</p>
+<blockquote><p>截断那些过长的 Shell 命令或 MCP 结果。但这会导致数据丢失，而丢失的部分可能恰恰包含你所需要的关键信息。</p></blockquote>
+<p>他们把截断叫做简单粗暴的做法，我自己以前就是这么干的。文章给出的办法是：把输出写入一个文件，再赋予智能体读取该文件的能力。这跟我在数据工厂里做的事几乎是同一个动作。分析真正需要的数据进上下文，只确认执行成功与否的，回状态和条数。大结果先落地，模型要细节再去取。蚁小保的 Workspace 也有点这个意思，用户材料不一次性全倒进窗口。Cursor 把它写成原则，比我原来“这工具太吵了，砍一下”要清楚。</p>
+<blockquote><p>智能体的知识会在这个过程中“退化”，因为“总结”本质上是对上下文的一种有损压缩。</p></blockquote>
+<blockquote><p>我们会给智能体一个指向“历史记录文件”的引用。</p></blockquote>
+<p>这两句是连着的。我会用摘要，图片问答就是先做图像摘要再进对话。我也清楚它会丢东西。上一轮摘要里如果把保单号或者免责条款写成“相关材料已提供”，后面再问细节，模型只能编。Cursor 给的补救很具体：压缩的同时留下指向原文的引用，模型发现摘要不够，还可以把细节找回。这比“摘要写得再细一点”可靠。我还没有把所有长 Observation 都改成“文件 + 引用”，但这应该是下一步，而不是继续加截断长度。</p>
+<p>动态发现还有一层，文章写的是用信息量更高的工具去取需要的块。我稍稍保留：语义检索在材料已经入库时很有用，可排查类任务里，能搜到、能对上原文的证据往往更可核对。发现机制可以有好几条路，不必只走一条。大保把经过鉴权的日志和调用链交给 Codex，本质上也是让它按需去读，而不是我在群里把一段日志贴进去。贴进去的那一下很像截断：我选了自认为重要的几行，关键的可能刚好没贴。把入口留给 Agent，我只保证它有权限走到那份材料，这个方向我更信。怎么避免它读进不该读的数据，那是权限问题，不能靠截断来解决。</p>
+<p>原文：<a href="https://cursor.com/blog/dynamic-context-discovery">Dynamic context discovery</a> by Cursor 团队；中文译文：宝玉 <a href="https://baoyu.io/translations/cursor-dynamic-context-discovery">https://baoyu.io/translations/cursor-dynamic-context-discovery</a>。文中引文出自宝玉译文。</p>
+<p class="pager"><a href="/blog">全部文章</a></p>
+</main>
+<footer><p>© 2026 张磊</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>
