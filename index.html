@@ -12,54 +12,33 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="stage">
-<a class="skip" href="#card-0">跳到内容</a>
-<nav class="mini stage-minimap" aria-label="卡片">
-  <a href="#card-0" aria-label="介绍"></a>
-  <a href="#card-1" aria-label="蚁小保"></a>
-  <a href="#card-2" aria-label="大保"></a>
-  <a href="#card-3" aria-label="数据工厂"></a>
-  <a href="#card-4" aria-label="文章"></a>
-  <a href="#card-5" aria-label="联系"></a>
+<a class="skip" href="#card-0">Skip</a>
+<nav class="mini stage-minimap" aria-label="Sections">
+  <a href="#card-0" aria-label="Work"></a>
+  <a href="#card-1" aria-label="Blog"></a>
+  <a href="#card-2" aria-label="Thoughts"></a>
+  <a href="#card-3" aria-label="Products"></a>
+  <a href="#card-4" aria-label="Contact"></a>
 </nav>
 <div class="plus" id="plus" hidden aria-hidden="true">+</div>
 <div class="rail" id="rail">
   <div class="disc orange between" id="between" aria-hidden="true"></div>
-  <section class="card" id="card-0">
-    <h1 class="intro">
-      <span>张磊</span>
-      <span>在蚂蚁做</span>
-      <span>保险场景的</span>
-      <span>Agent</span>
-      <span>相机和实时语音</span>
-      <span>以及大保的循环</span>
-    </h1>
+  <a class="card" id="card-0" href="/work/">
+    <h1 class="giant">Work</h1>
     <div class="disc drift" aria-hidden="true"><span>+</span></div>
-  </section>
-  <a class="card" id="card-1" href="/work/case-01">
-    <span class="label">蚁小保</span>
-    <span class="giant">蚁</span>
   </a>
-  <a class="card" id="card-2" href="/work/case-02">
-    <span class="label">大保</span>
-    <span class="giant">保</span>
+  <a class="card" id="card-1" href="/blog">
+    <span class="giant">Blog</span>
   </a>
-  <a class="card" id="card-3" href="/work/case-03">
-    <span class="label">数据工厂</span>
-    <span class="giant">数</span>
+  <a class="card" id="card-2" href="/thoughts">
+    <span class="giant">Thoughts</span>
   </a>
-  <a class="card" id="card-4" href="/blog">
-    <span class="label">文章</span>
-    <span class="giant">文</span>
+  <a class="card" id="card-3" href="/products">
+    <span class="giant">Products</span>
   </a>
-  <section class="card contact-card" id="card-5">
-    <span class="label">联系</span>
-    <p><a href="mailto:wsejoy@gmail.com">wsejoy@gmail.com</a></p>
-    <p><a href="tel:+8613121000112">13121000112</a></p>
-    <p>微信 wsejoy</p>
-    <p><a href="/work/">全部工作</a></p>
-    <p><a href="/thoughts">想法</a></p>
-    <p><a href="/products">作品</a></p>
-  </section>
+  <a class="card" id="card-4" href="mailto:wsejoy@gmail.com">
+    <span class="giant">Contact</span>
+  </a>
 </div>
 <script src="/stage.js"></script>
 </body>

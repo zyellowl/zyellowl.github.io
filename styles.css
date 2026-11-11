@@ -101,6 +101,7 @@ ul, ol { padding-left: 1.2em; }
 .pager a:hover { text-decoration: underline; }
 footer { color: var(--quiet); padding: 28px 0 48px; font-size: 14px; }
 .year { margin: 36px 0 0; color: var(--quiet); font-size: 14px; }
+.index-list .quiet { margin-top: 28px; line-height: 1.7; }
 
 /* home stage */
 body.stage { background: var(--bg); overflow-x: hidden; }
@@ -171,15 +172,18 @@ body.stage { background: var(--bg); overflow-x: hidden; }
 }
 .giant {
   position: absolute;
-  left: -0.06em;
+  left: 0.08em;
   top: 50%;
-  transform: translateY(-54%);
-  font-size: calc(var(--card-h, 635px) * 1.12);
+  z-index: 1;
+  transform: translateY(-52%);
+  font-family: Inter, sans-serif;
+  font-size: calc(var(--card-h, 635px) * 0.34);
   font-weight: 500;
-  letter-spacing: -0.06em;
-  line-height: 0.8;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
   white-space: nowrap;
   color: #111;
+  margin: 0;
 }
 .contact-card { padding: 64px 56px; font-size: 28px; letter-spacing: -0.03em; line-height: 1.45; }
 .contact-card a { text-decoration: none; }
@@ -213,10 +217,17 @@ body.stage { background: var(--bg); overflow-x: hidden; }
     padding: 72px 16px 32px;
     transform: none !important;
   }
-  .card { width: 100%; height: auto; min-height: 78vw; flex-basis: auto; }
-  .intro { font-size: 34px; padding: 28px 22px 80px; }
-  .disc { width: 54vw; height: 54vw; top: auto; bottom: -8%; right: -6%; }
-  .giant { font-size: 42vw; }
+  .card { width: 100%; height: auto; min-height: 42vw; flex-basis: auto; }
+  .disc { width: 34vw; height: 34vw; top: auto; bottom: -10%; right: -4%; }
+  .giant {
+    position: relative;
+    left: 0;
+    top: auto;
+    transform: none;
+    display: block;
+    font-size: 15vw;
+    padding: 28px 20px 32px;
+  }
   .disc.between { display: none; }
   .contact-card { font-size: 20px; padding: 28px 22px; }
   .mini { gap: 10px; }
