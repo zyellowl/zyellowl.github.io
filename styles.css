@@ -151,25 +151,19 @@ body.stage { background: var(--bg); overflow-x: hidden; }
 .disc {
   position: absolute;
   top: 0;
-  right: -2%;
+  right: 0;
   width: var(--card-h, 635px);
   height: var(--card-h, 635px);
   border-radius: 50%;
-  background: var(--yellow);
+  background: #ffff02;
   z-index: 0;
   display: grid;
   place-items: center;
   font-size: 22px;
   pointer-events: none;
 }
-.disc.orange { background: var(--orange); color: transparent; }
 .disc span { transform: translate(var(--px, 0px), var(--py, 0px)); }
 .disc.drift { animation: drift 9s ease-in-out infinite; }
-.disc.between {
-  right: auto;
-  z-index: 4;
-  position: absolute;
-}
 .giant {
   position: absolute;
   left: 0.08em;
@@ -184,6 +178,7 @@ body.stage { background: var(--bg); overflow-x: hidden; }
   white-space: nowrap;
   color: #111;
   margin: 0;
+  mix-blend-mode: multiply;
 }
 .contact-card { padding: 64px 56px; font-size: 28px; letter-spacing: -0.03em; line-height: 1.45; }
 .contact-card a { text-decoration: none; }
@@ -204,8 +199,8 @@ body.stage { background: var(--bg); overflow-x: hidden; }
 }
 @keyframes drift {
   0% { transform: translate(0, 0); }
-  35% { transform: translate(-7%, 5%); }
-  68% { transform: translate(4%, -4%); }
+  40% { transform: translate(10%, 4%); }
+  72% { transform: translate(3%, -3%); }
   100% { transform: translate(0, 0); }
 }
 @media (max-width: 700px) {
@@ -228,7 +223,6 @@ body.stage { background: var(--bg); overflow-x: hidden; }
     font-size: 15vw;
     padding: 28px 20px 32px;
   }
-  .disc.between { display: none; }
   .contact-card { font-size: 20px; padding: 28px 22px; }
   .mini { gap: 10px; }
 }

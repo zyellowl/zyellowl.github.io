@@ -29,13 +29,6 @@
     var left = vw * 0.133;
     var top = Math.max(72, (window.innerHeight - cardH) / 2);
     rail.style.transform = "translate3d(" + (left - x) + "px," + top + "px,0)";
-    var between = document.getElementById("between");
-    var card1 = document.getElementById("card-1");
-    if (between && card1) {
-      between.style.width = cardH + "px";
-      between.style.height = cardH + "px";
-      between.style.left = (card1.offsetLeft - cardH) + "px";
-    }
     var i = Math.round(x / step);
     ticks.forEach(function (a, n) {
       a.setAttribute("aria-current", n === i ? "true" : "false");
