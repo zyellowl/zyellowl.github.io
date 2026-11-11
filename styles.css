@@ -103,25 +103,33 @@ footer { color: var(--quiet); padding: 28px 0 48px; font-size: 14px; }
 .year { margin: 36px 0 0; color: var(--quiet); font-size: 14px; }
 .index-list .quiet { margin-top: 28px; line-height: 1.7; }
 
-/* home stage */
-html:has(body.stage) { height: 100%; overflow: hidden; }
-body.stage { background: var(--bg); height: 100%; overflow: hidden; }
+/* home stage: the document scrolls vertically; the strip moves sideways */
+html:has(body.stage) { overflow-x: hidden; }
+body.stage {
+  background: var(--bg);
+  overflow-x: hidden;
+  touch-action: pan-y;
+  overscroll-behavior: none;
+}
 .stage-minimap { top: 22px; }
-.scroller {
+.stage-view {
   position: fixed;
   inset: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: none;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-  scrollbar-width: none;
+  display: flex;
+  align-items: center;
+  overflow: visible;
 }
-.scroller::-webkit-scrollbar { display: none; }
+.zoom {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transform-origin: 18vw 50%;
+  will-change: transform;
+}
 .rail {
   display: flex;
   align-items: center;
-  height: 100%;
+  height: auto;
   width: max-content;
   gap: 14px;
   padding: 0 28px;
@@ -216,6 +224,7 @@ body.stage { background: var(--bg); height: 100%; overflow: hidden; }
   100% { transform: translate(0, 0); }
 }
 @media (max-width: 700px) {
+  .zoom { transform-origin: 12vw 50%; }
   .rail { gap: 12px; padding: 0 16px; }
   .card {
     width: 80vw;
