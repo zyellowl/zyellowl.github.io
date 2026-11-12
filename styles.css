@@ -312,8 +312,15 @@ body.stage {
   display: grid;
   place-items: center;
 }
-.theme-toggle svg { width: 16px; height: 16px; display: block; }
-.theme-toggle:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  transform: rotate(0deg);
+  transition: transform 300ms ease;
+}
+[data-theme="dark"] .theme-toggle svg { transform: rotate(180deg); }
+.theme-toggle:hover { opacity: 0.55; }
 .theme-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .plus {
   position: fixed;
@@ -349,4 +356,5 @@ body.stage {
 @media (prefers-reduced-motion: reduce) {
   .disc.drift { animation: none; }
   .plus { display: none; }
+  .theme-toggle svg { transition: none; }
 }

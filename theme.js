@@ -1,7 +1,6 @@
 (function () {
   var key = "theme";
-  var moon = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.6A7.2 7.2 0 1 1 9.4 4 5.8 5.8 0 0 0 20 14.6z"></path></svg>';
-  var sun = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18"></path></svg>';
+  var icon = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path fill="currentColor" d="M8 2.5A5.5 5.5 0 0 0 8 13.5Z"></path></svg>';
 
   function system() {
     try { return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }
@@ -28,14 +27,14 @@
     var theme = current();
     var dark = theme === "dark";
     button.setAttribute("aria-pressed", dark ? "true" : "false");
-    button.setAttribute("aria-label", dark ? "切换到浅色" : "切换到深色");
-    button.innerHTML = dark ? sun : moon;
+    button.setAttribute("aria-label", "切换深色模式");
   }
   function mount() {
     if (document.querySelector(".theme-toggle")) return;
     button = document.createElement("button");
     button.type = "button";
     button.className = "theme-toggle";
+    button.innerHTML = icon;
     button.addEventListener("click", function () {
       var next = current() === "dark" ? "light" : "dark";
       try { localStorage.setItem(key, next); } catch (e) {}
