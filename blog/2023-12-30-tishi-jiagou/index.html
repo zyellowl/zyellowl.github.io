@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>该谈提示架构了 — 张磊</title>
+  <title>该谈提示架构了 — Zhang Lei</title>
   <meta name="description" content="该谈提示架构了">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2023-12-30">2023 年 12 月 30 日</time></p>
+<p class="quiet"><time datetime="2023-12-30">Dec 30, 2023</time></p>
 <h1>该谈提示架构了</h1>
 <p class="quiet tags">提示工程、SQL生成、LLM应用</p>
 <p>营销平台里那个数据分析洞察模块，生成 SQL 一直是我最烦的部分。表多、字段多，Join 一复杂，模型就容易写飞。我后来做的不是再把那句指令润色一遍，而是先用 Schema Linking 把相关表和字段收窄，再用 Dynamic Few-shot 加思维链，把生成依据收敛到当前问题真正用得上的结构和例子。准确率后来从 40% 做到了 92%，中间还把 SQL 的执行反馈接回修正流程。Donato Riccio 这篇把这种多组件的拼法叫做“提示架构”，我读的时候对上了号。</p>
@@ -36,10 +36,10 @@
 <p>示例要有，但不能堆。问题变了，还把上一类查询的例子原封不动塞进去，模型会按错的模式走。Dynamic Few-shot 对我来说，就是先确定这个问题跟哪些表、哪些字段有关，再挑跟它同类的例子。例子是部件，得按问题组装，不是一份写死的说明书。</p>
 <blockquote><p>通过展示理想的推理过程，可以引导模型在面对新问题时模仿这种逻辑思考方式。</p></blockquote>
 <p>思维链在写 SQL 时有用，尤其是多表 Join、字段引用容易绕晕的时候。让模型先说出它打算用哪张表、为什么这样 Join，再落成语句，出了错也比较好查。可推理过程写得再完整，也不等于语句能跑。我们后来把执行反馈接进修正流程，就是因为“想对了”和“跑对了”不是一回事。提示架构如果只停在生成侧，我觉得还少一块。今年这套办法能把准确率拉上来，不表示换一个业务库还能直接套。表结构一变，链接规则和例子都要跟着改，架构得能拆开维护，不能做成一段改不动的长提示词。我也见过一种相反的倾向：什么都拆成组件，主流程反而看不清。我的尺度很实际，一个部件得能单独改、单独验证。Schema Linking 调完，应该能看出送进模型的表是不是对了；思维链调完，应该能看出推理步骤有没有把 Join 说清楚。看不出来的拆，就先不拆。</p>
-<p>原文：<a href="https://towardsdatascience.com/prompt-architecture-bd8a07117dab">Is it Time to Start Talking About Prompt Architecture in LLMs?</a> by Donato Riccio；中文译文：宝玉 <a href="https://baoyu.io/translations/prompt-engineering/is-it-time-to-start-talking-about-prompt-architecture-in-llms">https://baoyu.io/translations/prompt-engineering/is-it-time-to-start-talking-about-prompt-architecture-in-llms</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://towardsdatascience.com/prompt-architecture-bd8a07117dab">Is it Time to Start Talking About Prompt Architecture in LLMs?</a> by Donato Riccio. Chinese translation by Baoyu <a href="https://baoyu.io/translations/prompt-engineering/is-it-time-to-start-talking-about-prompt-architecture-in-llms">https://baoyu.io/translations/prompt-engineering/is-it-time-to-start-talking-about-prompt-architecture-in-llms</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

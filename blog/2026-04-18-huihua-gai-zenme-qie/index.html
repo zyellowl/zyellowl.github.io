@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>会话该怎么切 — 张磊</title>
+  <title>会话该怎么切 — Zhang Lei</title>
   <meta name="description" content="会话该怎么切">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2026-04-18">2026 年 4 月 18 日</time></p>
+<p class="quiet"><time datetime="2026-04-18">Apr 18, 2026</time></p>
 <h1>会话该怎么切</h1>
 <p class="quiet tags">会话管理、上下文工程、Claude Code</p>
 <p>我自己用 Claude Code 或 Codex 排障时，经常在同一个会话里连续问下去，直到窗口发沉、回答开始飘。Thariq 这篇讲会话管理和一百万上下文，读起来不像方法论，更像有人把那些说不清的使用习惯摊开了。里面有几条我赞成，有几条搬到面向用户的对话里会出事。</p>
@@ -36,10 +36,10 @@
 <p>这句比“摘要会丢细节”更具体。压缩的人（或者说模型）只能按当前主线来保留信息。用户下一句要是拐到一个刚才随口提过的警告、一条免责、一张还没展开的材料，压缩后的上下文里可能已经没了。保险咨询尤其容易这样问。我现在不太信任“把长会话自动总结一下就能继续”。真要压缩，得留下能找回原文的引用，并且把已经确认的槽位写成不易被摘要吞掉的结构。做不到这两点，宁可会话短一点，也不要一次糊里糊涂的压缩。</p>
 <blockquote><p>我们判断是否该用子智能体的“灵魂拷问”是：以后我还需要看这些工具运行的详细输出吗，还是我只想要一个最终结论？</p></blockquote>
 <p>这个提问方式很好用。蚁小保 IM 里，协调者把任务分给领域专家时，我希望回传的是结论和关键证据，而不是专家翻过的全部材料。详细输出要是以后还要核对，就该落在 Graph State 或者 Workspace 里，而不是指望还在子上下文中。反过来，排查类的内部任务，我有时就是要看工具的原始输出，这时候不该包一层子智能体把细节滤掉。用不用子 Agent，先问自己还想不想看见中间过程，比先问“架构上是否优雅”要实在。大保里排查一次线上问题，我常常就是要看原始日志和调用链，这时候如果先派个子智能体“总结一下”，细节可能在交接里就没了。反过来，写一份给同事看的结论，详细输出就可以留下，只把结论送回来。同一套系统里，这两种情况会交替出现，所以没有一劳永逸的选法。</p>
-<p>原文：<a href="https://x.com/trq212/status/2044548257058328723">Using Claude Code: Session Management &amp; 1M Context</a> by Thariq Shihipar；中文译文：宝玉 <a href="https://baoyu.io/translations/claude-code-session-management">https://baoyu.io/translations/claude-code-session-management</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://x.com/trq212/status/2044548257058328723">Using Claude Code: Session Management &amp; 1M Context</a> by Thariq Shihipar. Chinese translation by Baoyu <a href="https://baoyu.io/translations/claude-code-session-management">https://baoyu.io/translations/claude-code-session-management</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

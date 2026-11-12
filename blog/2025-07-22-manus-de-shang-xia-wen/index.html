@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manus 的上下文工程 — 张磊</title>
+  <title>Manus 的上下文工程 — Zhang Lei</title>
   <meta name="description" content="Manus 的上下文工程">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2025-07-22">2025 年 7 月 22 日</time></p>
+<p class="quiet"><time datetime="2025-07-22">Jul 22, 2025</time></p>
 <h1>Manus 的上下文工程</h1>
 <p class="quiet tags">上下文工程、Agent、工具</p>
 <p>数据工厂里那个对话式分析工具，最近老把窗口撑满。用户问一句行为分布，NL2DSL 转完，工具一跑，Observation 里有时会带上不该出现的整段结果。我后来改成：真正要分析的数据才进上下文，只是确认“跑没跑成功”的，只回状态和条数。改完舒服了一些，但总觉得这事不该靠每次手工裁。</p>
@@ -39,10 +39,10 @@
 <p>这倒是跟我裁 Observation 的方向一致。大结果先落地，模型按需再读，压缩也可以逆回去。蚁小保里用户的理赔照片，我们是先做成图像摘要，放进 Workspace，再进后续对话，也是把重的东西放到模型窗外。Peak 把它说成“结构化的外部记忆”，比我原来只想着“别把表打满”要完整。</p>
 <p>Peak 把压缩写成可恢复的：丢掉网页正文，但留下 URL；丢掉文档内容，但留下沙箱里的路径。这个我比“摘要写细一点”更信。数据工厂里大结果如果只裁不留路径，过后想核对某一行，只能重新跑。我打算把“落地文件的引用”写成工具返回的标配，而不是哪次窗口又炸了再临时改。</p>
 <p>能不变的前缀就别变，能不进窗口的结果就别进，实在要压缩，得留一条能找回原文的路。这三句够我先改一轮了。</p>
-<p>原文：<a href="https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">Context Engineering for AI Agents: Lessons from Building Manus</a> by 季逸超 (Peak)；中文译文：宝玉 <a href="https://baoyu.io/translations/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">https://baoyu.io/translations/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">Context Engineering for AI Agents: Lessons from Building Manus</a> by 季逸超 (Peak). Chinese translation by Baoyu <a href="https://baoyu.io/translations/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">https://baoyu.io/translations/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>长跑任务怎么交接 — 张磊</title>
+  <title>长跑任务怎么交接 — Zhang Lei</title>
   <meta name="description" content="长跑任务怎么交接">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2025-11-30">2025 年 11 月 30 日</time></p>
+<p class="quiet"><time datetime="2025-11-30">Nov 30, 2025</time></p>
 <h1>长跑任务怎么交接</h1>
 <p class="quiet tags">Harness、自迭代、Agent</p>
 <p>大保的自迭代 Loop 不是一次会话跑完的。定时任务驱动 CLI，把生产上回流的 Trace 扫一遍，发现问题，分级修复，放进沙箱里验证，过评测门禁再发布，然后用新的对话再观察。每一段都可能换一次上下文，甚至换一个模型进程。Anthropic 写长跑 Agent 的这篇，一开头就把我最烦的那个感觉写出来了。</p>
@@ -38,10 +38,10 @@
 <p>他们连功能清单的格式都做了对抗：模型不许删测试项，清单用 JSON。这很值钱。Markdown 太好改了，Agent 会“顺手整理”。我们的问题单、评测结果，以后也该用更硬的结构存，允许改状态，不允许悄悄把失败项抹掉。我还没做这部分，先记在这里。生产回流的问题本身就比功能清单乱，结构太硬可能会把分级信息放不下；太软又会被模型改掉。这中间怎么卡，还得试。</p>
 <blockquote><p>Claude 倾向于在没有进行适当测试的情况下就将功能标记为“完成”。</p></blockquote>
 <p>单元测试通过和端到端能用，中间差很远。他们后来明确要求用浏览器把流程走一遍。我们对应的是沙箱里按生产标准复现，再加上评测。缺的是，有些对话问题很难用一条自动测试表达，尤其是事实率和口径。这类问题我还不主张全交给自动修复，先分级，简单的走自动，含糊的留给人。</p>
-<p>原文：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a> by Anthropic 工程团队；中文译文：宝玉 <a href="https://baoyu.io/translations/effective-harnesses-for-long-running-agents">https://baoyu.io/translations/effective-harnesses-for-long-running-agents</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a> by Anthropic 工程团队. Chinese translation by Baoyu <a href="https://baoyu.io/translations/effective-harnesses-for-long-running-agents">https://baoyu.io/translations/effective-harnesses-for-long-running-agents</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

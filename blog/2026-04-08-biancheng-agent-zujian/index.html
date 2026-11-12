@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>编程智能体的六块零件 — 张磊</title>
+  <title>编程智能体的六块零件 — Zhang Lei</title>
   <meta name="description" content="编程智能体的六块零件">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2026-04-08">2026 年 4 月 8 日</time></p>
+<p class="quiet"><time datetime="2026-04-08">Apr 8, 2026</time></p>
 <h1>编程智能体的六块零件</h1>
 <p class="quiet tags">Harness、编程智能体、上下文工程</p>
 <p>同事问我大保到底算不算一个 Agent，我经常答不利索。入口是钉钉 Bot，底下是 CLI，本机再去调 Codex，同事各自塞自己的 Harness。用户看见的是一个会查问题、写文档的助手，我每天改的却是调度、权限、上下文和门禁。Sebastian Raschka 这篇把模型、推理和智能体产品拆开讲，正好用来把自己的工作说清楚。</p>
@@ -36,10 +36,10 @@
 <p>编码 Agent 的工作区摘要，通常是仓库结构、分支、最近改动。大保这边我对等的东西，是把相关 Trace、权限范围内的日志入口、已知问题说明先收回来，再让 Codex 动手。没有这一步，它只能根据群里那句很短的问题开始猜。摘要会丢细节，这点和后文要说的缓存是一组矛盾：摘要要短才站得住，短了又怕关键字段没了。我还没有一套固定的摘要模板，目前是按任务类型拼，用过一轮觉得丢东西了再补。</p>
 <blockquote><p>一个“聪明”的 Harness，绝对不会在每一轮对话时，都把所有东西揉成一团巨大的提示词重新扔给模型。</p></blockquote>
 <p>这句我当原则收着。稳定的系统说明、工具定义，应该尽量不动；每轮真正变的，是用户新问题、刚返回的 Observation、当前槽位。数据工厂里把“分析用数据”和“只确认跑成功”的返回值分开，也是怕每一轮把整张表再喂一遍。Raschka 从缓存的角度写，我更多是从噪音的角度写，结论接近。他的例子主要停在写代码。生产上还要加上评测门禁、权限边界，以及同事贡献的那些并不整齐的 Harness。零件可以按他的六块来对，装配方式没那么标准。我甚至觉得，对我们来说，评测门禁和权限应该被看成和工具、记忆同一级的零件，少了它们，所谓智能体只是能在内部环境里演示的循环。</p>
-<p>原文：<a href="https://magazine.sebastianraschka.com/p/components-of-a-coding-agent">Components of A Coding Agent</a> by Sebastian Raschka；中文译文：宝玉 <a href="https://baoyu.io/translations/2026-04-04/components-of-a-coding-agent">https://baoyu.io/translations/2026-04-04/components-of-a-coding-agent</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://magazine.sebastianraschka.com/p/components-of-a-coding-agent">Components of A Coding Agent</a> by Sebastian Raschka. Chinese translation by Baoyu <a href="https://baoyu.io/translations/2026-04-04/components-of-a-coding-agent">https://baoyu.io/translations/2026-04-04/components-of-a-coding-agent</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

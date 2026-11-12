@@ -175,21 +175,21 @@
           arg: "2026-05",
           ms: 900,
           result: "最近一篇是「Agent 其实是 Harness」。",
-          links: [{ href: "/blog/2026-05-12-agent-jiu-shi-harness", text: "打开这篇" }]
+          links: [{ href: "/blog/2026-05-12-agent-jiu-shi-harness", text: "Open" }]
         },
         {
           tool: "open_blog",
           arg: "2026-04",
           ms: 800,
           result: "再往前一篇是「会话该怎么切」。",
-          links: [{ href: "/blog/2026-04-18-huihua-gai-zenme-qie", text: "打开这篇" }]
+          links: [{ href: "/blog/2026-04-18-huihua-gai-zenme-qie", text: "Open" }]
         },
         {
           tool: "open_blog",
           arg: "目录",
           ms: 700,
           result: "文章按日期排在文章页。",
-          links: [{ href: "/blog", text: "全部文章" }]
+          links: [{ href: "/blog", text: "All posts" }]
         }
       ],
       answer: [

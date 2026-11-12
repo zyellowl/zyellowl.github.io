@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>上下文该动态发现 — 张磊</title>
+  <title>上下文该动态发现 — Zhang Lei</title>
   <meta name="description" content="上下文该动态发现">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2026-01-09">2026 年 1 月 9 日</time></p>
+<p class="quiet"><time datetime="2026-01-09">Jan 9, 2026</time></p>
 <h1>上下文该动态发现</h1>
 <p class="quiet tags">上下文工程、Cursor、Agent</p>
 <p>工具一跑，返回值超长，我以前常用的办法是截断。看起来窗口保住了，后面的推理却会突然缺一块：错误栈的关键行、DSL 的后半段、用户材料里真正有用的那句，刚好在截掉的那边。Cursor 这篇讲动态上下文发现，把这个坑写得很直。</p>
@@ -36,10 +36,10 @@
 <blockquote><p>我们会给智能体一个指向“历史记录文件”的引用。</p></blockquote>
 <p>这两句是连着的。我会用摘要，图片问答就是先做图像摘要再进对话。我也清楚它会丢东西。上一轮摘要里如果把保单号或者免责条款写成“相关材料已提供”，后面再问细节，模型只能编。Cursor 给的补救很具体：压缩的同时留下指向原文的引用，模型发现摘要不够，还可以把细节找回。这比“摘要写得再细一点”可靠。我还没有把所有长 Observation 都改成“文件 + 引用”，但这应该是下一步，而不是继续加截断长度。</p>
 <p>动态发现还有一层，文章写的是用信息量更高的工具去取需要的块。我稍稍保留：语义检索在材料已经入库时很有用，可排查类任务里，能搜到、能对上原文的证据往往更可核对。发现机制可以有好几条路，不必只走一条。大保把经过鉴权的日志和调用链交给 Codex，本质上也是让它按需去读，而不是我在群里把一段日志贴进去。贴进去的那一下很像截断：我选了自认为重要的几行，关键的可能刚好没贴。把入口留给 Agent，我只保证它有权限走到那份材料，这个方向我更信。怎么避免它读进不该读的数据，那是权限问题，不能靠截断来解决。</p>
-<p>原文：<a href="https://cursor.com/blog/dynamic-context-discovery">Dynamic context discovery</a> by Cursor 团队；中文译文：宝玉 <a href="https://baoyu.io/translations/cursor-dynamic-context-discovery">https://baoyu.io/translations/cursor-dynamic-context-discovery</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://cursor.com/blog/dynamic-context-discovery">Dynamic context discovery</a> by Cursor 团队. Chinese translation by Baoyu <a href="https://baoyu.io/translations/cursor-dynamic-context-discovery">https://baoyu.io/translations/cursor-dynamic-context-discovery</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

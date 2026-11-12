@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Agent 其实是 Harness — 张磊</title>
+  <title>Agent 其实是 Harness — Zhang Lei</title>
   <meta name="description" content="Agent 其实是 Harness">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2026-05-12">2026 年 5 月 12 日</time></p>
+<p class="quiet"><time datetime="2026-05-12">May 12, 2026</time></p>
 <h1>Agent 其实是 Harness</h1>
 <p class="quiet tags">Harness、Runtime、上下文工程</p>
 <p>这段时间我把语音通道的后端 Agent 往 DSH 上迁。DSH 是我们做的 DeepSeek Harness 统一 Runtime，协议也不再按端拆开写：IM 非标准 SSE、语音侧那个 OpenAI 协议的 PCP 扩展、以及纯 OpenAI 协议，收到同一个协议适配插件里。功能对齐之后，平均还是要慢大约一秒，我正在查是慢在哪。读 Akshay 这篇拆 Harness 的文章，有种把桌上零件被人点过名的感觉。</p>
@@ -36,10 +36,10 @@
 <p>同意，而且应该写进纪律。模型很容易把上一轮的摘要、槽位或者自己生成的计划当成事实。保险场景里，如果把“用户好像已经提供过保单号”这类记忆直接当输入，后面就会在错误的前提上推理。能验证的就去工具或 Workspace 里对一下，对不上就当它只是提示，不是事实。大保的自动修复也一样，不能因为模型说“已经没报错了”就收工，得在按生产标准复刻的环境里再跑一遍。</p>
 <blockquote><p>核心问题在于上下文腐烂：当关键信息处于窗口中间位置时，模型表现会下降 30% 以上（这就是斯坦福大学发现的“迷失在中间”现象）。</p></blockquote>
 <p>百分之三十这个数字我没有自己测过，不敢拿来当结论。腐烂这件事本身，长会话里确实能感觉到：前面确认过的约束，到了后面就不被遵守。语音这边窗口策略更紧，还要跟时延较劲，多塞一点材料和少塞一点，体感会立刻出来。我现在更关心哪些信息绝对不能掉到窗口中间去等着被忽略，这个百分比反而没那么要紧。槽位、口径、已经验证过的事实，应该放在不容易被冲掉的结构里，别混在一长串工具返回值中间。慢那一秒还在查，上下文策略和协议转换我都会看，不会只盯模型。</p>
-<p>原文：<a href="https://x.com/akshay_pachaar/status/2041146899319971922">The Anatomy of an Agent Harness</a> by Akshay Pachaar；中文译文：宝玉 <a href="https://baoyu.io/translations/2026-05-10/akshay-pachaar-2041146899319971922">https://baoyu.io/translations/2026-05-10/akshay-pachaar-2041146899319971922</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://x.com/akshay_pachaar/status/2041146899319971922">The Anatomy of an Agent Harness</a> by Akshay Pachaar. Chinese translation by Baoyu <a href="https://baoyu.io/translations/2026-05-10/akshay-pachaar-2041146899319971922">https://baoyu.io/translations/2026-05-10/akshay-pachaar-2041146899319971922</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>用 SDK 构建智能体 — 张磊</title>
+  <title>用 SDK 构建智能体 — Zhang Lei</title>
   <meta name="description" content="用 SDK 构建智能体">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2025-11-12">2025 年 11 月 12 日</time></p>
+<p class="quiet"><time datetime="2025-11-12">Nov 12, 2025</time></p>
 <h1>用 SDK 构建智能体</h1>
 <p class="quiet tags">Claude Code、Agent、检索</p>
 <p>大保 Bot 是钉钉里的入口，底下跑的是大保 CLI，本机调度 Codex 去查问题、写文档、做总结，再把结果扔回群里。读 Anthropic 把 Claude Code SDK 改名为 Claude Agent SDK 的这篇，我第一反应是：他们说的“给智能体一台电脑”，我们其实已经在这么干了，只不过电脑是同事自己的笔记本，输出在群聊里。</p>
@@ -36,10 +36,10 @@
 <p>我在京东做过统一 RAG 平台，听这句话会下意识反驳：向量检索不是已经很常用了吗。但他们的意思我后来读懂了，是别一上来就上套语义索引，先让 Agent 用搜文件、grep 这类能解释的办法把证据找回来。业务问答里，材料已经在 Workspace 或者知识库里时，声明式检索仍然有用，尤其是要稳、要快的时候。两边不必打架。新做一个内部排查 Agent，我会先给它日志和全文检索，等明确“找不精确、又要变着法问”再加向量。京东那套统一 RAG 不是白做的，声明式检索在材料已经整理好、问题比较稳的时候，仍然更可预期。我只是不再把它当成每种 Agent 的起步动作。</p>
 <blockquote><p>子智能体使用自己隔离的上下文窗口，只将相关信息（而不是它们的全部上下文）发送回协调者。</p></blockquote>
 <p>蚁小保 IM 侧本来就是协调者和领域专家，Graph State 里放计划、槽位、执行状态。专家不必把翻过的全部材料倒回主对话，这个我和他们的看法一致。隔离也有代价，交接时状态会丢。保险对话里退保、理赔常常要带着前面的槽位走，协调者必须把该共享的状态写在 Graph 里，不能指望子 Agent 自己记得。SDK 把这件事说成能力，我更想把它写成纪律：回传只要结论和证据，共享状态放在主状态里，两边都写明。详细材料如果以后还要核对，就放进 Workspace，别寄托在已经结束的子上下文上。</p>
-<p>原文：<a href="https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk">Building agents with the Claude Agent SDK</a> by Anthropic；中文译文：宝玉 <a href="https://baoyu.io/translations/building-agents-with-the-claude-agent-sdk">https://baoyu.io/translations/building-agents-with-the-claude-agent-sdk</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk">Building agents with the Claude Agent SDK</a> by Anthropic. Chinese translation by Baoyu <a href="https://baoyu.io/translations/building-agents-with-the-claude-agent-sdk">https://baoyu.io/translations/building-agents-with-the-claude-agent-sdk</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

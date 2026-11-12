@@ -27,7 +27,7 @@
     var theme = current();
     var dark = theme === "dark";
     button.setAttribute("aria-pressed", dark ? "true" : "false");
-    button.setAttribute("aria-label", "切换深色模式");
+    button.setAttribute("aria-label", "Toggle dark mode");
   }
   function mount() {
     if (document.querySelector(".theme-toggle")) return;

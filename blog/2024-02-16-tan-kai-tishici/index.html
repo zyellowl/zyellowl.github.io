@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>把提示词摊开看 — 张磊</title>
+  <title>把提示词摊开看 — Zhang Lei</title>
   <meta name="description" content="把提示词摊开看">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2024-02-16">2024 年 2 月 16 日</time></p>
+<p class="quiet"><time datetime="2024-02-16">Feb 16, 2024</time></p>
 <h1>把提示词摊开看</h1>
 <p class="quiet tags">提示工程、调试、LLM应用</p>
 <p>SQL 生成出了问题，我第一件事通常是把这一轮真正送给模型的内容打出来：系统说明、筛过的表和字段、Few-shot 例子、用户原话。不对着这堆东西看，只看框架封装出来的调用结果，很难知道是链接错了表，还是例子带偏了。Hamel Husain 这篇的标题很冲，意思其实就一句：别隔着一层工具猜，把提示词摊开。</p>
@@ -36,10 +36,10 @@
 <p>距离过远，就是我改了一处，却看不出模型读到了什么。智能问答那边，SOP 流程是确定的，后来又接了 ChatGLM6B 做自由对话。自由对话更容易让人产生“模型自己会搞定”的错觉。实际上，版本怎么切、当前轮看到哪些槽位和流程说明，仍然得能打开看。对话版本控制做成对在线用户无感知，不等于对开发者也无感知。</p>
 <blockquote><p>通过勇敢地说出“别瞎忙了，直接给我看提示！”来使用这些工具，你实际上是在为自己的选择赋予了更多的主动权。</p></blockquote>
 <p>主动权这个说法我喜欢。工具可以继续用，条件是我随时能看见那一份真正的提示。看见了，才能决定是改例子、改字段范围，还是改检索回来的切片。看不见，就只会换工具、加一层封装，问题还在原处。我现在对新出现的“自动优化提示”的库，都会先问一句：这一轮发出去的原文，我能不能原样拿回来。能拿回来，框架就是工具；拿不回来，我就先不用。</p>
-<p>原文：<a href="https://hamel.dev/blog/posts/prompt/">Fuck You, Show Me The Prompt.</a> by Hamel Husain；中文译文：宝玉 <a href="https://baoyu.io/translations/prompt-engineering/fuck-you-show-me-the-prompt">https://baoyu.io/translations/prompt-engineering/fuck-you-show-me-the-prompt</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://hamel.dev/blog/posts/prompt/">Fuck You, Show Me The Prompt.</a> by Hamel Husain. Chinese translation by Baoyu <a href="https://baoyu.io/translations/prompt-engineering/fuck-you-show-me-the-prompt">https://baoyu.io/translations/prompt-engineering/fuck-you-show-me-the-prompt</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>

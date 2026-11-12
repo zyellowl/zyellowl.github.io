@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RAG 开发中的痛点 — 张磊</title>
+  <title>RAG 开发中的痛点 — Zhang Lei</title>
   <meta name="description" content="RAG 开发中的痛点">
   <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip" href="#content">跳到正文</a>
+<a class="skip" href="#content">Skip to content</a>
 <div class="wrap">
 <nav class="mini" aria-label="Site">
   <a href="/" aria-label="Home"></a>
@@ -24,7 +24,7 @@
   <a href="/products" aria-label="Products"></a>
 </nav>
 <main class="post" id="content">
-<p class="quiet"><time datetime="2024-02-06">2024 年 2 月 6 日</time></p>
+<p class="quiet"><time datetime="2024-02-06">Feb 6, 2024</time></p>
 <h1>RAG 开发中的痛点</h1>
 <p class="quiet tags">RAG、检索、评测</p>
 <p>统一 RAG 平台能把文档送进 Qdrant，也能按声明式接口把检索交给业务，并不等于问答就稳了。业务一接进来，马上会遇到：该找的段落没有出现，不该答的时候模型却答得很满。Wenqi Glantz 把这些情况写成十二条痛点，读着不像论文综述，更像一张我正在打勾的清单。</p>
@@ -36,10 +36,10 @@
 <p>痛点九讲结构化数据问答，还提到文本到 SQL 不够灵活。这跟我在营销洞察里做的事叠在一起了。表格、指标、多表关系，并不是把报表切成段落再做向量检索就能答好的。SQL 生成我用 Schema Linking 和执行反馈，走的是另一条路。RAG 平台解决的是文档型知识，结构化查询不该硬塞进同一套向量检索里。有人希望一个入口解决所有问题，我现在会分开：文档走 RAG，复杂业务查询走生成加执行。混在一起，两边的失败都会变得很难解释。</p>
 <blockquote><p>这里之所以用“挑战”而不是“失败点”，是因为每个挑战都有相对应的解决方案。</p></blockquote>
 <p>说法乐观了一点。有对应思路，和不等于我已经有可上线的解。文档解析、无感更新、集群扩缩容，这些我可以收进平台；“模型在知识库为空时闭嘴”、结构化问答和文档问答怎么分流，还要跟接入的业务一起看。清单的价值是提醒我会在哪一层翻车，不是承诺十二条都能在同一季度清掉。我现在更想先保证：知识不在库里时别装懂，该排在前面的切片别被挤掉，结构化查询别硬塞进文档检索。这三件如果稳住，平台才谈得上给更多业务接。</p>
-<p>原文：<a href="https://towardsdatascience.com/12-rag-pain-points-and-proposed-solutions-43709939a28c">12 RAG Pain Points and Proposed Solutions</a> by Wenqi Glantz；中文译文：宝玉 <a href="https://baoyu.io/translations/rag/12-rag-pain-points-and-proposed-solutions">https://baoyu.io/translations/rag/12-rag-pain-points-and-proposed-solutions</a>。文中引文出自宝玉译文。</p>
-<p class="pager"><a href="/blog">全部文章</a></p>
+<p>Original: <a href="https://towardsdatascience.com/12-rag-pain-points-and-proposed-solutions-43709939a28c">12 RAG Pain Points and Proposed Solutions</a> by Wenqi Glantz. Chinese translation by Baoyu <a href="https://baoyu.io/translations/rag/12-rag-pain-points-and-proposed-solutions">https://baoyu.io/translations/rag/12-rag-pain-points-and-proposed-solutions</a>. Quotes are from Baoyu's translation.</p>
+<p class="pager"><a href="/blog">All posts</a></p>
 </main>
-<footer><p>© 2026 张磊</p></footer>
+<footer><p>© 2026 Zhang Lei</p></footer>
 </div>
 <script src="/nav.js"></script>
 </body>
