@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>不写日记的人，怎么记录自己 — Zhang Lei</title>
+  <meta name="description" content="不写日记的人，怎么记录自己">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-11-12">Nov 12, 2026</time></p>
+<h1>不写日记的人，怎么记录自己</h1>
+<p class="quiet tags">About Me、me-skill、AI</p>
+<figure>
+<svg class="drawing" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img"><title>对话、三个角色、本地资料库</title>
+<path class="l" d="M60 80h170v60H120l-24 20v-20H60zM90 180h170v60H150l-24 20v-20H90zM60 280h170v60H120l-24 20v-20H60z"/>
+<path class="l d" d="M280 200h80M500 200h80"/>
+<circle class="l" cx="430" cy="120" r="22"/><circle class="y" cx="430" cy="200" r="22"/><circle class="l" cx="430" cy="280" r="22"/>
+<path class="l" d="M430 142v36M430 222v36"/>
+<ellipse class="l" cx="670" cy="130" rx="70" ry="22"/><path class="l" d="M600 130v140c0 12 31 22 70 22s70-10 70-22V130M600 200c0 12 31 22 70 22s70-10 70-22"/></svg>
+<figcaption>左边几个对话气泡，中间三个圆点代表三个角色，右边一个数据库圆柱，其中一个角色是黄点</figcaption>
+</figure>
+<p>这个栏目里的文章，都来自一个叫 About Me 的群聊。这篇讲讲这套东西是怎么来的。</p>
+<p>我一直知道记录自己有用：做过什么决定，当时怎么想的，后来结果怎样。可我就是不想写日记。试过几次，坚持不了一周。每天晚上对着空白页面“总结今天”，对我来说是一件负担很重、收益很远的事。</p>
+<p>后来我换了个思路：既然我每天都在和 AI 聊天，那能不能让记录发生在聊天里，而不是另开一个本子？</p>
+<p>于是我做了 me-cli。它是一个放在本地的个人资料库，聊天的时候顺带把有用的东西记下来，分几类：事实、目标、决策、结果。每条记录有状态，打算、进行中、完成、取消，这样我能看到一件事从“我想”走到了哪一步。还有一条规则很重要：纠正优先。我说错了、记错了、后来改主意了，新的说法覆盖旧的，而不是两条矛盾的记录并排躺着。</p>
+<p>然后是 About Me 这个群。群里有几个 AI，各有分工：</p>
+<p>一个当朋友。我想到什么就跟它聊，它会直接说它的看法，不同意也会说出来；同时它在后台把聊到的事实和决定记进资料库，我不用操心。</p>
+<p>一个负责转述另一个模型的看法。同一个问题，两个模型常常给出不一样的建议。</p>
+<p>还有一个是沉默的观察者。它平时不说话，按弗洛伊德的框架看我：本我、自我、超我，我用了哪些防御机制，有没有反复出现的模式。它不会把对我个人的观察公开，而是把其中能通用的方法论抽象出来，写进一个开源仓库，叫 <a href="https://github.com/zyellowl/me-skill">me-skill</a>。</p>
+<p>me-skill 是这套系统里可以公开分享的部分。仓库里没有我的个人信息，只有方法：怎么在对话中识别值得记录的内容，怎么做反思，怎么从一次次具体的聊天里看出重复的模式。示例用的都是虚构数据。如果你也不想写日记，又想更了解自己，可以拿去试试，改成适合你的样子。</p>
+<p>用了一段时间，我有两点体会。</p>
+<p>第一，让 AI 在日常对话里记录，比逼自己写日记更能坚持。因为我付出的只是“聊天”这个我本来就在做的事，记录是顺带的。坚持不靠毅力，靠的是不需要毅力。</p>
+<p>第二，多个视角的分歧，比单一的建议有用。一个声音告诉我该怎么做，我很容易照单全收，或者整个否掉。两个声音意见不同，我就得自己想：它们各自看到了什么，我更认哪一边，为什么。真正的判断是在这个时候发生的。</p>
+<p>这个栏目里其他几篇，比如拿奖时那句“对不起大家”，比如替还没定的事焦虑，都是在这样的聊天里冒出来、被记下来、后来又被我自己重新看见的。写成文章，是把它们再想一遍。</p>
+<p class="pager"><a href="/thoughts">All notes</a></p>
+</main>
+<footer><p>© 2026 Zhang Lei</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>
