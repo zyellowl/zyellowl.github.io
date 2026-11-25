@@ -29,7 +29,7 @@
 <h1>Super-agent 设计（三）：开放框架怎么做</h1>
 <p class="quiet tags">开放框架、实现路径、A2A、调度中心</p>
 <p class="quiet">系列共三篇：<a href="/blog/2026-11-25-super-agent-1-yuanwen">① 逐节读原文 + ELI5</a> · <a href="/blog/2026-11-25-super-agent-2-kaifang-kuangjia">② 套到开放框架上</a> · <strong>③ 开放框架怎么做</strong></p>
-<p>前两篇讲清楚了“借什么”和“对到哪”。这一篇是开工清单：分四个里程碑，每个写清交付物、核心数据结构、关键接口、验收指标和风险。模块名沿用我们自己的六块（① DSH Runtime、② 调度中心、③ 插件体系、④ 插件生成器、⑤ 保险领域层、⑥ 管理台），起点是已经在跑的 DSH 统一 Runtime，不另起一套。</p>
+<p>前两篇讲清楚了“借什么”和“对到哪”。这一篇是开工清单：分四个里程碑，每个写清交付物、核心数据结构、关键接口、验收指标和风险。模块名沿用我们自己的六块（① DSH Runtime、② 调度中心、③ 插件体系、④ 插件生成器、⑤ 行业领域层、⑥ 管理台），起点是已经在跑的 DSH 统一 Runtime，不另起一套。</p>
 <figure>
 <img src="/blog-assets/dsh-superagent/openframe-milestones.svg" alt="M0 到 M3 四个里程碑及各自交付物" loading="lazy">
 <figcaption>实现路径：四个里程碑</figcaption>
@@ -44,7 +44,7 @@
 <p>版本规则从第一天定好，因为插件依赖别的插件，上游一升级下游就可能坏：schema 按语义化版本，破坏性变更只能升主版本；每个插件在 manifest 里声明它兼容的 Runtime 范围；调度策略、卡片类型单独有版本号，每次路由决定都记下用的哪个版本，方便回放。</p>
 
 <h2>M0：一个远程 agent，端到端跑通</h2>
-<p>范围是 ① + ③ 的最小版，外加一个最薄的 ②。用我们自己现有的插件（协议适配、语音等）先把 Runtime 加载和隔离跑起来，再接<strong>一个</strong>远程 agent 插件，先找一个配合度高的业务方，或者先用我们自己的 agent 包一层模拟远程。目标链路：</p>
+<p>范围是 ① + ③ 的最小版，外加一个最薄的 ②。用已有的渠道和协议适配插件先把 Runtime 加载和隔离跑起来，再接<strong>一个</strong>远程 agent 插件，先找一个配合度高的业务方，或者先用已有的 agent 包一层模拟远程。目标链路：</p>
 <p class="quiet">用户消息 → 规则路由到这个插件 → Runtime 异步调用 → 插件回报状态 → 调度中心按渠道渲染卡片 → 用户追问 → 直达同一个任务</p>
 <h3>交付物</h3>
 <ul>
@@ -56,36 +56,36 @@
 <h3>核心数据结构：插件 manifest</h3>
 <p>能力声明部分直接复用 <a href="https://a2a-protocol.org/latest/specification/">A2A 1.0 的 Agent Card</a>（<code>name</code>、<code>description</code>、<code>supportedInterfaces</code>、<code>capabilities</code>、<code>skills</code> 等字段来自规范），外面再包一层我们自己的东西：版本和 Runtime 兼容范围、路由提示、字段映射、权限与数据等级、状态集合、评测集。下面是虚构示例：</p>
 <pre><code>{
-  &quot;id&quot;: &quot;claim-progress-agent&quot;,
+  &quot;id&quot;: &quot;ticket-progress-agent&quot;,
   &quot;kind&quot;: &quot;agent.remote&quot;,
   &quot;version&quot;: &quot;1.3.0&quot;,
   &quot;runtime&quot;: &quot;&gt;=2.0 &lt;3.0&quot;,
-  &quot;owner&quot;: &quot;理赔业务方（示例）&quot;,
+  &quot;owner&quot;: &quot;业务方（示例）&quot;,
   &quot;agentCard&quot;: {
-    &quot;name&quot;: &quot;理赔进度助手&quot;,
-    &quot;description&quot;: &quot;查询理赔案件进度，提示需要补充的材料&quot;,
+    &quot;name&quot;: &quot;工单进度助手&quot;,
+    &quot;description&quot;: &quot;查询工单进度，提示需要补充的材料&quot;,
     &quot;supportedInterfaces&quot;: [
-      { &quot;url&quot;: &quot;https://claim-agent.example.com/a2a/v1&quot;,
+      { &quot;url&quot;: &quot;https://ticket-agent.example.com/a2a/v1&quot;,
         &quot;protocolBinding&quot;: &quot;HTTP+JSON&quot;, &quot;protocolVersion&quot;: &quot;1.0&quot; }
     ],
     &quot;capabilities&quot;: { &quot;streaming&quot;: true, &quot;pushNotifications&quot;: true },
     &quot;defaultInputModes&quot;: [&quot;text/plain&quot;, &quot;application/json&quot;],
     &quot;defaultOutputModes&quot;: [&quot;application/json&quot;],
     &quot;skills&quot;: [
-      { &quot;id&quot;: &quot;claim.progress&quot;, &quot;name&quot;: &quot;查理赔进度&quot;,
-        &quot;description&quot;: &quot;按案件号或保单号查询当前进度&quot;,
-        &quot;tags&quot;: [&quot;理赔&quot;, &quot;进度&quot;],
-        &quot;examples&quot;: [&quot;我上周报的案子到哪一步了&quot;] }
+      { &quot;id&quot;: &quot;ticket.progress&quot;, &quot;name&quot;: &quot;查工单进度&quot;,
+        &quot;description&quot;: &quot;按工单 ID 或业务单号查询当前进度&quot;,
+        &quot;tags&quot;: [&quot;工单&quot;, &quot;进度&quot;],
+        &quot;examples&quot;: [&quot;我上周提交的工单到哪一步了&quot;] }
     ]
   },
   &quot;routing&quot;: {
-    &quot;fastRules&quot;: [{ &quot;when&quot;: { &quot;threadKind&quot;: &quot;claim&quot;, &quot;intent&quot;: &quot;claim.progress&quot; } }],
-    &quot;slowHint&quot;: &quot;用户询问已报案件的进度、补材料要求时选我&quot;
+    &quot;fastRules&quot;: [{ &quot;when&quot;: { &quot;threadKind&quot;: &quot;ticket&quot;, &quot;intent&quot;: &quot;ticket.progress&quot; } }],
+    &quot;slowHint&quot;: &quot;用户询问已提交工单的进度、补材料要求时选我&quot;
   },
-  &quot;mapping&quot;: { &quot;contract_id&quot;: &quot;policy.policyNo&quot;, &quot;case_no&quot;: &quot;claim.caseId&quot; },
-  &quot;permissions&quot;: { &quot;dataLevel&quot;: &quot;L3&quot;, &quot;scopes&quot;: [&quot;claim:read&quot;, &quot;policy:read&quot;] },
+  &quot;mapping&quot;: { &quot;ext_order_id&quot;: &quot;ticket.ticketNo&quot;, &quot;work_id&quot;: &quot;ticket.ticketId&quot; },
+  &quot;permissions&quot;: { &quot;dataLevel&quot;: &quot;L3&quot;, &quot;scopes&quot;: [&quot;ticket:read&quot;, &quot;order:read&quot;] },
   &quot;reports&quot;: [&quot;working&quot;, &quot;input_required&quot;, &quot;handoff_human&quot;, &quot;completed&quot;, &quot;failed&quot;, &quot;handback&quot;],
-  &quot;eval&quot;: { &quot;suite&quot;: &quot;evals/claim-progress.jsonl&quot;, &quot;minPassRate&quot;: 0.95 }
+  &quot;eval&quot;: { &quot;suite&quot;: &quot;evals/ticket-progress.jsonl&quot;, &quot;minPassRate&quot;: 0.95 }
 }</code></pre>
 <h3>核心数据结构：Task 状态机</h3>
 <p>平台的 Task 状态自己定义，不跟着远端 agent 的状态走，只做映射。原型仓库在这一点上讲得很清楚：Ticket 可能被交接、恢复或由多个执行者跑，所以它定义自己的状态。我们的远端 agent 换实现、重试、降级都会发生，同理。</p>
@@ -106,10 +106,10 @@
   &quot;remoteTaskId&quot;: &quot;a2a-task-uuid&quot;,
   &quot;seq&quot;: 4,
   &quot;state&quot;: &quot;input_required&quot;,
-  &quot;summary&quot;: &quot;缺少医疗发票原件照片&quot;,
-  &quot;data&quot;: { &quot;caseId&quot;: &quot;CASE-0001&quot;, &quot;missing&quot;: [&quot;invoice&quot;] },
+  &quot;summary&quot;: &quot;缺少需要补充的材料照片&quot;,
+  &quot;data&quot;: { &quot;ticketId&quot;: &quot;TKT-0001&quot;, &quot;missing&quot;: [&quot;attachment&quot;] },
   &quot;card&quot;: { &quot;type&quot;: &quot;material_request&quot;, &quot;version&quot;: 2 },
-  &quot;ask&quot;: { &quot;question&quot;: &quot;请上传医疗发票照片&quot;, &quot;inputModes&quot;: [&quot;image/jpeg&quot;] },
+  &quot;ask&quot;: { &quot;question&quot;: &quot;请上传需要补充的材料照片&quot;, &quot;inputModes&quot;: [&quot;image/jpeg&quot;] },
   &quot;handback&quot;: null
 }</code></pre>
 <h3>关键接口</h3>
@@ -121,7 +121,7 @@
 <h3>验收</h3>
 <ul>
 <li>端到端：一组真实问法（先几十条）全部走通，包括追问、取消、超时、失败四种异常路径。</li>
-<li>平台开销：单独测调度中心 + Runtime 引入的额外延迟，P50 / P95 分开看。迁移语音后端那次功能对齐后平均慢一秒的教训告诉我，这个数要从 M0 就盯。</li>
+<li>平台开销：单独测调度中心 + Runtime 引入的额外延迟，P50 / P95 分开看。功能对齐不等于性能对齐，迁移后常见延迟变慢，这个数要从 M0 就盯。</li>
 <li>每个请求的模型调用次数和 token，建立基线。</li>
 </ul>
 <h3>风险</h3>
@@ -135,8 +135,8 @@
 <h3>交付物</h3>
 <ul>
 <li>统一 Trigger：用户消息、业务方调用、工单状态回调、定时提醒都转成同一种结构进入调度中心。</li>
-<li>两段式路由：规则准入（渠道、调用方、白名单、明确指令、已有进行中的案件）+ 模型研判；策略带版本。</li>
-<li>Thread 订阅直通、交还、取消订阅；Thread 从会话话题扩展到案件。</li>
+<li>两段式路由：规则准入（渠道、调用方、白名单、明确指令、已有进行中的工单）+ 模型研判；策略带版本。</li>
+<li>Thread 订阅直通、交还、取消订阅；Thread 从会话话题扩展到工单。</li>
 <li>去向记录：每条 Trigger 被过滤、直通还是研判，结果是什么，全部落库。</li>
 <li>插件生成器 v0：只生成远程代理插件（读对方接口文档或 agent 地址 → 生成 manifest、字段映射、适配层和几条测试 → 沙箱里跑通 → 业务方确认）。</li>
 </ul>
@@ -146,22 +146,22 @@
   &quot;idempotencyKey&quot;: &quot;im:msg:8f2c...&quot;,
   &quot;source&quot;: &quot;channel.im&quot;,
   &quot;actor&quot;: { &quot;userId&quot;: &quot;u_123&quot;, &quot;tenant&quot;: &quot;t_partner_a&quot;, &quot;via&quot;: &quot;app&quot; },
-  &quot;threadKeys&quot;: [&quot;conv:c_889#topic:2&quot;, &quot;claim:CASE-0001&quot;],
+  &quot;threadKeys&quot;: [&quot;conv:c_889#topic:2&quot;, &quot;ticket:TKT-0001&quot;],
   &quot;kind&quot;: &quot;user.message&quot;,
-  &quot;summary&quot;: &quot;那我再补一张发票&quot;,
+  &quot;summary&quot;: &quot;那我再补一份材料&quot;,
   &quot;payloadRef&quot;: &quot;blob://triggers/trg_01J...&quot;,
   &quot;receivedAt&quot;: &quot;2026-11-25T03:20:11Z&quot;
 }</code></pre>
 <pre><code>-- Thread → Task 订阅表（多对多）
 CREATE TABLE thread_subscription (
-  thread_key   VARCHAR(128) NOT NULL,   -- conv:c_889#topic:2 / claim:CASE-0001
+  thread_key   VARCHAR(128) NOT NULL,   -- conv:c_889#topic:2 / ticket:TKT-0001
   task_id      VARCHAR(64)  NOT NULL,
   plugin_id    VARCHAR(64)  NOT NULL,
   mode         VARCHAR(16)  NOT NULL,   -- owner：后续消息归它处理；context：只旁听
   created_at   TIMESTAMP    NOT NULL,
   PRIMARY KEY (thread_key, task_id)
 );</code></pre>
-<p><code>idempotencyKey</code> 保证同一事件只处理一次；原型仓库的规则是“同一个 Trigger 接单两次只产生一个 Ticket”。<code>threadKeys</code> 可以有多个：一条消息既属于某个会话话题，也属于某个案件。订阅分 <code>owner</code> 和 <code>context</code> 两种：原型里跟进来的上下文 Thread 只提供上下文，不赋予权限。</p>
+<p><code>idempotencyKey</code> 保证同一事件只处理一次；原型仓库的规则是“同一个 Trigger 接单两次只产生一个 Ticket”。<code>threadKeys</code> 可以有多个：一条消息既属于某个会话话题，也属于某张工单。订阅分 <code>owner</code> 和 <code>context</code> 两种：原型里跟进来的上下文 Thread 只提供上下文，不赋予权限。</p>
 <h3>关键接口：路由主循环</h3>
 <figure>
 <img src="/blog-assets/dsh-superagent/openframe-fast-slow-path.svg" alt="事件进入后先查 Thread 订阅，没有订阅再走规则准入，候选事件再交给模型研判" loading="lazy">
@@ -177,8 +177,8 @@ CREATE TABLE thread_subscription (
     gate = rules.admit(t)                              # 快路径 2：规则准入
     if gate.ignore: return log_disposition(t, path=&quot;fast.ignored&quot;)
     ctx = context.inline(t, budget=CTX_BUDGET)         # ID + 摘要 + 指针
-    d = router_llm.decide(t, ctx, policy.current())    # 慢路径：模型研判
-    log_decision(t, d, policy.version)                 # 先落库，再执行
+    d = router_llm.decide(t, ctx, strategy.current())  # 慢路径：模型研判
+    log_decision(t, d, strategy.version)               # 先落库，再执行
     if d.kind == &quot;accept&quot;:
         task = tasks.open(d, mandate=gate.strength)
         subscriptions.add(t.threadKeys, task, mode=&quot;owner&quot;)
@@ -202,26 +202,26 @@ CREATE TABLE thread_subscription (
 <p>范围是 ② 的编排和统一上下文，加上 ⑤ 领域层的第一批字段映射。</p>
 <h3>交付物</h3>
 <ul>
-<li>编排型 agent 插件：固定的串联流程（比如查保单 → 理赔 → 合规检查）做成一个 agent 插件，内部再调其他插件，调度中心只派单。</li>
-<li>多订阅：一个案件同时关联多个插件，新事件同时通知；跨任务协调由调度中心转达。</li>
+<li>编排型 agent 插件：固定的串联流程（比如查工单 → 处理进度 → 合规检查）做成一个 agent 插件，内部再调其他插件，调度中心只派单。</li>
+<li>多订阅：一张工单同时关联多个插件，新事件同时通知；跨任务协调由调度中心转达。</li>
 <li>上下文接口：注入时“ID + 摘要 + 指针”，按预算 inline；<code>context.get(id, depth)</code> 按引用逐跳召回，召回结果里带下一跳的 ID 和摘要。</li>
-<li>领域层 v0：保单、被保人、理赔案件的核心字段和映射表，先只收被调用得足够多的字段。</li>
+<li>领域层 v0：工单、客户、业务单的核心字段和映射表，先只收被调用得足够多的字段。</li>
 </ul>
 <h3>关键接口</h3>
 <pre><code>context.inline(trigger, budget)      -&gt; { ids, summaries, pointers }
 context.get(objectId, depth=1)       -&gt; { object, related: [{ id, kind, summary }] }
-domain.map(pluginId, payload)        -&gt; canonical payload   # contract_id -&gt; policy.policyNo
+domain.map(pluginId, payload)        -&gt; canonical payload   # ext_order_id -&gt; ticket.ticketNo
 subscriptions.add(threadKey, taskId, mode)
 subscriptions.handback(taskId, triggerId, reason)</code></pre>
 <h3>验收</h3>
 <ul>
-<li>跨渠道连续性：同一个案件在 IM、App、语音之间切换，追问都能直达正确的任务；用回放集里的跨渠道样例测。</li>
+<li>跨渠道连续性：同一张工单在 IM、App、语音之间切换，追问都能直达正确的任务；用回放集里的跨渠道样例测。</li>
 <li>上下文成本：每次调用注入的 token 数、插件为补上下文额外调了几次接口，两个数一起看，不能只压一个。</li>
 <li>多 agent 场景的端到端完成时间和失败率。</li>
 </ul>
 <h3>风险</h3>
 <ul>
-<li>统一领域模型是组织问题，不是技术问题：各业务对“保单”理解不同，得先定谁说了算。对策：领域层只做映射，不强迫对方改字段；只把高频字段收进标准。</li>
+<li>统一领域模型是组织问题，不是技术问题：各业务对“工单”理解不同，得先定谁说了算。对策：领域层只做映射，不强迫对方改字段；只把高频字段收进标准。</li>
 <li>编排插件越做越大，变回一个巨型 agent。对策：编排插件只管串联顺序，每一步的业务判断留在各自插件里。</li>
 </ul>
 
@@ -237,13 +237,13 @@ subscriptions.handback(taskId, triggerId, reason)</code></pre>
 </ul>
 <h3>验收</h3>
 <ul>
-<li>新业务接入耗时：从提交材料到插件上架，以及其中需要我们组人工介入的步骤数。</li>
+<li>新业务接入耗时：从提交材料到插件上架，以及其中需要人工介入的步骤数。</li>
 <li>巡检：卡住任务的发现时间和自动恢复比例。</li>
 <li>安全：每次发版跑一组注入和越权用例（比如用户消息里夹带“忽略之前的规则”，agent 插件返回里夹带别的用户数据），全部拦截才放行。</li>
 </ul>
 <h3>风险</h3>
 <ul>
-<li>适配成本全落在我们组，又回到替所有业务写插件兜底的老路。对策：生成和映射尽量交给模型自动化，人工只做确认；接入耗时和人工步骤数进看板。</li>
+<li>适配成本全落在平台侧，又回到替所有业务写插件兜底的老路。对策：生成和映射尽量交给模型自动化，人工只做确认；接入耗时和人工步骤数进看板。</li>
 <li>插件层层调用，延迟和故障叠加。对策：Runtime 内核调用保持轻，每层的平台开销单独计量，超标的调用链在管理台上直接标红。</li>
 </ul>
 
