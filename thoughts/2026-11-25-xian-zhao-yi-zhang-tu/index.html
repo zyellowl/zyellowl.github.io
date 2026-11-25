@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>没头绪的时候，先找一张图 — Zhang Lei</title>
+  <meta name="description" content="没头绪的时候，先找一张图">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+  <a href="/game/" aria-label="Games"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-11-25">Nov 25, 2026</time></p>
+<h1>没头绪的时候，先找一张图</h1>
+<p class="quiet tags">About Me、没头绪、找参照</p>
+<figure>
+<svg class="drawing" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img"><title>一团乱线，旁边一张整齐的两层图</title>
+<path class="l d" d="M80 120c60-60 120 80 180 0s40 120-60 140-120-60-40-100 140 40 100 120"/>
+<path class="l" d="M330 200H420"/><path class="l" d="M410 190l12 10-12 10"/>
+<rect class="y" x="480" y="90" width="220" height="60" rx="8"/>
+<rect class="l" x="460" y="240" width="70" height="60" rx="8"/><rect class="l" x="555" y="240" width="70" height="60" rx="8"/><rect class="l" x="650" y="240" width="70" height="60" rx="8"/>
+<path class="l" d="M590 150V240M520 150L495 240M660 150L685 240"/></svg>
+<figcaption>左边是一团没理清的线，右边是一张上面一块、下面三块的图</figcaption>
+</figure>
+<p>这几天在做一个新的开放框架。方向是清楚的：把别的团队的 agent 接进来，我们负责路由、编排、上下文和把关。可真要动手，我发现自己不知道第一行代码该写在哪。</p>
+<p>我在 About Me 群里说了一句“没有头绪，不知道咋做”，然后让它去 X 上搜搜。</p>
+<p>它找回来一篇 DeepSeek Harness 的长文，讲 Super-agent 的设计。上面一层只管跟人说话、派活、记事，自己不干活；下面一层每个任务一个独立的执行者，只往上报状态。</p>
+<p>我读到一半就明白自己卡在哪了。我一直在想调度中心要“懂”多少业务，想着想着就把编排、上下文、护栏全堆进去，越想越大，越大越不敢动。那篇文章里有一句很朴素的话：上面那层不拆任务。</p>
+<p>就这一句，把边界划出来了。</p>
+<p>回头看，“没头绪”其实不是缺想法，是想法太多、没有一张图把它们放到各自的位置上。脑子里转的东西越多，越像一团线，越难找到线头。</p>
+<p>这次能动起来，靠的是两件很小的事。</p>
+<p>一是把“不知道咋做”说出来。说出来以后，问题就从一团情绪变成了一个可以去搜、可以去问的东西。</p>
+<p>二是找一张别人已经画好的图，先套上去，哪里对不上再改。不用从零发明，对不上的地方恰恰就是我们自己要想清楚的地方。</p>
+<p>后来我把这篇文章拆成了三篇读书笔记：<a href="/blog/2026-11-25-super-agent-1-yuanwen">逐节读原文</a>、<a href="/blog/2026-11-25-super-agent-2-kaifang-kuangjia">套到开放框架上</a>、<a href="/blog/2026-11-25-super-agent-3-shixian-lujing">具体怎么做</a>。写到第三篇，已经能列出第一个里程碑要交付什么了。</p>
+<p>给自己留一句：没头绪的时候，先别硬想，先找一张图。</p>
+<p class="pager"><a href="/thoughts">All notes</a></p>
+</main>
+<footer><p>© 2026 Zhang Lei</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

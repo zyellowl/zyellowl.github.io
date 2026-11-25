@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">
+<defs><style>.b{fill:#fff;stroke:#171717;stroke-width:2}.y{fill:#ffff02;stroke:#171717;stroke-width:2}.l{fill:none;stroke:#171717;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.d{stroke-dasharray:7 8}.t{fill:#171717;font-size:20px}.s{fill:#555;font-size:15px}.h{fill:#171717;font-size:26px;font-weight:500}.m{font-family:IBM Plex Mono,Menlo,monospace}</style><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#171717"/></marker></defs><rect width="1200" height="500" fill="#fff"/>
+<title>开放框架实现路径 M0–M3</title>
+<text x="60" y="64" class="h">实现路径：四个里程碑</text>
+<path class="l" d="M80 170H1130" marker-end="url(#a)"/>
+<circle cx="180" cy="170" r="16" class="y"/><circle cx="440" cy="170" r="16" class="b"/><circle cx="700" cy="170" r="16" class="b"/><circle cx="960" cy="170" r="16" class="b"/>
+<text x="150" y="130" class="t m">M0</text><text x="410" y="130" class="t m">M1</text><text x="670" y="130" class="t m">M2</text><text x="930" y="130" class="t m">M3</text>
+<g class="s"><text x="90" y="225">Runtime 内核 + 插件体系</text><text x="90" y="250">自有插件 + 1 个远程 agent</text><text x="90" y="285">manifest / Task 状态机</text><text x="90" y="310">状态回报 → 卡片</text>
+<text x="350" y="225">调度中心：快慢路径</text><text x="350" y="250">Thread 订阅直通</text><text x="350" y="285">生成器 v0（代理插件）</text><text x="350" y="310">第一个外部业务</text>
+<text x="610" y="225">多 agent 编排插件</text><text x="610" y="250">统一上下文 / 召回</text><text x="610" y="285">领域层字段映射</text><text x="610" y="310">交还与多订阅</text>
+<text x="870" y="225">管理台：评测门槛</text><text x="870" y="250">审批 / 审计 / 巡检</text><text x="870" y="285">生成器自动重生成</text><text x="870" y="310">基座 / 应用分仓发版</text></g>
+<rect x="60" y="370" width="1090" height="80" rx="12" class="b"/><text x="84" y="405" class="t">每一步都先有评测和回放，再加功能</text><text x="84" y="434" class="s">验收看三样：路由准确率、端到端延迟、单次成本（token / 模型调用次数）</text>
+</svg>

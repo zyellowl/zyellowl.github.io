@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super-agent 设计（一）：逐节读原文 — Zhang Lei</title>
+  <meta name="description" content="DeepSeek Harness 的 Super-agent 长文逐节解读，附 ELI5">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+  <a href="/game/" aria-label="Games"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-11-25">Nov 25, 2026</time></p>
+<h1>Super-agent 设计（一）：逐节读原文</h1>
+<p class="quiet tags">Super-agent、DeepSeek Harness、调度、ELI5</p>
+<p class="quiet">系列共三篇：<strong>① 逐节读原文 + ELI5</strong> · <a href="/blog/2026-11-25-super-agent-2-kaifang-kuangjia">② 套到开放框架上</a> · <a href="/blog/2026-11-25-super-agent-3-shixian-lujing">③ 开放框架怎么做</a></p>
+<figure>
+<img src="/blog-assets/dsh-superagent/00-cover.jpg" alt="Exploring Super-agent Design 封面" loading="lazy">
+<figcaption>原文封面（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<p>最近在做一个 agent 调度中心，我叫它“开放框架”：把别的团队的 agent 以远程代理插件的方式接进来，平台负责意图路由、编排、统一上下文和安全护栏。方向是清楚的，怎么搭心里却一直没底。DeepSeek Harness 团队 11 月 1 日发了一篇长文 <a href="https://x.com/DeepSeekHarness/status/2116857257245987236">Exploring Super-agent Design</a>，讲的正好是“一个常驻的 agent 怎么同时接住很多入口、很多任务”。这一篇先老老实实按原文结构逐节读一遍，最后用小孩能懂的话再讲一次。下一篇再套到我的框架上。</p>
+<p>先说明：原文是英文机器翻译版（原作为中文），作者自己强调这是架构思路，不是 DSH 现有功能介绍；下面的数字全部出自原文，引用处我尽量保留原词。</p>
+
+<h2>1. 什么是 Super-agent</h2>
+<p>原文的出发点是一个很朴素的观察：模型做单个任务越来越不需要人盯，但主流 agent 设计仍然以“一个会话”为基本单位，会话之间彼此隔离。用户并行跑几件事，就得自己在会话之间来回切、自己记住每个会话里有什么。</p>
+<blockquote><p>In our experience, a person can usually follow only 3 to 5 active sessions at once.</p></blockquote>
+<p>于是有一句我很认同的判断：单任务受限于模型能力，多任务受限于人的注意力。给本地单会话 agent 接上 CLI、MCP 或外部连接器，它能收到外部消息，但根本限制还在：同步执行、长操作会阻塞，不同任务的上下文混在一起，本地设备一离线就全停。</p>
+<p>所以要把 agent 从“某一个手动驱动的会话”里解耦出来，变成一个跨会话保有上下文、能同时推进多件复杂任务、任务之间互不干扰的持续实体。他们把这种 agent 和它的系统架构叫 Super-agent，并给出四个特征：</p>
+<ul>
+<li><strong>Continuous（连续）</strong>：在 IM、GitHub 评论这些人本来就在的地方直接交互，始终感觉是同一个 agent。在 IM 里要了方案 A，后来在 PR 评论里改成方案 B，它能理解并调整。</li>
+<li><strong>Productive（高产）</strong>：响应快，并行完成多件复杂任务；上一条命令没跑完就能接下一条指令。</li>
+<li><strong>Proactive（主动）</strong>：不等逐步指令，监听环境事件，值得处理的就处理，不值得就保持安静。</li>
+<li><strong>Persistent（常驻）</strong>：一直在线，直连用户真实的工作环境，长时间运行中能从异常里自己恢复。</li>
+</ul>
+<figure>
+<img src="/blog-assets/dsh-superagent/09-example-im-github.jpg" alt="同一个任务在 IM 和 GitHub 之间连续推进的对话示例" loading="lazy">
+<figcaption>“连续”的例子：一个字体设置需求在 IM 群里提出，在 GitHub PR 里继续迭代（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<p>原文说任何单个 ReAct 循环都给不了这四点，只能靠循环外面的系统架构。它把架构拆成五个模块：两层架构（第 2 节）负责连续交互和并发吞吐；事件驱动（第 3 节）让 agent 主动；全双工多通道交互（第 4 节）让每次交流既连续又高效；计算、状态、环境分离（第 5 节）加上 Watchdog（第 6 节）让它跨设备常驻并自愈。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/01-overview.jpg" alt="Super-agent 架构总览" loading="lazy">
+<figcaption>架构总览，标号 [2]–[6] 对应原文第 2–6 节（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+
+<h2>2. 两层架构：Router 和 Worker</h2>
+<p>这一节的核心是一个取舍：<strong>连续性和吞吐量</strong>。</p>
+<ul>
+<li>所有事件都进同一个会话：上下文最连续，因为它什么都看得到。但 ReAct 循环一次走一步，单会话速度有上限，任务慢、吞吐低；不同任务的中间细节还会交错在同一个上下文里，结果变差。</li>
+<li>每个事件开一个新会话：吞吐最大。但任务不完全独立时，缺少共享的全局上下文，结果彼此脱节；多个会话各自回复用户，交互也乱。</li>
+</ul>
+<p>解法是分两层：常驻的 Router 层处理所有人机交互和全局协调，保住连续性；上下文隔离的 Worker 层高并发地执行任务。原文还顺手批评了一个习惯：让用户手动管理会话，很大程度上是从底层 LLM API 继承来的设计惯性。会话应该是系统的实现细节，而不是用户的心智负担。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/10-two-level.jpg" alt="两层架构：Router 层连接 IM、GitHub、邮件日历，下面是多个隔离的 Worker Session" loading="lazy">
+<figcaption>两层架构（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<h3>2.1 Router 层</h3>
+<p>Router 接收所有入口的人类交互，是系统的全局序列点、协调点和记忆。为了不让这个单点成为瓶颈，<strong>它被设计成不执行任务</strong>，只跟人交互、派发任务，甚至可以完全没有 Bash 工具。</p>
+<p>它看起来像 Agent Team，但关注点不同。Agent Team 通常把一个复杂任务拆成步骤、协调各角色，Team Lead 需要深入理解任务、规划子任务、频繁协调，推理负担很重。Super-agent 的 Router 只派发任务、在高层跟踪任务之间的关系，<strong>不拆解单个任务</strong>。原文的经验是 Router 的活往往比想象的简单，轻一点的模型通常就能兼顾速度和质量。</p>
+<p>实现上他们选了最直接的方式：一个常驻的 LLM 会话。它不容易成为吞吐瓶颈，原因是批处理：一次推理期间到达的 Trigger 会排队，下一轮一起处理。Router 每一步通常是长输入、短输出，合并进同一次 API 调用的 Trigger 在 Prefill 阶段并行计算，所以单次请求耗时的增长远慢于批大小。积压越多，每个决策的摊销推理时间反而越低（上限取决于上下文长度和模型一轮能准确处理多少 Trigger）。</p>
+<p>如果真有一天单会话扛不住，可以在内部做多级过滤，或者水平分片成多个会话。但这又回到同一个取舍：分得越细，吞吐越高，分片之间共享的记忆和上下文越少。原文说这个取舍在全局记忆问题解决之前会一直存在。</p>
+<h3>2.2 Worker 层</h3>
+<p>Worker 是执行任务的会话：上下文隔离、工具齐全、一个 Worker 专注一个任务。它直接决定任务结果和代码质量，所以通常要用最强的模型。</p>
+<p>关键约束：<strong>Worker 从不直接跟人交互</strong>，推理过程和工具调用不进外部通道。每个 Worker 把状态报给 Router，由 Router 统一回复用户。这样既保住并发和质量，又避免多个会话各说各的。</p>
+<p>并行的 Worker 之间通常不需要直接通信。冲突往往发生在共享的工作环境里，比如同一个 PR。只要相关 Worker 都订阅了这个环境的 Thread，就会收到同样的事件通知，有机会自己发现并解决冲突；少数需要跨任务协调的情况由 Router 转达。Worker 内部也可以再开 subagent，甚至本身就是一个 Agent Team，这对 Router 是透明的。</p>
+
+<h2>3. 事件驱动的 Triggers</h2>
+<p>要主动，先得换驱动方式：agent 的主要输入不再是人一条条敲进会话的 prompt，而是环境里的半结构化事件，比如群消息、邮件、日历提醒、代码评审评论、CI 结果。原文统称 Trigger。一条事件从到达到处理分四步：过滤（3.1）、路由（3.2）、组织上下文（3.3）、提前执行（3.4）。</p>
+<h3>3.1 事件过滤：快路径和慢路径</h3>
+<p>接上真实群聊和代码平台之后，事件流噪音大、触发率低，绝大多数日常消息根本不需要 agent 动。每条都让大模型从头判断，延迟和算力都受不了。原文借用计算机系统的 Fast Path / Slow Path：把大模型推理当作灵活但昂贵的慢路径，把高频、明确、稳定的判断写成确定性代码，作为低延迟低成本的快路径。</p>
+<ul>
+<li><strong>程序化策略（快路径）</strong>：代码按事件来源、群、用户或 bot 白名单做准入。比如每个来源可以设成“只响应明确请求”“作为候选事件”或“忽略”。大多数无关消息在调用模型前就被丢掉。</li>
+<li><strong>语义策略（慢路径）</strong>：通过程序检查的候选事件交给 LLM，结合上下文和写成 prompt 的策略决定要不要动。这一层同时是自然语言扩展点，人随时可以用 prompt 开关或新增策略。</li>
+</ul>
+<figure>
+<img src="/blog-assets/dsh-superagent/05-event-filter.jpg" alt="两级事件过滤：程序化策略（快路径）和语义策略（慢路径）" loading="lazy">
+<figcaption>两级过滤：确定性规则先筛，候选事件再交给模型（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<h3>3.2 事件路由：订阅和直通</h3>
+<p>如果每个已分派任务的后续事件都还要过一遍 Router，这个全局单点负担会很重、响应变慢。所以快慢路径的思路也用在路由上：Router 只处理新任务的冷启动和跨任务协调，后续事件由代码直接送给负责它的 Worker。</p>
+<p>同一个 PR、同一个 IM 话题、同一个邮件链上的连续事件构成一个事件流，原文叫 <strong>Thread</strong>。Router 为某个 Thread 的第一个事件创建 Worker 时，这个 Worker 直接订阅该 Thread。之后：</p>
+<ul>
+<li><strong>已订阅（快路径）</strong>：代码把 Thread 的后续事件直通给订阅它的 Worker，Router 不需要再发一次工具调用转发。新事件超出当前任务的话，Worker 可以取消订阅，或者把事件交还 Router 重新分派。</li>
+<li><strong>未订阅（慢路径）</strong>：Router 仍然能看到所有事件，用来跟踪全局状态，但只对还没有订阅者的新事件做判断和分派。</li>
+</ul>
+<figure>
+<img src="/blog-assets/dsh-superagent/13-threads.jpg" alt="两个 Thread 示例：IM 话题和 GitHub PR，各自包含多个 Trigger" loading="lazy">
+<figcaption>Thread：同一个话题或 PR 上的连续 Trigger（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<figure>
+<img src="/blog-assets/dsh-superagent/08-subscription-routing.jpg" alt="订阅直通和未订阅时经 Router 的两条路由路径" loading="lazy">
+<figcaption>路由的快慢路径：已订阅直通 Worker，未订阅才由 Router 处理（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<p>Thread 和 Worker 的订阅是多对多的：一个 Worker 可以订阅多个相关 Thread，一个 Thread 也可以有多个订阅者。多个 Worker 落在同一个环境里时，共享 Thread 上的新事件会同时直通给所有订阅者，它们不用点对点通信就能知道彼此在做什么。输出侧不变：关键结论仍然报给 Router，由它统一回复并同步全局记忆。</p>
+<h3>3.3 组织上下文：Inline &amp; Spill 和 Chain of Recall</h3>
+<p>事件路由到目标会话后，要决定往上下文里放多少。放太多，窗口被撑满，注意力被稀释；放太少，模型得一遍遍调用工具去读，步数变多。原文有一句：浪费上下文窗口就是浪费模型的智能。</p>
+<p>它把有限的上下文窗口当成缓存，借编译器和系统里的两个操作：<strong>Inline</strong> 把很可能马上用到的信息直接放进窗口，省掉工具往返；<strong>Spill</strong> 把超预算或很少用的完整信息留在窗口外，只留引用或摘要，需要时再读。再结合局部性原理，逐步改进：</p>
+<ol>
+<li>从最少的信息开始：只给当前对象的 ID 和内容摘要。</li>
+<li>按局部性逐步 Inline：先放密切相关对象的 ID，再加空间或时间上相邻的内容，比如内容的前 50 个字符、某条 IM 消息前后的消息和它回复的那条、同一个代码评审讨论里相邻的评论。</li>
+<li>超长内容 Spill：给长内容设一个小的长度上限，截断并留下“后面还有，去哪儿读”的指针。</li>
+</ol>
+<p>Router 自己也有上下文问题：大量后续事件直通给了 Worker，历史任务又越积越多，它不可能把每个任务的完整历史都放在窗口里。可用户在另一个通道提起一个老任务时，它还得能找回来。把 Inline &amp; Spill 一致地用在系统里每一类对象上，就得到一种按需、多跳的检索机制：<strong>Chain of Recall</strong>。Trigger、Thread、Worker Session 都有唯一 ID，注入一个对象时把密切相关对象的 ID 一起 inline，ID 把对象连成一张引用图；通过工具召回的每个对象同样遵守 Inline &amp; Spill，返回结果里带着下一跳的摘要和 ID。模型从当前事件出发，顺着引用一跳一跳往回找，需要多远找多远。比如从当前消息的 Thread，顺着 ID 找到相关的 Worker Session，再找到这个 Worker 关联的另一个代码评审 Thread。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/03-chain-of-recall.jpg" alt="Chain of Recall：从当前 Trigger 顺着 ID 逐跳召回 Thread、Worker 和相关评审" loading="lazy">
+<figcaption>Chain of Recall：顺着 ID 一跳一跳召回上下文（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<h3>3.4 提前执行（投机执行）</h3>
+<p>同样借自计算机系统：根据环境信号，在还不确定结果是否会被用上的时候就先在后台开工。用额外的后台算力换人少等、少介入；有用就交付，没用就丢掉。个人场景里，收到会议邀请或待办消息，可以先在后台查日程冲突、收集背景、起草回复，用户只要看一眼再发。研发场景里，他们在内部用户群配了一条“静默复现并修复”策略：有人报问题或讨论改动时，agent 先在后台尝试复现、找修复，只有确认了问题且找到简单修复时才交付结果，否则全程不出声。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/07-example-ongoing-fix.jpg" alt="讨论还在进行时 agent 已经提交了可靠修复的对话示例" loading="lazy">
+<figcaption>讨论还没结束，修复 PR 已经提交（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<figure>
+<img src="/blog-assets/dsh-superagent/06-example-silent-fix.jpg" alt="agent 静默监听公开群，没有被 @ 的情况下定位问题并提交修复 PR" loading="lazy">
+<figcaption>静默监听公开群：没人 @ 它，它自己定位根因并开了修复 PR（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+
+<h2>4. 全双工多通道交互</h2>
+<h3>4.1 全双工</h3>
+<p>经典 ReAct 循环里，模型发起一个同步的 <code>run()</code> 工具调用，循环就阻塞到工具返回，期间对用户的新消息毫无反应。要去掉阻塞，对话得从回合制的半双工变成全双工：把耗时的命令和工具调用换成异步的 <code>start()</code> 和 <code>stop()</code>。<code>start()</code> 立刻返回 “Started”，循环不等工具；工具在后台跑完后，系统把结果作为一条新事件消息送回会话；模型也可以根据上下文调用 <code>stop()</code> 结束跑太久的后台命令。前台对话和后台任务解耦以后，新输入在当前推理步结束时就能被处理，不用等后台工具跑完。原文注明 DSH 已经实现了这个异步任务机制，但还没有默认开启。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/11-full-duplex.jpg" alt="经典 ReAct 循环同步阻塞 vs 异步 ReAct 循环后台执行" loading="lazy">
+<figcaption>半双工 vs 全双工：异步 ReAct 循环不再被长工具调用卡住（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<h3>4.2 多通道</h3>
+<p>人在群聊、邮件、GitHub 讨论里的沟通方式不一样，agent 的详略和方式也得跟着变。终端里适合看的详细推理和工具日志，原样贴进群聊会把人淹没。两层架构已经解决了一部分：每个任务啰嗦的推理和频繁的工具调用留在 Worker 里，对外交互全归 Router。在此之上再用 prompt 给每个通道定规范：</p>
+<ul>
+<li><strong>IM 这类即时通道</strong>：轻量、尽量少打扰。像人类同事一样，只在需要决策或签字时通知人，只问直接的问题，给简短结论。他们验证过一条简单有效的硬规则：每条回复不超过 100 个词。</li>
+<li><strong>GitHub、邮件、文档这类异步通道</strong>：给结构化、信息密集的输出。比如创建或更新 PR 时按项目规范写全问题背景、改动说明和验证结果。</li>
+</ul>
+
+<h2>5. 计算、状态、环境分离</h2>
+<p>本地 agent 默认把三样东西绑在一台设备上：跑 Agent Loop 的计算、需要持久化的会话状态、执行环境（代码仓库、本地工具链）。设备一睡眠或离线，agent 就停；别的设备上的环境它也够不着。原文借用存算分离，分两步解耦：</p>
+<ul>
+<li><strong>计算和状态分离</strong>：跑 Agent Loop 的计算可以是无状态的，只有会话状态需要持久。于是计算放进无状态、可弹性伸缩的云容器，会话等持久状态放数据库。容器可以扩容、重启、替换，持久存储保证会话和任务连续。</li>
+<li><strong>计算和执行环境分离</strong>：在云端起沙箱、拉代码、重建环境的方案很贵且容易漏，因为真实环境里有未提交的改动、私有凭证、内网依赖、特定硬件或工具链；让用户把工作整个搬上云，迁移成本又太高。既然难复制的是环境本身，就不搬它：Agent Loop 在云端，重状态的执行环境留在原地，每个端点只装一个轻量守护进程，不存会话状态，只负责执行命令、返回结果。</li>
+</ul>
+<p>原文把这和 Anthropic 的 “Decoupling the brain from the hands” 对比：思路相同（harness 无状态、会话日志存在外面、执行环境通过统一接口按需接入），区别在场景。他们首先要接的是人每天用的个人电脑，上面有未提交的改动和本地凭证，还可能时断时续地在线，所以支持 BYOM（Bring Your Own Machine），也支持云主机和按需创建的计算环境。个人设备重新上线时，云端 agent 会自动开始并完成需要在那台设备上跑的任务。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/02-compute-state-env.jpg" alt="云端无状态 Agent Loop、会话数据库，以及个人开发机、云环境、间歇在线设备三类端点" loading="lazy">
+<figcaption>两级解耦：计算、持久状态、执行环境（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+
+<h2>6. Watchdog</h2>
+<p>只有存算分离还不够常驻，系统还得在长时间运行中自动从异常里恢复。一个常驻的分布式系统只靠内部逻辑很难长期可靠，需要一个主系统之外的独立 Control Loop。而且 agent 系统要的不只是进程存活探针：很多异常不是崩溃，进程还活着，但模型卡在无效循环里，或者偏离了目标。所以长跑的 agent 既要监控基础设施存活，也要监控任务进度。</p>
+<p>他们的做法是一个独立的 Watchdog Session，跑在主系统外，由定时消息驱动。它处理 API 报错、状态恢复失败这类基础设施故障，也用模型判断每个 Worker 有没有实质进展、是不是偏离了总体目标，及时修复，并对暂时性的外部故障持续复查直到恢复。因为 Watchdog 本身就是一个工具齐全的 agent 会话，维护者可以用自然语言问它为什么失败，也可以让它在系统运行时修正行为，比如增删 prompt、调整触发规则。</p>
+
+<h2>7. 初步实验</h2>
+<p>原文强调实验用的是合成负载和简化环境，部分设置还可以更严谨，结果仅供参考。</p>
+<h3>7.1 消融实验</h3>
+<p>四种端到端设计同时跑，由群聊和 GitHub CI 消息流驱动。每轮约 300 条消息，其中约 20 条是工作请求，其余是闲聊、追问、取消和 CI 消息。编码工作用一个只消耗时间的工具模拟，所以测的是调度和协调能力，不是单任务执行能力。每种设计跑 5 次。两个单会话版本的区别只在 prompt：中性版（“合适时用 subagent 做一件工作……”）和委派优先版（“群里每条消息都会到你这里，所以你自己跑的工作会不断被新消息打断。优先把每件工作交给单独的 subagent，自己只做小事……”）。</p>
+<table>
+<thead><tr><th>设计</th><th>任务完成时间 p50 / p95（分钟）</th><th>每轮缓存读 token（所有会话）</th></tr></thead>
+<tbody>
+<tr><td><strong>Super-agent</strong></td><td>12.4 / 15.7</td><td>23.2M</td></tr>
+<tr><td>Super-agent，去掉 Pass-through</td><td>12.6 / 15.5</td><td>31.8M</td></tr>
+<tr><td>单会话 + Subagent 工具，中性 prompt</td><td>20.4 / 29.5</td><td>6.1M</td></tr>
+<tr><td>单会话 + Subagent 工具，委派优先 prompt</td><td>13.8 / 29.0</td><td>10.8M</td></tr>
+</tbody>
+</table>
+<p class="quiet">表格数据来自原文；任务完成时间从工作请求算到结果消息。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/04-ablation-curve.jpg" alt="四种设计的累计工作请求与完成数曲线" loading="lazy">
+<figcaption>累计请求与完成曲线，紫色长尾来自委派优先版里没委派的那一轮（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+<p>我从这组数据里读出三点：</p>
+<ul>
+<li>单会话设计严重依赖 prompt 和模型的临场判断。中性 prompt 下，5 次里模型一次都没调 subagent，所有工作都在主会话里做，不断被新消息打断，p95 到了 29.5 分钟；委派优先 prompt 下 5 次里 4 次委派了，但剩下一次模型觉得活“小”自己做了，制造了长尾。两层架构是在系统层面解决这个问题：Router 不执行，Worker 只收到它订阅的 Thread 的消息。</li>
+<li>Super-agent 用更多 token（多个独立会话的缓存读）换更短、更稳的完成时间。</li>
+<li>去掉 Pass-through，完成时间几乎不变，但 Router 每轮多做约 30% 的决策，总缓存读 token 从 23.2M 涨到 31.8M，约多 37%。也就是说直通在这个负载下不让任务更快，但显著省了 Router 的 token 和推理开销。</li>
+</ul>
+<h3>7.2 Router 批处理</h3>
+<p>单独压测 Router：Router 调真实模型，Worker 用 mock 模型。把需要决策的 Trigger 到达率从每分钟约 1 条逐步提到约 40 条：平均批大小从 1.0 涨到 2.8，单次请求耗时只从 2.5 秒涨到 3.9 秒，每个决策的摊销推理时间从 6.4 秒降到 1.6 秒。（一个决策可能跨多次 LLM 请求，因为 Router 可能多步推理或先召回上下文再派发，所以单决策时间可以大于单请求时间。）这也解释了 7.1：去掉直通抬高了 Router 峰值负载，但单个 Router 仍没到吞吐上限。所以按他们现在的团队规模，没必要为了吞吐过早分片、牺牲全局上下文连续性。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/12-router-batching.jpg" alt="随 Trigger 到达率上升，批大小和单次请求耗时、单决策推理时间的变化" loading="lazy">
+<figcaption>批处理：到达率越高，单决策摊销时间越低（图源：DeepSeek Harness 原文）</figcaption>
+</figure>
+
+<h2>8. 还没解决的问题</h2>
+<ul>
+<li><strong>两层架构怎么扩展</strong>：单 Router + 订阅直通 + Worker 之间不直接通信，已经以很低的工程成本覆盖了他们大多数日常任务。任务更大更耦合时，Router 什么时候分片、分多细，Worker 什么时候该直接通信、用什么拓扑，都还没定。专门为 Router 的工作（判断事件、批量派发、召回上下文）训练模型，是另一个方向。跑上几个月以后，长期记忆会成为主要瓶颈。</li>
+<li><strong>没有会话之后怎么交互</strong>：用户看到的一个对话不必对应底层一个会话。更多交互可能会移到领域界面里，比如他们直接在 GitHub Issue 和 PR 里工作。还要探索怎么让人在后台执行中途随时介入、接管或实时协作。</li>
+<li><strong>上下文边界与 A2A</strong>：开多少个 Super-agent 实例，本质上是决定哪些上下文共享、哪些隔离。隔离的实例之间协作就是 A2A 通信（原文指一般意义上的 agent 间通信，不是某个具体协议），不共享底层上下文、各自代表不同权限边界的 agent 怎么安全可靠地协作，还要研究。</li>
+<li><strong>安全与隐私</strong>：事件驱动让更多环境能驱动 agent，也让它暴露在更多不可信输入下。云端 Agent Loop 不断吸收外部事件，端点设备握着私有代码、敏感数据和本地凭证，一旦被入侵或被 prompt 注入，所有连着的端点都可能被接管。即使云端没被攻破，只要端点的凭证能进模型上下文，正常执行也可能泄露它。所以 agent 需要一种“用凭证但看不见凭证”的方式。</li>
+</ul>
+<p>结论部分原文说得很克制：没有提出新理论，只是把计算机系统里的经典工程思想用到 agent 系统上；具体实现会随技术变，背后的系统设计思路会更长久。他们内部基于这些思路、跑在 DSH 上的 Super-agent 实例已经持续运行，每天帮忙复现修复问题、回应代码评审、开发 DSH 本身。</p>
+
+<h2>ELI5：讲给小朋友听</h2>
+<figure>
+<img src="/blog-assets/dsh-superagent/eli5-restaurant.svg" alt="一家小餐馆：门口筛客人，前台记单派单，后厨每位厨师只做一桌的菜" loading="lazy">
+<figcaption>把 Super-agent 想成一家小餐馆</figcaption>
+</figure>
+<p>想象一家小餐馆。</p>
+<p><strong>前台</strong>只有一个人。他记得每一桌点了什么、谁在等什么，负责把单子交给厨师，也负责跟客人说话。但他自己从不炒菜，因为他一进厨房，门口就没人招呼了。这就是 Router。</p>
+<p><strong>后厨</strong>有很多厨师，每人只做一桌的菜，互相不抢锅。厨师不跑出来跟客人聊天，做好了、遇到问题了，就告诉前台，前台再去跟客人说。这就是 Worker。</p>
+<p><strong>门口</strong>有块牌子：路过问路的、隔壁来借凳子的，不用进门；看起来像要吃饭的，才请前台过来判断。先用简单的规矩挡掉大部分人，拿不准的再动脑子，这就是快路径和慢路径。</p>
+<p>1 号桌的客人后来又说“面别放葱”。这句话不用再交给前台想一遍，直接递给正在做 1 号桌那碗面的厨师。这就是 Thread 订阅和直通。</p>
+<p>前台的小本子写不下所有事，就只记桌号和一句话，旁边写“详情见第几页”，要用时再翻。这是 Inline &amp; Spill，一页页翻回去就是 Chain of Recall。</p>
+<p>看到一桌客人盯着菜单上的汤看了很久，厨师先把料备上；客人真点了，马上能出，没点就算了。这是投机执行。</p>
+<p>炖肉要两个小时，前台不会守在锅边等，他照样招呼新客人，肉好了厨房会喊他。这是全双工。</p>
+<p>店里还有一位值班经理不停地转：谁的锅冒烟了、谁站着发呆了，他都去管。这是 Watchdog。</p>
+
+<p>原文：<a href="https://x.com/DeepSeekHarness/status/2116857257245987236">Exploring Super-agent Design: Towards a More Autonomous Agent System</a>，DeepSeek Harness，2026 年 11 月 1 日。原型代码：<a href="https://github.com/deepseek-ai/dsh-superagent-prototype">deepseek-ai/dsh-superagent-prototype</a>。引用与配图来自原文，中文为我的转述。</p>
+<p class="pager"><a href="/blog">All posts</a><a href="/blog/2026-11-25-super-agent-2-kaifang-kuangjia">下一篇：② 套到开放框架上</a></p>
+</main>
+<footer><p>© 2026 Zhang Lei</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

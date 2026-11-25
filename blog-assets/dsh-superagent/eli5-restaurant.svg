@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">
+<defs><style>.b{fill:#fff;stroke:#171717;stroke-width:2}.y{fill:#ffff02;stroke:#171717;stroke-width:2}.l{fill:none;stroke:#171717;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.d{stroke-dasharray:7 8}.t{fill:#171717;font-size:20px}.s{fill:#555;font-size:15px}.h{fill:#171717;font-size:26px;font-weight:500}.m{font-family:IBM Plex Mono,Menlo,monospace}</style><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#171717"/></marker></defs><rect width="1200" height="600" fill="#fff"/>
+<title>ELI5：前台和后厨</title>
+<text x="60" y="64" class="h">一家很会接单的小餐馆</text>
+<circle cx="120" cy="200" r="34" class="b"/><path class="l" d="M120 234V300M80 260H160M120 300L95 350M120 300L145 350"/><text x="70" y="390" class="t">客人</text>
+<circle cx="250" cy="200" r="34" class="b"/><path class="l" d="M250 234V300M210 260H290M250 300L225 350M250 300L275 350"/><text x="210" y="390" class="t">另一桌</text>
+<rect x="360" y="150" width="120" height="220" rx="10" class="b"/><text x="380" y="270" class="t">门口</text><text x="372" y="300" class="s">闲聊的不进</text>
+<rect x="540" y="130" width="230" height="260" rx="14" class="y"/><text x="565" y="175" class="t">前台（Router）</text><text x="565" y="215" class="s">记得每桌点了什么</text><text x="565" y="243" class="s">把单子交给厨师</text><text x="565" y="271" class="s">替厨师跟客人说话</text><text x="565" y="299" class="s">自己不炒菜</text>
+<path class="l" d="M290 260H360M480 260H540" marker-end="url(#a)"/>
+<rect x="850" y="110" width="290" height="80" rx="10" class="b"/><text x="874" y="158" class="t">厨师 1：1 号桌的面</text>
+<rect x="850" y="220" width="290" height="80" rx="10" class="b"/><text x="874" y="268" class="t">厨师 2：2 号桌的汤</text>
+<rect x="850" y="330" width="290" height="80" rx="10" class="b l d"/><text x="874" y="378" class="t">厨师 3：先备着料</text>
+<path class="l" d="M770 180H850M770 260H850M770 340H850" marker-end="url(#a)"/>
+<path class="l d" d="M120 410V470H995V410" marker-end="url(#a)"/><text x="330" y="500" class="s">“面别放葱”：1 号桌的追加要求，直接递给做这碗面的厨师</text>
+<text x="60" y="560" class="s">还有一位值班经理在店里转：谁的锅冒烟了、谁在发呆，他都管。</text>
+</svg>

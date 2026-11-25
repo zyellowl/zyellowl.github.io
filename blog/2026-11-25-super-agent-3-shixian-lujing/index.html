@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super-agent 设计（三）：开放框架怎么做 — Zhang Lei</title>
+  <meta name="description" content="开放框架从 M0 到 M3 的实现路径：交付物、数据结构、接口、验收和风险">
+  <link rel="icon" href="/assets/favicon-transparent-6LjMKZ8U.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<nav class="mini" aria-label="Site">
+  <a href="/" aria-label="Home"></a>
+  <a href="/work/" aria-label="Work"></a>
+  <a href="/resume/" aria-label="Resume"></a>
+  <a href="/blog" aria-label="Blog"></a>
+  <a href="/thoughts" aria-label="Thoughts"></a>
+  <a href="/products" aria-label="Products"></a>
+  <a href="/game/" aria-label="Games"></a>
+</nav>
+<main class="post" id="content">
+<p class="quiet"><time datetime="2026-11-25">Nov 25, 2026</time></p>
+<h1>Super-agent 设计（三）：开放框架怎么做</h1>
+<p class="quiet tags">开放框架、实现路径、A2A、调度中心</p>
+<p class="quiet">系列共三篇：<a href="/blog/2026-11-25-super-agent-1-yuanwen">① 逐节读原文 + ELI5</a> · <a href="/blog/2026-11-25-super-agent-2-kaifang-kuangjia">② 套到开放框架上</a> · <strong>③ 开放框架怎么做</strong></p>
+<p>前两篇讲清楚了“借什么”和“对到哪”。这一篇是开工清单：分四个里程碑，每个写清交付物、核心数据结构、关键接口、验收指标和风险。模块名沿用我们自己的六块（① DSH Runtime、② 调度中心、③ 插件体系、④ 插件生成器、⑤ 保险领域层、⑥ 管理台），起点是已经在跑的 DSH 统一 Runtime，不另起一套。</p>
+<figure>
+<img src="/blog-assets/dsh-superagent/openframe-milestones.svg" alt="M0 到 M3 四个里程碑及各自交付物" loading="lazy">
+<figcaption>实现路径：四个里程碑</figcaption>
+</figure>
+
+<h2>开工之前：分仓和版本</h2>
+<p>基座和应用分仓、各自版本化发布，这是已经定的。我把边界画成这样：</p>
+<ul>
+<li><strong>基座仓</strong>：① Runtime 内核、② 调度中心、③ 插件体系的协议部分（manifest schema、注册中心、状态回报协议、卡片类型定义）。这些是所有插件依赖的契约，发版最谨慎。</li>
+<li><strong>应用仓</strong>：具体插件（我们自己的能力、守卫、渠道插件，以及生成器产出的代理插件）、⑤ 领域层的字段映射、卡片模板、路由策略 prompt。</li>
+</ul>
+<p>版本规则从第一天定好，因为插件依赖别的插件，上游一升级下游就可能坏：schema 按语义化版本，破坏性变更只能升主版本；每个插件在 manifest 里声明它兼容的 Runtime 范围；调度策略、卡片类型单独有版本号，每次路由决定都记下用的哪个版本，方便回放。</p>
+
+<h2>M0：一个远程 agent，端到端跑通</h2>
+<p>范围是 ① + ③ 的最小版，外加一个最薄的 ②。用我们自己现有的插件（协议适配、语音等）先把 Runtime 加载和隔离跑起来，再接<strong>一个</strong>远程 agent 插件，先找一个配合度高的业务方，或者先用我们自己的 agent 包一层模拟远程。目标链路：</p>
+<p class="quiet">用户消息 → 规则路由到这个插件 → Runtime 异步调用 → 插件回报状态 → 调度中心按渠道渲染卡片 → 用户追问 → 直达同一个任务</p>
+<h3>交付物</h3>
+<ul>
+<li>插件 manifest schema v0 和注册中心（能登记、能按 id 和版本查）。</li>
+<li>Runtime 的 agent 插件适配：<code>start</code> / <code>stop</code> / 状态事件回流，带超时熔断和全链路追踪。</li>
+<li>Task 状态机和状态回报协议 v0；三种卡片类型（进度、要用户补充、完成结果）。</li>
+<li>一个最小的 Thread 订阅表（M0 只用会话话题当 Thread）。</li>
+</ul>
+<h3>核心数据结构：插件 manifest</h3>
+<p>能力声明部分直接复用 <a href="https://a2a-protocol.org/latest/specification/">A2A 1.0 的 Agent Card</a>（<code>name</code>、<code>description</code>、<code>supportedInterfaces</code>、<code>capabilities</code>、<code>skills</code> 等字段来自规范），外面再包一层我们自己的东西：版本和 Runtime 兼容范围、路由提示、字段映射、权限与数据等级、状态集合、评测集。下面是虚构示例：</p>
+<pre><code>{
+  &quot;id&quot;: &quot;claim-progress-agent&quot;,
+  &quot;kind&quot;: &quot;agent.remote&quot;,
+  &quot;version&quot;: &quot;1.3.0&quot;,
+  &quot;runtime&quot;: &quot;&gt;=2.0 &lt;3.0&quot;,
+  &quot;owner&quot;: &quot;理赔业务方（示例）&quot;,
+  &quot;agentCard&quot;: {
+    &quot;name&quot;: &quot;理赔进度助手&quot;,
+    &quot;description&quot;: &quot;查询理赔案件进度，提示需要补充的材料&quot;,
+    &quot;supportedInterfaces&quot;: [
+      { &quot;url&quot;: &quot;https://claim-agent.example.com/a2a/v1&quot;,
+        &quot;protocolBinding&quot;: &quot;HTTP+JSON&quot;, &quot;protocolVersion&quot;: &quot;1.0&quot; }
+    ],
+    &quot;capabilities&quot;: { &quot;streaming&quot;: true, &quot;pushNotifications&quot;: true },
+    &quot;defaultInputModes&quot;: [&quot;text/plain&quot;, &quot;application/json&quot;],
+    &quot;defaultOutputModes&quot;: [&quot;application/json&quot;],
+    &quot;skills&quot;: [
+      { &quot;id&quot;: &quot;claim.progress&quot;, &quot;name&quot;: &quot;查理赔进度&quot;,
+        &quot;description&quot;: &quot;按案件号或保单号查询当前进度&quot;,
+        &quot;tags&quot;: [&quot;理赔&quot;, &quot;进度&quot;],
+        &quot;examples&quot;: [&quot;我上周报的案子到哪一步了&quot;] }
+    ]
+  },
+  &quot;routing&quot;: {
+    &quot;fastRules&quot;: [{ &quot;when&quot;: { &quot;threadKind&quot;: &quot;claim&quot;, &quot;intent&quot;: &quot;claim.progress&quot; } }],
+    &quot;slowHint&quot;: &quot;用户询问已报案件的进度、补材料要求时选我&quot;
+  },
+  &quot;mapping&quot;: { &quot;contract_id&quot;: &quot;policy.policyNo&quot;, &quot;case_no&quot;: &quot;claim.caseId&quot; },
+  &quot;permissions&quot;: { &quot;dataLevel&quot;: &quot;L3&quot;, &quot;scopes&quot;: [&quot;claim:read&quot;, &quot;policy:read&quot;] },
+  &quot;reports&quot;: [&quot;working&quot;, &quot;input_required&quot;, &quot;handoff_human&quot;, &quot;completed&quot;, &quot;failed&quot;, &quot;handback&quot;],
+  &quot;eval&quot;: { &quot;suite&quot;: &quot;evals/claim-progress.jsonl&quot;, &quot;minPassRate&quot;: 0.95 }
+}</code></pre>
+<h3>核心数据结构：Task 状态机</h3>
+<p>平台的 Task 状态自己定义，不跟着远端 agent 的状态走，只做映射。原型仓库在这一点上讲得很清楚：Ticket 可能被交接、恢复或由多个执行者跑，所以它定义自己的状态。我们的远端 agent 换实现、重试、降级都会发生，同理。</p>
+<pre><code>Task.state:
+  open      -- 调度中心接单，已写入 Decision 和授权范围
+  running   -- 已派给插件，拿到远端 taskId（A2A: SUBMITTED / WORKING）
+  waiting   -- 等用户补充或等授权（A2A: INPUT_REQUIRED / AUTH_REQUIRED）
+  handoff   -- 转人工
+  ready     -- 有结果待交付（A2A: COMPLETED）
+  failed    -- 失败（A2A: FAILED / REJECTED），进入重试或降级
+  ended     -- 结束；同一 Thread 上用户再说话可重新打开
+允许的迁移：open→running→{waiting,handoff,ready,failed}；waiting→running；
+           {ready,failed,handoff}→ended；ended→open（仅用户在该 Thread 上的新消息）</code></pre>
+<h3>核心数据结构：Worker → Router 状态回报</h3>
+<p>agent 插件只回报状态和结构化数据，不回给用户看的自由文本。<code>card</code> 只是提示，最终渲染成什么由调度中心和渠道插件决定；<code>handback</code> 非空表示“这不归我”，消息交还调度中心重新分派。</p>
+<pre><code>{
+  &quot;taskId&quot;: &quot;tsk_77&quot;,
+  &quot;remoteTaskId&quot;: &quot;a2a-task-uuid&quot;,
+  &quot;seq&quot;: 4,
+  &quot;state&quot;: &quot;input_required&quot;,
+  &quot;summary&quot;: &quot;缺少医疗发票原件照片&quot;,
+  &quot;data&quot;: { &quot;caseId&quot;: &quot;CASE-0001&quot;, &quot;missing&quot;: [&quot;invoice&quot;] },
+  &quot;card&quot;: { &quot;type&quot;: &quot;material_request&quot;, &quot;version&quot;: 2 },
+  &quot;ask&quot;: { &quot;question&quot;: &quot;请上传医疗发票照片&quot;, &quot;inputModes&quot;: [&quot;image/jpeg&quot;] },
+  &quot;handback&quot;: null
+}</code></pre>
+<h3>关键接口</h3>
+<ul>
+<li>Runtime → 插件：<code>start(task, input, context) → remoteTaskId</code>，<code>stop(remoteTaskId)</code>，<code>deliver(remoteTaskId, trigger)</code>（追问直达）。远程插件走 A2A 的非阻塞发送和任务订阅 / 推送；本地插件走 Runtime 内的同构接口。</li>
+<li>插件 → 调度中心：<code>report(StatusReport)</code>，按 <code>seq</code> 幂等。</li>
+<li>调度中心 → 渠道插件：<code>render(report, channel) → Card | Utterance</code>，语音端没有卡片就转成一句播报。</li>
+</ul>
+<h3>验收</h3>
+<ul>
+<li>端到端：一组真实问法（先几十条）全部走通，包括追问、取消、超时、失败四种异常路径。</li>
+<li>平台开销：单独测调度中心 + Runtime 引入的额外延迟，P50 / P95 分开看。迁移语音后端那次功能对齐后平均慢一秒的教训告诉我，这个数要从 M0 就盯。</li>
+<li>每个请求的模型调用次数和 token，建立基线。</li>
+</ul>
+<h3>风险</h3>
+<ul>
+<li>状态回报协议定得太早太细，接第二个插件就要改。对策：v0 只保留上面这几种状态，其余放进 <code>data</code>。</li>
+<li>agent 插件的多轮追问、流式输出、长时间运行、转人工，任何一种没在 M0 覆盖，后面都会变成特例。</li>
+</ul>
+
+<h2>M1：调度中心的快慢路径和 Thread 路由</h2>
+<p>范围是 ② 调度中心的主体，加上 ④ 插件生成器 v0，接入第一个真正的外部业务。</p>
+<h3>交付物</h3>
+<ul>
+<li>统一 Trigger：用户消息、业务方调用、工单状态回调、定时提醒都转成同一种结构进入调度中心。</li>
+<li>两段式路由：规则准入（渠道、调用方、白名单、明确指令、已有进行中的案件）+ 模型研判；策略带版本。</li>
+<li>Thread 订阅直通、交还、取消订阅；Thread 从会话话题扩展到案件。</li>
+<li>去向记录：每条 Trigger 被过滤、直通还是研判，结果是什么，全部落库。</li>
+<li>插件生成器 v0：只生成远程代理插件（读对方接口文档或 agent 地址 → 生成 manifest、字段映射、适配层和几条测试 → 沙箱里跑通 → 业务方确认）。</li>
+</ul>
+<h3>核心数据结构：Trigger 和订阅表</h3>
+<pre><code>{
+  &quot;id&quot;: &quot;trg_01J...&quot;,
+  &quot;idempotencyKey&quot;: &quot;im:msg:8f2c...&quot;,
+  &quot;source&quot;: &quot;channel.im&quot;,
+  &quot;actor&quot;: { &quot;userId&quot;: &quot;u_123&quot;, &quot;tenant&quot;: &quot;t_partner_a&quot;, &quot;via&quot;: &quot;app&quot; },
+  &quot;threadKeys&quot;: [&quot;conv:c_889#topic:2&quot;, &quot;claim:CASE-0001&quot;],
+  &quot;kind&quot;: &quot;user.message&quot;,
+  &quot;summary&quot;: &quot;那我再补一张发票&quot;,
+  &quot;payloadRef&quot;: &quot;blob://triggers/trg_01J...&quot;,
+  &quot;receivedAt&quot;: &quot;2026-11-25T03:20:11Z&quot;
+}</code></pre>
+<pre><code>-- Thread → Task 订阅表（多对多）
+CREATE TABLE thread_subscription (
+  thread_key   VARCHAR(128) NOT NULL,   -- conv:c_889#topic:2 / claim:CASE-0001
+  task_id      VARCHAR(64)  NOT NULL,
+  plugin_id    VARCHAR(64)  NOT NULL,
+  mode         VARCHAR(16)  NOT NULL,   -- owner：后续消息归它处理；context：只旁听
+  created_at   TIMESTAMP    NOT NULL,
+  PRIMARY KEY (thread_key, task_id)
+);</code></pre>
+<p><code>idempotencyKey</code> 保证同一事件只处理一次；原型仓库的规则是“同一个 Trigger 接单两次只产生一个 Ticket”。<code>threadKeys</code> 可以有多个：一条消息既属于某个会话话题，也属于某个案件。订阅分 <code>owner</code> 和 <code>context</code> 两种：原型里跟进来的上下文 Thread 只提供上下文，不赋予权限。</p>
+<h3>关键接口：路由主循环</h3>
+<figure>
+<img src="/blog-assets/dsh-superagent/openframe-fast-slow-path.svg" alt="事件进入后先查 Thread 订阅，没有订阅再走规则准入，候选事件再交给模型研判" loading="lazy">
+<figcaption>路由主循环对应的流程</figcaption>
+</figure>
+<pre><code>def on_trigger(t):
+    if seen(t.idempotencyKey): return                  # 同一事件只处理一次
+    owners = subscriptions.owners(t.threadKeys)        # 快路径 1：订阅直通
+    if owners:
+        for task in owners: runtime.deliver(task, t)
+        log_disposition(t, path=&quot;fast.subscribed&quot;)
+        return
+    gate = rules.admit(t)                              # 快路径 2：规则准入
+    if gate.ignore: return log_disposition(t, path=&quot;fast.ignored&quot;)
+    ctx = context.inline(t, budget=CTX_BUDGET)         # ID + 摘要 + 指针
+    d = router_llm.decide(t, ctx, policy.current())    # 慢路径：模型研判
+    log_decision(t, d, policy.version)                 # 先落库，再执行
+    if d.kind == &quot;accept&quot;:
+        task = tasks.open(d, mandate=gate.strength)
+        subscriptions.add(t.threadKeys, task, mode=&quot;owner&quot;)
+        runtime.start(task, plugin=d.plugin)           # 异步：立刻返回远端 taskId</code></pre>
+<p>“先落库，再执行”也是从原型仓库学的：它的每个决定之后的动作（转发、派单、投递）都是先存下来再做，重启不丢不重。</p>
+<h3>验收</h3>
+<ul>
+<li><strong>路由准确率</strong>：建一个标注好的回放集（真实问法 + 正确插件 + 是否该忽略），每次改策略或换模型都全量回放，看 Top-1 准确率和“该忽略却接了”的误触发率，分快路径、慢路径各自统计。</li>
+<li><strong>快路径命中率</strong>和<strong>直通率</strong>：多少比例的 Trigger 没调模型就处理掉了。原文去掉直通后 Router 决策多了约 30%、token 多了约 37%，我们的直通率应该能直接换算成省下的调用。</li>
+<li><strong>交还率</strong>：插件把消息交还的比例，太高说明路由或 Thread 划分有问题。</li>
+<li>首响时间（用户发消息到看到第一张卡片）和端到端完成时间。</li>
+</ul>
+<h3>风险</h3>
+<ul>
+<li>规则越写越多，变成第二套业务逻辑。对策：规则只判“确定的”，凡是要理解语义的一律交给慢路径，规则也纳入回放集。</li>
+<li>Thread 划分错了，直通会把消息送错人，而且没有模型兜底。对策：插件必须能交还，交还率进看板。</li>
+<li>生成器生成的适配层不符合状态回报协议。对策：协议一致性检查作为沙箱验证的一部分，不过不上架。</li>
+</ul>
+
+<h2>M2：多 agent 与统一上下文</h2>
+<p>范围是 ② 的编排和统一上下文，加上 ⑤ 领域层的第一批字段映射。</p>
+<h3>交付物</h3>
+<ul>
+<li>编排型 agent 插件：固定的串联流程（比如查保单 → 理赔 → 合规检查）做成一个 agent 插件，内部再调其他插件，调度中心只派单。</li>
+<li>多订阅：一个案件同时关联多个插件，新事件同时通知；跨任务协调由调度中心转达。</li>
+<li>上下文接口：注入时“ID + 摘要 + 指针”，按预算 inline；<code>context.get(id, depth)</code> 按引用逐跳召回，召回结果里带下一跳的 ID 和摘要。</li>
+<li>领域层 v0：保单、被保人、理赔案件的核心字段和映射表，先只收被调用得足够多的字段。</li>
+</ul>
+<h3>关键接口</h3>
+<pre><code>context.inline(trigger, budget)      -&gt; { ids, summaries, pointers }
+context.get(objectId, depth=1)       -&gt; { object, related: [{ id, kind, summary }] }
+domain.map(pluginId, payload)        -&gt; canonical payload   # contract_id -&gt; policy.policyNo
+subscriptions.add(threadKey, taskId, mode)
+subscriptions.handback(taskId, triggerId, reason)</code></pre>
+<h3>验收</h3>
+<ul>
+<li>跨渠道连续性：同一个案件在 IM、App、语音之间切换，追问都能直达正确的任务；用回放集里的跨渠道样例测。</li>
+<li>上下文成本：每次调用注入的 token 数、插件为补上下文额外调了几次接口，两个数一起看，不能只压一个。</li>
+<li>多 agent 场景的端到端完成时间和失败率。</li>
+</ul>
+<h3>风险</h3>
+<ul>
+<li>统一领域模型是组织问题，不是技术问题：各业务对“保单”理解不同，得先定谁说了算。对策：领域层只做映射，不强迫对方改字段；只把高频字段收进标准。</li>
+<li>编排插件越做越大，变回一个巨型 agent。对策：编排插件只管串联顺序，每一步的业务判断留在各自插件里。</li>
+</ul>
+
+<h2>M3：插件生成器完整版和治理</h2>
+<p>范围是 ④ 的完整版和 ⑥ 管理台，把前面的东西变成能放心让外部业务自助用的平台。</p>
+<h3>交付物</h3>
+<ul>
+<li>生成器：支持接口文档、代码仓库、MCP 工具、agent 地址四种输入；对方接口变了自动重新生成并重跑沙箱；生成的插件必须带评测集。</li>
+<li>管理台：上架评测门槛（不过不上）、调用量和成功率统计、审批和审计、策略和插件的版本记录。</li>
+<li>巡检（Watchdog）：独立于调度中心、定时运行，判断每个任务有没有实质进展，卡住的重试、降级或转人工；暂时性外部故障持续复查直到恢复。</li>
+<li>护栏收口：守卫插件挂在所有插件的输入输出前后；凭证只由 Runtime 在调用时注入；身份、租户、目标插件对不上一律拒绝。</li>
+<li>基座仓 / 应用仓的发版流程：基座按主版本兼容，应用侧插件按 manifest 声明的 Runtime 范围灰度。</li>
+</ul>
+<h3>验收</h3>
+<ul>
+<li>新业务接入耗时：从提交材料到插件上架，以及其中需要我们组人工介入的步骤数。</li>
+<li>巡检：卡住任务的发现时间和自动恢复比例。</li>
+<li>安全：每次发版跑一组注入和越权用例（比如用户消息里夹带“忽略之前的规则”，agent 插件返回里夹带别的用户数据），全部拦截才放行。</li>
+</ul>
+<h3>风险</h3>
+<ul>
+<li>适配成本全落在我们组，又回到替所有业务写插件兜底的老路。对策：生成和映射尽量交给模型自动化，人工只做确认；接入耗时和人工步骤数进看板。</li>
+<li>插件层层调用，延迟和故障叠加。对策：Runtime 内核调用保持轻，每层的平台开销单独计量，超标的调用链在管理台上直接标红。</li>
+</ul>
+
+<h2>指标汇总</h2>
+<table>
+<thead><tr><th>维度</th><th>指标</th><th>从哪个阶段开始</th></tr></thead>
+<tbody>
+<tr><td>路由</td><td>回放集 Top-1 准确率、误触发率、交还率，快慢路径分开统计</td><td>M1</td></tr>
+<tr><td>延迟</td><td>平台额外开销 P50 / P95、首响时间、端到端完成时间</td><td>M0</td></tr>
+<tr><td>成本</td><td>每请求模型调用次数和 token、快路径命中率、直通率、注入上下文 token</td><td>M0 基线，M1 起优化</td></tr>
+<tr><td>可靠</td><td>失败率、卡住任务发现时间、自动恢复比例</td><td>M0 记录，M3 闭环</td></tr>
+<tr><td>接入</td><td>接入耗时、人工介入步骤数、上架评测通过率</td><td>M1 起</td></tr>
+</tbody>
+</table>
+<p>具体门槛我先不写死：M0 跑出基线，再按基线定每个阶段的目标。原文的实验本身也说结果仅供参考，我们的负载和它不一样，照搬它的数字没有意义，照搬它测什么才有意义。</p>
+
+<h2>参考的原型仓库</h2>
+<p><a href="https://github.com/deepseek-ai/dsh-superagent-prototype">dsh-superagent-prototype</a> 是公开的。它的 README 说明这是研究原型，不是正式产品，而且跟原文描述的实现并不完全一样。我主要参考了 <code>docs/001-domain.md</code> 到 <code>docs/003-execution.md</code> 里的领域模型：Source、Trigger、Thread、Eval（规则准入 + 模型研判两层）、Mandate（授权）、Ticket、Assignment、Subscription，以及 Report 的几种状态（progress、waiting、ready、blocked、failed、dropped）。上面的 Task 状态机、订阅表、owner / context 两种订阅、交还、幂等和“先落库再执行”，都是从这里改成我们的说法。代码部分（TypeScript，接 GitHub 和飞书两种 Source）我没有照搬，只当对照。</p>
+<p>原文：<a href="https://x.com/DeepSeekHarness/status/2116857257245987236">Exploring Super-agent Design: Towards a More Autonomous Agent System</a>，DeepSeek Harness，2026 年 11 月 1 日。Agent Card 字段见 <a href="https://a2a-protocol.org/latest/specification/">A2A 1.0 规范</a>。文中的 JSON、SQL、伪代码都是示例，数据为虚构。</p>
+<p class="pager"><a href="/blog/2026-11-25-super-agent-2-kaifang-kuangjia">上一篇：② 套到开放框架上</a><a href="/blog">All posts</a><a href="/blog/2026-11-25-super-agent-1-yuanwen">回到 ①</a></p>
+</main>
+<footer><p>© 2026 Zhang Lei</p></footer>
+</div>
+<script src="/nav.js"></script>
+</body>
+</html>

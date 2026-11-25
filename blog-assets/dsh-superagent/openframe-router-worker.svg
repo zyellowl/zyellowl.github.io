@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">
+<defs><style>.b{fill:#fff;stroke:#171717;stroke-width:2}.y{fill:#ffff02;stroke:#171717;stroke-width:2}.l{fill:none;stroke:#171717;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.d{stroke-dasharray:7 8}.t{fill:#171717;font-size:20px}.s{fill:#555;font-size:15px}.h{fill:#171717;font-size:26px;font-weight:500}.m{font-family:IBM Plex Mono,Menlo,monospace}</style><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#171717"/></marker></defs><rect width="1200" height="720" fill="#fff"/>
+<title>开放框架的 Router / Worker 架构</title>
+<text x="60" y="64" class="h">我们的开放框架：调度中心当 Router，agent 插件当 Worker</text>
+<g><rect x="60" y="110" width="210" height="60" rx="10" class="b"/><text x="82" y="147" class="t">IM / App / 语音</text>
+<rect x="60" y="190" width="210" height="60" rx="10" class="b"/><text x="82" y="227" class="t">业务方调用</text>
+<rect x="60" y="270" width="210" height="60" rx="10" class="b"/><text x="82" y="307" class="t">工单回调 / 定时</text></g>
+<text x="60" y="360" class="s">入口：都转成 Trigger</text>
+<rect x="340" y="150" width="200" height="140" rx="12" class="b"/><text x="362" y="190" class="t">事件过滤</text><text x="362" y="222" class="s">快路径：规则</text><text x="362" y="248" class="s">慢路径：模型</text><text x="362" y="274" class="s">+ Thread 直通</text>
+<path class="l" d="M270 140H305V220H340M270 220H340M270 300H305V220" marker-end="url(#a)"/>
+<rect x="610" y="110" width="270" height="220" rx="14" class="y"/><text x="634" y="152" class="t">调度中心（Router）</text>
+<text x="634" y="190" class="s">意图路由 · 派单</text><text x="634" y="216" class="s">统一上下文 / 记忆</text><text x="634" y="242" class="s">统一回复：结构化数据 → 卡片</text><text x="634" y="268" class="s">不执行业务，只转接</text><text x="634" y="300" class="s m">轻模型 · 常驻</text>
+<path class="l" d="M540 220H610" marker-end="url(#a)"/>
+<rect x="960" y="110" width="190" height="80" rx="10" class="b"/><text x="980" y="145" class="t">Worker A</text><text x="980" y="172" class="s">远程 agent 插件</text>
+<rect x="960" y="220" width="190" height="80" rx="10" class="b"/><text x="980" y="255" class="t">Worker B</text><text x="980" y="282" class="s">本地插件 / 守卫插件</text>
+<rect x="960" y="330" width="190" height="80" rx="10" class="b l d"/><text x="980" y="365" class="t">Worker C</text><text x="980" y="392" class="s">生成器产出</text>
+<path class="l" d="M880 160H960M880 255H960M880 300C920 300 920 370 960 370" marker-end="url(#a)"/>
+<path class="l d" d="M1055 410V470H745V330" marker-end="url(#a)"/><text x="790" y="500" class="s">Worker 只回报状态，不直接对用户说话</text>
+<path class="l d" d="M440 290V560H1055V410"/><text x="470" y="548" class="s">订阅了 Thread 的后续消息：代码直接送达，不再过 Router</text>
+<rect x="60" y="600" width="1090" height="70" rx="12" class="b"/><text x="84" y="642" class="t">DSH Runtime（内核）：加载 · 隔离 · 权限 · 链路追踪 · 超时熔断 · 状态库</text>
+</svg>

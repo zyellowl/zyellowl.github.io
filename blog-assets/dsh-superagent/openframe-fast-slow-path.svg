@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">
+<defs><style>.b{fill:#fff;stroke:#171717;stroke-width:2}.y{fill:#ffff02;stroke:#171717;stroke-width:2}.l{fill:none;stroke:#171717;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.d{stroke-dasharray:7 8}.t{fill:#171717;font-size:20px}.s{fill:#555;font-size:15px}.h{fill:#171717;font-size:26px;font-weight:500}.m{font-family:IBM Plex Mono,Menlo,monospace}</style><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#171717"/></marker></defs><rect width="1200" height="560" fill="#fff"/>
+<title>一条事件的快慢路径</title>
+<text x="60" y="64" class="h">一条事件进来以后</text>
+<rect x="60" y="110" width="180" height="70" rx="10" class="b"/><text x="84" y="152" class="t">新 Trigger</text>
+<rect x="300" y="105" width="230" height="80" rx="40" class="y"/><text x="328" y="142" class="t">Thread 有订阅？</text><text x="328" y="168" class="s">查映射表，纯代码</text>
+<path class="l" d="M240 145H300" marker-end="url(#a)"/>
+<path class="l" d="M530 145H880" marker-end="url(#a)"/><text x="560" y="132" class="s">有：直通（快路径）</text>
+<rect x="880" y="105" width="270" height="80" rx="10" class="b"/><text x="904" y="142" class="t">已订阅的 Worker</text><text x="904" y="168" class="s">超出范围就交还 Router</text>
+<path class="l" d="M415 185V250" marker-end="url(#a)"/><text x="430" y="228" class="s">没有</text>
+<rect x="300" y="250" width="230" height="80" rx="40" class="y"/><text x="328" y="287" class="t">规则准入</text><text x="328" y="313" class="s">来源 / 白名单 / 明确指令</text>
+<path class="l" d="M300 290H160V400" marker-end="url(#a)"/><text x="120" y="275" class="s">忽略（记录去向）</text>
+<rect x="60" y="400" width="200" height="60" rx="10" class="b l d"/><text x="84" y="437" class="t">丢弃</text>
+<path class="l" d="M530 290H620" marker-end="url(#a)"/><text x="540" y="276" class="s">候选</text>
+<rect x="620" y="250" width="230" height="80" rx="10" class="b"/><text x="644" y="287" class="t">模型研判</text><text x="644" y="313" class="s">慢路径 · 结合上下文</text>
+<path class="l" d="M850 290H880" marker-end="url(#a)"/>
+<rect x="880" y="250" width="270" height="80" rx="10" class="b"/><text x="904" y="287" class="t">接单：建 Task</text><text x="904" y="313" class="s">派给 Worker 并订阅 Thread</text>
+<path class="l d" d="M1015 250V185"/>
+<text x="60" y="520" class="s">规则判掉大多数噪音；只有拿不准的才花一次模型调用。原文把这叫 Fast Path / Slow Path。</text>
+</svg>
